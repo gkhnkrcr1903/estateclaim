@@ -1,5 +1,5 @@
 // data/veri.json'u SITE_PASSWORD ile şifreleyip public/veri.enc.json'a yazar (PBKDF2 + AES-GCM).
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { webcrypto as crypto } from "node:crypto";
 
 if (!process.env.SITE_PASSWORD && existsSync(".env.local")) {
@@ -20,5 +20,6 @@ const anahtar = await crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations
 const veri = readFileSync(new URL("../data/veri.json", import.meta.url));
 const sifreli = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, anahtar, veri);
 
+mkdirSync(new URL("../public/", import.meta.url), { recursive: true });
 writeFileSync(new URL("../public/veri.enc.json", import.meta.url), JSON.stringify({ v: 1, iter: ITER, salt: b64(salt), iv: b64(iv), data: b64(new Uint8Array(sifreli)) }));
 console.log("public/veri.enc.json yazıldı");
