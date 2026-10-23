@@ -38,6 +38,10 @@ Uygulama yatırım tavsiyesi değil, kural tabanlı bir analiz aracıdır; her e
 | `scripts/veri-olustur.mjs` | Kaynak dosyalardan `data/veri.json` üretir |
 | `scripts/sifrele.mjs` | `veri.json` → `public/veri.enc.json` |
 | `scripts/tcmb-guncelle.mjs` | TCMB EVDS 3'ten konut m² fiyatlarını çeker |
+| `scripts/ilce-nufus-cek.mjs` | TÜİK ilçe nüfus serisi (2015, 2020, 2024, 2025) → `data/kaynak/tuik-ilce-nufus.json` (büyüme yönü tavsiyeleri) |
+| `lib/buyume.ts` | İlçe nüfus artışı + koordinatlarla büyüme yönü, yatırım yönü, imar tavsiyeleri |
+| `components/PdfKaydet.tsx` | Tarayıcı yazdırma penceresiyle PDF kaydetme (ev ve arsa sayfaları) |
+| `components/SayiKutusu.tsx` | Sayı girişi; silip yazarken başa 0 eklenmesini önler |
 | `scripts/koordinat-cek.mjs` | Wikidata'dan ilçe/mahalle koordinatları → `data/kaynak/ilce-koordinat.json`, `mahalle-koordinat.json` |
 | `scripts/tuik-profil-cek.mjs` | 81 il TÜİK profilini (nufusune.com derlemesi) çeker |
 | `.github/workflows/yayinla.yml` | Push'ta + her ayın 20'sinde + elle: TCMB güncelle → veri oluştur/şifrele → derle → Pages |
@@ -52,6 +56,7 @@ Uygulama yatırım tavsiyesi değil, kural tabanlı bir analiz aracıdır; her e
 | Mahalle farkları | Sabit sapma (±%15) | **Örnek**; bu yüzden mahalle (semt) sıralaması gösterilmez | — |
 | Kira | %5,5 brüt getiri varsayımı + oda tipi primi | Tahmini | — |
 | Nüfus, nüfus artışı (2021–2025) | TÜİK ADNKS (`data/kaynak/tuik-2025.csv`, `tuik-2021.csv`) | Gerçek | **Elle**, yılda bir (Şubat) |
+| İlçe nüfus serisi 2015–2025 | TÜİK ADNKS (nufusune.com derlemesi), 972/973 ilçe (19 Mayıs eksik) | Gerçek | **Elle**, Şubat: `node scripts/ilce-nufus-cek.mjs` (~20 dk) |
 | Yaş, hane, medeni durum, ilçe nüfusu | TÜİK ADNKS 2025 (nufusune.com derlemesi) | Gerçek | **Elle**, Şubat: `node scripts/tuik-profil-cek.mjs` |
 | Eğitim süresi (25+) | TÜİK Ulusal Eğitim İst. 2025 | Gerçek, **yalnızca 11 il** | **Elle**, Haziran: `data/kaynak/tuik-egitim-2025.json` |
 | Yapı maliyeti | Bakanlık 2026 tebliği (RG 03.02.2026/33157) | Gerçek | **Elle**, Ocak–Şubat: `lib/ev.ts` → `yapiBirimMaliyeti`, `YAPI_MALIYET_YILI` |

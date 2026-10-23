@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import { iller as ilListesi } from "../lib/iller-meta";
 import { ornekArsalar, ilceKonumu, mahalleKonumu, mahalleler, kamuMu, IMAR_FONKSIYONLARI, PROJE_TURLERI, TAPU_DURUMLARI, type Arsa, type ImarFonksiyonu, type TapuDurumu } from "../lib/arsa";
-import { degerlendir, fiyatBandi, bolgeTavsiyeleri, arsaKarari, butceOnerileri } from "../lib/puan";
+import { degerlendir, fiyatBandi, bolgeTavsiyeleri, arsaKarari, butceOnerileri, TAVSIYE_GRUPLARI } from "../lib/puan";
 import { konutPiyasasi } from "../lib/konut";
 import MahalleEvFiyatlari from "../components/MahalleEvFiyatlari";
 import { IlGenelBilgi, EnDegerliSemtler } from "../components/BolgeOzeti";
@@ -259,7 +259,16 @@ export default function Sayfa() {
 
         <section className="kart">
           <h2>🔭 İlerisi için tavsiyeler — {yer}</h2>
-          <ol className="tavsiye">{tavsiyeler.map((t, i) => <li key={i}>{t}</li>)}</ol>
+          {TAVSIYE_GRUPLARI.map((grup) => {
+            const liste = tavsiyeler.filter((t) => t.grup === grup);
+            if (!liste.length) return null;
+            return (
+              <div key={grup} style={{ marginBottom: 12 }}>
+                <h3 style={{ fontSize: 14, margin: "0 0 6px" }}>{grup}</h3>
+                <ul className="tavsiye">{liste.map((t, i) => <li key={i}>{t.metin}</li>)}</ul>
+              </div>
+            );
+          })}
         </section>
 
         <ArsaEkle ilKod={ilKod} ilceler={il.ilceler} varsayilanIlce={ilce} varsayilanMahalle={mahalle} ekle={(a) => { manuelKaydet([...manuel, a]); setSeciliId(a.id); }} />

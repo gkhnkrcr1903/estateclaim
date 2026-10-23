@@ -5,6 +5,7 @@ import { iller as ilListesi } from "../../lib/iller-meta";
 import { mahalleler } from "../../lib/arsa";
 import { evDegerle, type EvBilgisi, type Tavsiye } from "../../lib/ev";
 import PdfKaydet from "../../components/PdfKaydet";
+import SayiKutusu from "../../components/SayiKutusu";
 
 const TL = (n: number) => n.toLocaleString("tr-TR", { maximumFractionDigits: 0 }) + " ₺";
 
@@ -36,7 +37,7 @@ export default function EvSayfasi() {
   const enBuyuk = s ? Math.max(e.istenenFiyat, ...s.yontemler.map((y) => y.deger)) : 1;
 
   const sayi = (k: keyof EvBilgisi, ad: string, ek: Record<string, number | string> = {}) => (
-    <label>{ad}<input type="number" min={0} {...ek} value={(e[k] as number) ?? 0} onChange={(x) => g(k, Number(x.target.value) as never)} /></label>
+    <label>{ad}<SayiKutusu min={0} {...ek} deger={(e[k] as number) ?? 0} degistir={(n) => g(k, n as never)} /></label>
   );
   const secim = <T extends string>(k: keyof EvBilgisi, ad: string, liste: readonly T[]) => (
     <label>{ad}<select value={(e[k] as string) ?? ""} onChange={(x) => g(k, x.target.value as never)}>{liste.map((v) => <option key={v}>{v}</option>)}</select></label>

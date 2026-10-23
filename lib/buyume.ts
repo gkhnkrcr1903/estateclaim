@@ -101,14 +101,22 @@ export function buyumeAnalizi(ilKod: string): BuyumeAnalizi | null {
 const f = (n: number) => (n > 0 ? "+" : "") + n.toLocaleString("tr-TR", { maximumFractionDigits: 1 });
 
 // "İleriye dönük tavsiyeler" bölümüne eklenen büyüme yönü, imar ve yatırım yönü maddeleri.
-export function buyumeTavsiyeleri(ilKod: string, ilce?: string): string[] {
+export type TavsiyeGrubu = "Bölge ve büyüme" | "Ne tür arsa, nereden?" | "İmar ve hukuki durum" | "Alım maliyeti ve vergiler" | "Vade ve risk";
+export interface BolgeTavsiyesi {
+  grup: TavsiyeGrubu;
+  metin: string;
+}
+
+export function buyumeTavsiyeleri(ilKod: string, ilce?: string): BolgeTavsiyesi[] {
   const b = buyumeAnalizi(ilKod);
   const m = ilMeta(ilKod);
-  const t: string[] = [];
+  const t: BolgeTavsiyesi[] = [];
+  const ekle = (grup: TavsiyeGrubu, metin: string) => t.push({ grup, metin });
   if (b) {
     const hizli = b.ilceler.filter((i) => i.nufus >= 10000).slice(0, 3);
     const azalan = b.ilceler.filter((i) => i.artis5 < 0).map((i) => i.ad);
-    t.push(
+    ekle(
+      "Bölge ve büyüme",
       `Büyüme yönü (TÜİK ${b.donem}): ${m.ad} nüfusu 5 yılda %${f(b.ilArtis5)} değişti. ` +
         (b.yon
           ? `Nüfus kazancı ağırlıkla ilin ${b.yon} tarafındaki ilçelerde toplanıyor; şehir bu yöne doğru büyüyor.`
@@ -117,19 +125,21 @@ export function buyumeTavsiyeleri(ilKod: string, ilce?: string): string[] {
             : "Nüfus kazancı farklı yönlere dağılmış; belirgin tek bir büyüme yönü yok.") +
         (hizli.length ? ` En hızlı büyüyenler: ${hizli.map((i) => `${i.ad} (%${f(i.artis5)}${i.yon ? `, ${i.yon}` : ""})`).join(", ")}.` : ""),
     );
-    if (azalan.length) t.push(`Nüfusu azalan ilçeler: ${azalan.slice(0, 6).join(", ")}${azalan.length > 6 ? ` ve ${azalan.length - 6} ilçe daha` : ""}. Bu ilçelerde yeni konut talebi zayıf, arsa değer artışı sınırlı kalabilir.`);
+    if (azalan.length) ekle("Bölge ve büyüme", `Nüfusu azalan ilçeler: ${azalan.slice(0, 6).join(", ")}${azalan.length > 6 ? ` ve ${azalan.length - 6} ilçe daha` : ""}. Bu ilçelerde yeni konut talebi zayıf, arsa değer artışı sınırlı kalabilir.`);
 
     if (b.yatirim.length)
-      t.push(
+      ekle(
+        "Ne tür arsa, nereden?",
         `Yatırım yönü: ${b.yatirim.map((i) => i.ad).join(", ")} hem il ortalamasından hızlı büyüyor ${b.fiyatBilgisi ? "hem de fiyat seviyesi il ortalamasını aşmıyor" : "(ilçe fiyat farkları bu il için bilinmiyor)"}. ` +
           "Büyüyen ilçelerde değer artışı çoğunlukla yeni imara açılan çeper bölgelerde, ana yol ve toplu taşıma akslarında olur.",
       );
-    else t.push("Yatırım yönü: il ortalamasından belirgin hızlı büyüyen ve görece uygun fiyatlı bir ilçe yok; merkeze yakın, imarlı ve altyapısı tamam arsalar daha güvenli.");
+    else ekle("Ne tür arsa, nereden?", "Yatırım yönü: il ortalamasından belirgin hızlı büyüyen ve görece uygun fiyatlı bir ilçe yok; merkeze yakın, imarlı ve altyapısı tamam arsalar daha güvenli.");
 
     const s = ilce ? b.ilceler.find((i) => i.ad === ilce) : undefined;
     if (s) {
       const fark = s.artis5 - b.ilArtis5;
-      t.push(
+      ekle(
+        "Bölge ve büyüme",
         `${ilce}: 5 yılda %${f(s.artis5)}${s.artis1 !== null ? `, son yılda %${f(s.artis1)}` : ""} nüfus değişimi; ` +
           (fark > 2 ? "il ortalamasından hızlı büyüyor, konut talebi artıyor." : fark < -2 ? "il ortalamasının gerisinde; talep artışı sınırlı." : "il ortalamasına yakın büyüyor.") +
           (s.yon ? ` İl merkezinin ${s.km} km ${s.yon}sinde${b.yon === s.yon ? ", büyüme yönünün üzerinde." : "."}` : ""),
@@ -138,7 +148,8 @@ export function buyumeTavsiyeleri(ilKod: string, ilce?: string): string[] {
   }
 
   // İmar: ülke geneli açık imar planı verisi olmadığından genel kurallar ve resmi sorgu yolları verilir.
-  t.push(
+  ekle(
+    "İmar ve hukuki durum",
     "İmar durumu: imar planları belediyelerde ve Bakanlığın e-Plan sisteminde; ada/parsel ile sorgulanır, resmi imar durum belgesi belediyeden alınır. " +
       "Parselin yerini ve tapu bilgisini TKGM Parsel Sorgu'dan (parselsorgu.tkgm.gov.tr) kontrol edin. " +
       "Büyüyen ilçelerde belediyelerin askıya çıkardığı nazım/uygulama imar planı değişikliklerini (30 gün askı) takip edin; tarla vasfındaki arazinin konut imarına geçmesi en büyük değer artışıdır, ancak düzenleme ortaklık payı (DOP, %45'e kadar) alanınızı azaltır.",

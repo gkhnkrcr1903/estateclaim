@@ -1,4 +1,5 @@
-import { buyumeTavsiyeleri } from "./buyume";
+import { buyumeAnalizi, buyumeTavsiyeleri, type BolgeTavsiyesi, type TavsiyeGrubu } from "./buyume";
+import { konutPiyasasi } from "./konut";
 import { kamuMu, tahminiArsaM2, ornekArsalar, KAMU_EDINIM, type Arsa } from "./arsa";
 import { ilMeta, iller, turkiyeOrtalamaM2 } from "./iller-meta";
 
@@ -85,24 +86,66 @@ export function fiyatBandi(a: Arsa, tumu: Arsa[]): FiyatBandi {
   return b < alt ? "Düşük" : b < ust ? "Orta" : "Yüksek";
 }
 
-// İl/ilçe düzeyinde ileriye dönük genel tavsiyeler.
-export function bolgeTavsiyeleri(ilKod: string, tumu: Arsa[], ilce?: string): string[] {
-  const m = ilMeta(ilKod);
-  const t: string[] = [];
-  if (m.buyume >= 10) t.push("Nüfusu hızlı artan bir il: konut ve konut+ticaret arsalarında talep artışı sürebilir; 3–5 yıllık vade mantıklı.");
-  else if (m.buyume >= 5) t.push("Orta hızda büyüyen bir il: merkeze yakın, imarlı arsalar daha güvenli seçenektir.");
-  else t.push("Nüfus artışı düşük: değer artışı yavaş olabilir; spekülatif tarla alımlarında dikkatli olun, kira/kullanım geliri düşünün.");
+// İl/ilçe düzeyinde ileriye dönük tavsiyeler, gruplara ayrılmış olarak.
+export const TAVSIYE_GRUPLARI: TavsiyeGrubu[] = ["Bölge ve büyüme", "Ne tür arsa, nereden?", "İmar ve hukuki durum", "Alım maliyeti ve vergiler", "Vade ve risk"];
 
+export function bolgeTavsiyeleri(ilKod: string, tumu: Arsa[], ilce?: string): BolgeTavsiyesi[] {
+  const m = ilMeta(ilKod);
+  const t: BolgeTavsiyesi[] = [];
+  const ekle = (grup: TavsiyeGrubu, metin: string) => t.push({ grup, metin });
+  const b = buyumeAnalizi(ilKod);
+  const buyume = buyumeTavsiyeleri(ilKod, ilce);
+  const grubu = (g: TavsiyeGrubu) => t.push(...buyume.filter((x) => x.grup === g));
+  const yuzde = (n: number) => "%" + n.toLocaleString("tr-TR", { maximumFractionDigits: 1 });
+
+  // Bölge ve büyüme
+  if (m.buyume >= 10) ekle("Bölge ve büyüme", "Nüfusu hızlı artan bir il: konut ve konut+ticaret arsalarında talep artışı sürebilir.");
+  else if (m.buyume >= 5) ekle("Bölge ve büyüme", "Orta hızda büyüyen bir il: merkeze yakın, imarlı arsalar daha güvenli seçenektir.");
+  else ekle("Bölge ve büyüme", "Nüfus artışı düşük: değer artışı yavaş olabilir; spekülatif tarla alımlarında dikkatli olun, kira/kullanım geliri düşünün.");
+  grubu("Bölge ve büyüme");
   const projeli = tumu.filter((a) => a.projeler.length).length;
-  if (projeli) t.push(`${projeli} arsanın yakınında planlanan altyapı projesi var: projelerin ihale ve yapım durumunu takip edin, değer artışı genellikle proje başladığında hızlanır.`);
-  const imarsiz = tumu.filter((a) => a.imar === "Tarla (imarsız)").length;
-  if (imarsiz) t.push("İmarsız arsalar için belediyenin askıya çıkan imar planı değişikliklerini düzenli kontrol edin; plan değişikliği en büyük değer sıçramasını yaratır.");
+  if (projeli) ekle("Bölge ve büyüme", `${projeli} örnek arsanın yakınında planlanan altyapı projesi var: projelerin ihale ve yapım durumunu takip edin; değer artışı genellikle proje başladığında hızlanır, bitince yavaşlar.`);
+
+  // Ne tür arsa, nereden?
+  grubu("Ne tür arsa, nereden?");
+  const k = konutPiyasasi(ilKod, ilce);
+  if (k.brutGetiri >= 6) ekle("Ne tür arsa, nereden?", `Konut kira getirisi yüksek (${yuzde(k.brutGetiri)}): konut imarlı arsa alıp kiralık daire yapmak veya kat karşılığı vermek, arsayı boş bekletmekten daha çok gelir sağlayabilir.`);
+  else if (k.brutGetiri < 4.5) ekle("Ne tür arsa, nereden?", `Konut kira getirisi düşük (${yuzde(k.brutGetiri)}): getiri çoğunlukla değer artışından gelir; büyüme aksındaki imarlı arsalar ve imar beklentisi gerçekçi çeper araziler öne çıkar.`);
+  const p = m.profil;
+  if (p && p.tekKisilik >= 20) ekle("Ne tür arsa, nereden?", `Tek kişilik hane oranı ${yuzde(p.tekKisilik)}: küçük daireli (1+1, 2+1) projelere uygun, merkeze ve üniversite/sanayi bölgelerine yakın konut arsaları daha kolay değerlenir.`);
+  else if (p && p.haneBuyuklugu >= 3.5) ekle("Ne tür arsa, nereden?", `Ortalama hane ${p.haneBuyuklugu.toLocaleString("tr-TR")} kişi: 3+1 ve üzeri daire talebi güçlü; okul ve park yakınındaki düşük yoğunluklu konut arsaları aranır.`);
+  ekle("Ne tür arsa, nereden?", "Arsanın değeri en çok imar hakkına bağlıdır: emsali (KAKS) 2 olan bir parsel, aynı büyüklükte emsali 1 olan parselin iki katı inşaat alanı demektir. Fiyatları m² yanında inşaat alanı başına da karşılaştırın.");
+  if (m.satisM2 > turkiyeOrtalamaM2() * 1.1) ekle("Ne tür arsa, nereden?", "Fiyat seviyesi yüksek bir il: aynı bütçeyle büyüyen çevre ilçelerde daha büyük ve getiri potansiyeli daha yüksek arsa bulunabilir.");
   const kamu = tumu.filter((a) => a.tapu && kamuMu(a.tapu)).length;
-  if (kamu) t.push(`${kamu} arsa kamuya ait (Hazine/belediye/vakıf): bunlar ihaleyle satılır ve muhammen bedeller çoğu zaman piyasanın altındadır; Milli Emlak ve belediye ihale ilanlarını düzenli takip edin.`);
-  if (tumu.some((a) => a.hisseli)) t.push("Hisseli tapulardan mümkünse kaçının ya da müstakil parselasyon imkânını araştırın.");
-  if (m.satisM2 > turkiyeOrtalamaM2() * 1.1) t.push("Fiyat seviyesi yüksek bir bölge: düşük fiyat bandındaki arsalar çevre ilçelerde daha fazla getiri potansiyeli taşıyabilir.");
-  t.push(...buyumeTavsiyeleri(ilKod, ilce));
-  t.push("Her alımdan önce resmi imar durum belgesi, güncel tapu kaydı (ipotek/haciz/şerh) ve yerinde inceleme şarttır.");
+  if (kamu) ekle("Ne tür arsa, nereden?", `${kamu} örnek arsa kamuya ait (Hazine/belediye/vakıf): bunlar ihaleyle satılır. Milli Emlak ihalelerini milliemlak.gov.tr, belediye ve diğer kamu ihale ilanlarını ilan.gov.tr üzerinden takip edin.`);
+
+  // İmar ve hukuki durum
+  grubu("İmar ve hukuki durum");
+  if (tumu.some((a) => a.imar === "Tarla (imarsız)")) {
+    ekle("İmar ve hukuki durum", "İmarsız tarla: değer artışı imar planına girmesine bağlıdır; bu yıllar sürebilir ya da hiç olmayabilir. Çevre düzeni planındaki kullanım kararını (kentsel gelişme, tarım, orman) ve belediyenin plan çalışmalarını öğrenin.");
+    ekle("İmar ve hukuki durum", "Tarım arazileri 5403 sayılı Toprak Koruma ve Arazi Kullanımı Kanunu gereği asgari büyüklüğün altına bölünemez ve hisseli satışları sınırlıdır; hisseli tarla alırken müstakil tapu çıkmayabileceğini bilin.");
+  }
+  if (tumu.some((a) => a.hisseli)) ekle("İmar ve hukuki durum", "Hisseli tapuda diğer paydaşların önalım (şufa) hakkı vardır: satışı öğrendikten sonra 3 ay içinde, satıştan itibaren en geç 2 yıl içinde aynı bedelle hisseyi alabilirler. Mümkünse müstakil parseli tercih edin veya paydaşlardan feragat alın.");
+  if (tumu.some((a) => a.imar === "Koruma alanı")) ekle("İmar ve hukuki durum", "Koruma alanındaki (sit, orman, kıyı) parsellerde yapılaşma yasak veya çok kısıtlıdır; düşük fiyat çoğunlukla bu yüzdendir.");
+  ekle("İmar ve hukuki durum", "Kat karşılığı inşaat düşünüyorsanız sözleşmeyi noterde düzenleyin; paylaşım oranını, teslim süresini ve gecikme cezasını açıkça yazın, müteahhidin bitmiş projelerini yerinde görün.");
+
+  // Alım maliyeti ve vergiler
+  ekle("Alım maliyeti ve vergiler", "Tapu harcı alıcı ve satıcı için ayrı ayrı %2'dir (gerçek satış bedeli üzerinden); döner sermaye ücretini ve varsa emlakçı komisyonunu da bütçeye ekleyin.");
+  ekle("Alım maliyeti ve vergiler", "Arsa için her yıl emlak vergisi ödenir: arsalarda binde 3, büyükşehir belediyesi sınırlarında binde 6. Arsayı boş beklettiğiniz her yıl bu gideri hesaba katın.");
+  ekle("Alım maliyeti ve vergiler", "Satın aldıktan sonra 5 yıl dolmadan satarsanız değer artışı kazancı gelir vergisine tabidir; kısa vadeli al-sat planlıyorsanız vergiyi kâr hesabına katın.");
+
+  // Vade ve risk
+  const artis = b?.ilArtis5 ?? 0;
+  ekle(
+    "Vade ve risk",
+    artis >= 8
+      ? "Hızlı büyüyen il: 3–5 yıllık vade makul; büyüme aksındaki arsalarda değer artışı daha erken başlar."
+      : artis >= 2
+        ? "Orta hızda büyüme: 5–7 yıllık vade düşünün; imarlı ve altyapısı hazır arsalar beklerken daha az risk taşır."
+        : "Nüfus artışı zayıf: 7 yıl ve üzeri vade gerekebilir; kullanmayacağınız arsaya bağlanacak parayı başka yatırım getirileriyle karşılaştırın.",
+  );
+  ekle("Vade ve risk", "Deprem tehlikesini AFAD Türkiye Deprem Tehlike Haritası'ndan (tdth.afad.gov.tr) kontrol edin; yapı yapılacak arsada zemin etüdü yaptırın, dere yatağı, taşkın ve heyelan riskini belediyeye sorun.");
+  ekle("Vade ve risk", "Her alımdan önce resmi imar durum belgesi, güncel tapu kaydı (ipotek/haciz/şerh) ve yerinde inceleme şarttır; parsel sınırlarını ve yolu aplikasyonla yerinde doğrulayın.");
   return t;
 }
 

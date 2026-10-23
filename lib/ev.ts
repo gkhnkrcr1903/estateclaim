@@ -1,5 +1,6 @@
 import { konutPiyasasi } from "./konut";
 import { ilMeta } from "./iller-meta";
+import { buyumeAnalizi } from "./buyume";
 
 export interface EvBilgisi {
   il: string;
@@ -280,7 +281,11 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
     else add("Finansman", "olumlu", "Taksit, tahmini kiraya yakın: kira öder gibi ev sahibi olabilirsiniz.");
   }
   if (!e.krediyeUygun || e.iskan === false) add("Finansman", "uyari", "İskânı olmayan veya krediye uygun olmayan evler için banka kredisi çıkmaz; peşin almanız ve ileride peşin alıcıya satmanız gerekir.");
-  add("Finansman", "bilgi", "Tapu harcı alıcı ve satıcı için ayrı ayrı %2'dir (beyan edilen değer üzerinden). Ekspertiz, DASK, döner sermaye ve emlakçı komisyonunu da bütçeye ekleyin.");
+  add("Finansman", "bilgi", "Tapu harcı alıcı ve satıcı için ayrı ayrı %2'dir (gerçek satış bedeli üzerinden). Ekspertiz, DASK, döner sermaye ve emlakçı komisyonunu da bütçeye ekleyin.");
+  const ekMasraf = yuvarla(e.istenenFiyat * 0.02 + e.istenenFiyat * 0.02 * 1.2); // alıcı harcı + %2 komisyon ve %20 KDV
+  add("Finansman", "bilgi", `Kabaca hesap: ${TL(e.istenenFiyat)} fiyatta alıcı tapu harcı ${TL(yuvarla(e.istenenFiyat * 0.02))}; emlakçı komisyonu (genelde %2 + KDV) ile birlikte ek masraf ${TL(ekMasraf)} civarında olabilir.`);
+  add("Finansman", "bilgi", "Konutlarda her yıl emlak vergisi ödenir: binde 1, büyükşehir belediyesi sınırlarında binde 2. Zorunlu deprem sigortası (DASK) yaptırılmadan tapu işlemi yapılmaz.");
+  if (kredi) add("Finansman", "bilgi", "Kredi kullanacaksanız banka ekspertizi istenen fiyatın altında çıkarsa kredi tutarı ekspertiz değerine göre belirlenir; aradaki farkı peşin ödemeniz gerekir.");
 
   // Hukuki ve teknik kontrol
   if (e.binaYasi > 20) add("Hukuki ve teknik kontrol", "uyari", "Bina 2000 öncesi yönetmelikle yapılmış olabilir: deprem dayanıklılık (karot) raporu isteyin, riskli yapı tespiti yapılıp yapılmadığını belediyeden öğrenin.");
@@ -292,9 +297,28 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
   if (e.kat === "Bodrum" || e.kat === "Zemin/bahçe") add("Hukuki ve teknik kontrol", "bilgi", "Alt katlarda nem, su basması ve güvenlik riskine bakın; DASK ve konut sigortasını genişletmeyi düşünün.");
   if (e.kat === "En üst kat" || e.kat === "Çatı dubleks") add("Hukuki ve teknik kontrol", "bilgi", "Üst katta çatı yalıtımı ve su sızıntısı izlerini kontrol edin; çatı onarımı tüm kat malikleriyle paylaşılır.");
   add("Hukuki ve teknik kontrol", "bilgi", "Tapu kaydında ipotek, haciz ve şerh olmadığını, enerji kimlik belgesini ve yapı denetim evraklarını kontrol edin.");
+  add("Hukuki ve teknik kontrol", "bilgi", "Satıcıdan isteyin: güncel tapu fotokopisi, iskân belgesi, onaylı mimari proje, aidat ve emlak vergisi borcu olmadığını gösteren belgeler. Projede olmayan kapatılmış balkon, kat veya bölme değişikliği kaçak sayılabilir.");
+  add("Hukuki ve teknik kontrol", "bilgi", "Ödemeyi tapu devriyle aynı anda yapın; kapora verirseniz yazılı sözleşmeyle ve satıcının tapudaki adına yapın. Vekaletle satışta vekaletnamenin güncelliğini noterden doğrulayın.");
+  if (e.binaYasi <= 5) add("Hukuki ve teknik kontrol", "bilgi", "Yeni binada yapı denetim firmasını ve müteahhidi araştırın; gizli ayıplar için müteahhidin sorumluluğu sürer, teslim tutanağındaki eksikleri yazılı bildirin.");
 
   // Oturum / yatırım
+  // İlçenin TÜİK nüfus artışı, değer artışı ve kira talebi için yön verir.
+  const b = buyumeAnalizi(e.il);
+  const ib = b?.ilceler.find((x) => x.ad === e.ilce);
+  if (b && ib) {
+    const fark = ib.artis5 - b.ilArtis5;
+    const y = (n: number) => (n > 0 ? "+" : "") + n.toLocaleString("tr-TR", { maximumFractionDigits: 1 });
+    add(
+      "Oturum / yatırım",
+      fark > 2 ? "olumlu" : "bilgi",
+      `${e.ilce} nüfusu 2020–2025'te %${y(ib.artis5)} değişti (il geneli %${y(b.ilArtis5)}): ` +
+        (fark > 2 ? "ilçe ilden hızlı büyüyor, konut talebi ve değer artışı beklentisi güçlü." : fark < -2 ? (ib.artis5 < 0 ? "nüfus azalıyor. Merkezi ve pahalı ilçelerde bu çoğunlukla yüksek fiyat, hane küçülmesi ve kentsel dönüşümden kaynaklanır; yine de yeni talep artışı sınırlıdır, fiyatı bölgedeki satılık ilanlarla dikkatle karşılaştırın." : "ilçe ilin gerisinde büyüyor; değer artışı il ortalamasından yavaş olabilir.") : "ilçe il ortalamasına yakın büyüyor."),
+    );
+  }
+  if (["4+1", "5+1 ve üzeri"].includes(e.odaSayisi)) add("Oturum / yatırım", "bilgi", "Büyük dairelerin alıcı ve kiracı kitlesi dardır; satmak istediğinizde süre uzayabilir. Yeniden satış düşünüyorsanız 2+1 ve 3+1 daha likittir.");
+  if (e.binaYasi > 30) add("Oturum / yatırım", "bilgi", "Bina 30 yaşın üzerinde: yakın gelecekte kentsel dönüşüm ihtimali yüksek. Dönüşümde kira yardımı ve geçici taşınma sürecini hesaba katın.");
   if ((e.amac ?? "Oturmak") === "Yatırım (kira)") {
+    add("Oturum / yatırım", "bilgi", "Kira geliri her yıl mart ayında beyan edilir (konut kirasında yıllık istisna tutarı aşılırsa); kira sözleşmesini yazılı yapın ve depozitoyu sözleşmeye yazın.");
     if (brutGetiri >= 5.5) add("Oturum / yatırım", "olumlu", `Bu fiyattan brüt kira getirisi %${brutGetiri.toLocaleString("tr-TR")} (amortisman ${amortismanYil.toLocaleString("tr-TR")} yıl): bölge için iyi bir yatırım.`);
     else if (brutGetiri < 4) add("Oturum / yatırım", "uyari", `Brüt kira getirisi %${brutGetiri.toLocaleString("tr-TR")}: kira geliri düşük, yatırımın getirisi büyük ölçüde değer artışına bağlı.`);
     else add("Oturum / yatırım", "bilgi", `Brüt kira getirisi %${brutGetiri.toLocaleString("tr-TR")}: ortalama düzeyde.`);
