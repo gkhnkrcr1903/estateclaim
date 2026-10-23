@@ -23,6 +23,98 @@ const SATIRLAR: { ad: string; d: Partial<EvBilgisi> }[] = [
   { ad: "Eski bina (25+ yaş)", d: { binaYasi: 28, durum: "Orta" } },
 ];
 
+// Oda tipleri ve o tipteki tipik net alan
+const TIPLER: { oda: string; m2: number }[] = [
+  { oda: "1+0", m2: 35 },
+  { oda: "1+1", m2: 55 },
+  { oda: "2+1", m2: 85 },
+  { oda: "3+1", m2: 110 },
+  { oda: "4+1", m2: 150 },
+];
+
+// Aynı bölgede bir dairenin alabileceği en düşük ve en yüksek özellik kombinasyonları
+const EN_UCUZ: Partial<EvBilgisi> = {
+  kat: "Bodrum", asansor: false, binaYasi: 30, durum: "Tadilat gerekli", isinma: "Soba/diğer",
+  site: false, otopark: false, manzara: false, ulasimKm: 6,
+};
+const EN_PAHALI: Partial<EvBilgisi> = {
+  kat: "Ara kat", asansor: true, binaYasi: 1, durum: "Sıfır/yeni", isinma: "Yerden ısıtma",
+  site: true, otopark: true, manzara: true, ulasimKm: 0.5,
+};
+
+function OdaTipleri({ ilKod, ilce, mahalle }: { ilKod: string; ilce: string; mahalle: string }) {
+  const satirlar = useMemo(
+    () =>
+      TIPLER.map((t) => {
+        const hesap = (d: Partial<EvBilgisi>) =>
+          evDegerle({ ...TEMEL, ...d, odaSayisi: t.oda, netM2: t.m2, il: ilKod, ilce, mahalle: mahalle || undefined });
+        const ort = hesap({});
+        return {
+          ...t,
+          ucuz: hesap(EN_UCUZ).tahmini,
+          ort: ort.tahmini,
+          pahali: hesap(EN_PAHALI).tahmini,
+          kira: ort.kiraTahmini,
+          getiri: Math.round(((ort.kiraTahmini * 12) / ort.tahmini) * 1000) / 10,
+        };
+      }),
+    [ilKod, ilce, mahalle],
+  );
+
+  const enUcuz = satirlar[0];
+  const enPahali = satirlar[satirlar.length - 1];
+  const enIyiGetiri = satirlar.reduce((a, b) => (b.getiri > a.getiri ? b : a));
+  const ikiArti = satirlar.find((s) => s.oda === "2+1")!;
+
+  return (
+    <>
+      <div className="oneriler" style={{ marginBottom: 12 }}>
+        <div className="karar" style={{ marginBottom: 0 }}>
+          <div className="soluk">💸 Bölgedeki en ucuz ev</div>
+          <div style={{ fontSize: 20, fontWeight: 700 }}>{TL(enUcuz.ucuz)}</div>
+          <div className="soluk" style={{ fontSize: 12 }}>{enUcuz.oda}, {enUcuz.m2} m², bodrum kat, 30 yaşında, tadilat gerekli, sobalı, ulaşıma uzak</div>
+        </div>
+        <div className="karar" style={{ marginBottom: 0 }}>
+          <div className="soluk">💎 Bölgedeki en pahalı ev</div>
+          <div style={{ fontSize: 20, fontWeight: 700 }}>{TL(enPahali.pahali)}</div>
+          <div className="soluk" style={{ fontSize: 12 }}>{enPahali.oda}, {enPahali.m2} m², yeni bina, site içi, manzaralı, yerden ısıtma, metroya yakın</div>
+        </div>
+        <div className="karar" style={{ marginBottom: 0 }}>
+          <div className="soluk">🏠 Ortalama bir 2+1</div>
+          <div style={{ fontSize: 20, fontWeight: 700 }}>{TL(ikiArti.ort)}</div>
+          <div className="soluk" style={{ fontSize: 12 }}>{ikiArti.m2} m², 10 yaşında, bakımlı, ara kat · kira ≈ {TL(ikiArti.kira)}/ay</div>
+        </div>
+      </div>
+      <h3 style={{ fontSize: 14, margin: "0 0 6px" }}>Oda tipine göre fiyatlar</h3>
+      <div className="tablo-kap" style={{ maxHeight: "none" }}>
+        <table>
+          <thead>
+            <tr><th>Tip</th><th>Net m²</th><th>En ucuz</th><th>Ortalama</th><th>En pahalı</th><th>Kira (ort.)</th><th>Getiri</th></tr>
+          </thead>
+          <tbody>
+            {satirlar.map((s) => (
+              <tr key={s.oda} style={{ cursor: "default" }}>
+                <td><b>{s.oda}</b></td>
+                <td>{s.m2}</td>
+                <td>{TL(s.ucuz)}</td>
+                <td><b>{TL(s.ort)}</b></td>
+                <td>{TL(s.pahali)}</td>
+                <td>{TL(s.kira)}/ay</td>
+                <td>%{s.getiri.toLocaleString("tr-TR")}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="soluk" style={{ fontSize: 12 }}>
+        En ucuz: bodrum, eski, tadilat gerekli, sobalı ve ulaşıma uzak bir ev. Ortalama: 10 yaşında, bakımlı, ara katta bir ev. En pahalı: yeni, site içinde, manzaralı ve metroya yakın bir ev.
+        Kira getirisi en yüksek tip: <b>{enIyiGetiri.oda}</b> (yıllık %{enIyiGetiri.getiri.toLocaleString("tr-TR")}). Küçük daireler genelde daha kolay kiraya verilir.
+      </p>
+      <h3 style={{ fontSize: 14, margin: "12px 0 6px" }}>3+1 dairede kat, asansör ve site etkisi</h3>
+    </>
+  );
+}
+
 export default function MahalleEvFiyatlari({ ilKod, ilce, mahalle, yer }: { ilKod: string; ilce: string; mahalle: string; yer: string }) {
   const tablo = useMemo(
     () =>
@@ -49,6 +141,7 @@ export default function MahalleEvFiyatlari({ ilKod, ilce, mahalle, yer }: { ilKo
   return (
     <section className="kart">
       <h2>🏢 Ev fiyatları — {yer}</h2>
+      <OdaTipleri ilKod={ilKod} ilce={ilce} mahalle={mahalle} />
       <p className="soluk" style={{ marginTop: 0 }}>
         {M2} m² net, 3+1, 10 yaşında, bakımlı bir daire için özelliklere göre tahmini satış fiyatı ve kira. Site içi sütununa otopark dahildir.
       </p>

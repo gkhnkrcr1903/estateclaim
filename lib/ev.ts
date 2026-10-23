@@ -56,7 +56,10 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
   if (!e.asansor && e.toplamKat >= 4 && e.kat !== "Bodrum" && e.kat !== "Zemin/bahçe") ekle("4+ katlı binada asansör yok", -7);
   else if (e.asansor) ekle("Asansör", 2);
 
-  ekle(`Durum: ${e.durum}`, { "Sıfır/yeni": 8, Bakımlı: 3, Orta: -3, "Tadilat gerekli": -12 }[e.durum]);
+  // Küçük dairelerin m² fiyatı daha yüksektir (talep fazla, toplam bütçe düşük).
+  const odaPrimi: Record<string, number> = { "1+0": 15, "1+1": 10, "2+1": 4, "3+1": 0, "4+1": -4, "5+1 ve üzeri": -8 };
+  ekle(`Oda tipi: ${e.odaSayisi}`, odaPrimi[e.odaSayisi] ?? 0);
+  ekle(`Durum: ${e.durum}`,{ "Sıfır/yeni": 8, Bakımlı: 3, Orta: -3, "Tadilat gerekli": -12 }[e.durum]);
   ekle(`Isınma: ${e.isinma}`, { "Doğalgaz kombi": 0, Merkezi: -2, "Yerden ısıtma": 4, "Soba/diğer": -10 }[e.isinma]);
   if (e.otopark) ekle("Otopark", 4);
   if (e.site) ekle("Site içinde (güvenlik/sosyal alan)", 8);
@@ -66,7 +69,8 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
   ekle(`Tapu: ${e.tapu}`, { "Kat mülkiyeti": 0, "Kat irtifakı": -4, "Hisseli/arsa tapusu": -15 }[e.tapu]);
   if (!e.krediyeUygun) ekle("Krediye uygun değil — alıcı kitlesi daralır", -8);
 
-  const toplamOran = et.reduce((t, x) => t + x.oran, 0);
+  // Olumsuz/olumlu özellikler üst üste binse de bölge ortalamasından aşırı sapmasın.
+  const toplamOran = Math.max(-45, Math.min(60, et.reduce((t, x) => t + x.oran, 0)));
   const tahmini = Math.round((p.satisM2 * e.netM2 * (1 + toplamOran / 100)) / 1000) * 1000;
   const alt = Math.round(tahmini * 0.92 / 1000) * 1000;
   const ust = Math.round(tahmini * 1.08 / 1000) * 1000;
@@ -75,7 +79,10 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
   const karar: EvSonuc["karar"] = fark <= 0.03 ? "Alınır — fiyatı uygun" : fark <= 0.15 ? "Makul — pazarlıkla alınır" : "Pahalı — önerilmez";
   const hedefFiyat = Math.min(e.istenenFiyat, Math.round((tahmini * 0.97) / 1000) * 1000);
 
-  const kiraTahmini = Math.round((p.kiraM2 * e.netM2 * (1 + toplamOran / 200)) / 100) * 100;
+  // Kira, özelliklerden fiyatın yarısı kadar etkilenir; küçük daireler ise m² başına belirgin şekilde daha yüksek kira getirir.
+  const odaEtkisi = odaPrimi[e.odaSayisi] ?? 0;
+  const kiraOdaPrimi: Record<string, number> = { "1+0": 30, "1+1": 20, "2+1": 8, "3+1": 0, "4+1": -6, "5+1 ve üzeri": -12 };
+  const kiraTahmini = Math.round((p.kiraM2 * e.netM2 * (1 + (toplamOran - odaEtkisi) / 200 + (kiraOdaPrimi[e.odaSayisi] ?? 0) / 100)) / 100) * 100;
   const brutGetiri = Math.round(((kiraTahmini * 12) / e.istenenFiyat) * 1000) / 10;
   const amortismanYil = Math.round((e.istenenFiyat / (kiraTahmini * 12)) * 10) / 10;
 
