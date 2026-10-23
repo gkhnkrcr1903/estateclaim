@@ -7,6 +7,8 @@ export interface IlVerisi {
   mahalleler: Record<string, string[]>; // ilçe → mahalle listesi
   lat: number;
   lng: number;
+  ilceKonum?: Record<string, [number, number]>; // Wikidata; eksik ilçe olabilir
+  mahalleKonum?: Record<string, Record<string, [number, number]>>; // ilçe → mahalle → konum; kapsam kısmi
   nufus: number;
   buyume: number; // yıllık ortalama nüfus artışı, binde
   satisM2: number;

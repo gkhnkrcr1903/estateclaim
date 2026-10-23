@@ -38,6 +38,7 @@ export interface Arsa {
   hisseli: boolean;
   projeler: string[];
   lat: number;
+  konumYaklasik?: boolean; // gerçek mahalle koordinatı yoksa ilçe/il merkezi çevresi
   lng: number;
   manuel?: boolean;
 }
@@ -53,17 +54,18 @@ function tohum(s: string) {
   };
 }
 
+// Konumlar Wikidata koordinatlarıdır. Koordinatı bulunmayan ilçede il merkezi, mahallede ilçe merkezi
+// kullanılır ve konum "yaklaşık" işaretlenir.
 export function ilceKonumu(ilKod: string, ilce: string) {
   const m = ilMeta(ilKod);
-  const r = tohum(ilKod + ilce + "konum");
-  // Gerçek ilçe koordinatları olmadığından il merkezi çevresinde yaklaşık konum.
-  return { lat: m.lat + (r() - 0.5) * 0.6, lng: m.lng + (r() - 0.5) * 0.8 };
+  const k = m.ilceKonum?.[ilce];
+  return k ? { lat: k[0], lng: k[1], yaklasik: false } : { lat: m.lat, lng: m.lng, yaklasik: true };
 }
 
 export function mahalleKonumu(ilKod: string, ilce: string, mahalle: string) {
-  const k = ilceKonumu(ilKod, ilce);
-  const r = tohum(ilKod + ilce + mahalle + "konum");
-  return { lat: k.lat + (r() - 0.5) * 0.1, lng: k.lng + (r() - 0.5) * 0.13 };
+  const k = ilMeta(ilKod).mahalleKonum?.[ilce]?.[mahalle];
+  if (k) return { lat: k[0], lng: k[1], yaklasik: false };
+  return { ...ilceKonumu(ilKod, ilce), yaklasik: true };
 }
 
 export function mahalleler(ilKod: string, ilce: string): string[] {
@@ -114,8 +116,10 @@ export function ornekArsalar(ilKod: string, ilce: string, adet = 8, mahalle?: st
       yolCephesi: r() > 0.25,
       hisseli: tapu === "Özel mülk" && r() < 0.3,
       projeler,
-      lat: merkez.lat + (r() - 0.5) * (mahalle ? 0.02 : 0.12),
-      lng: merkez.lng + (r() - 0.5) * (mahalle ? 0.026 : 0.16),
+      // Örnek parseller mahalle noktasının hemen çevresine (~1 km) dağılır.
+      lat: merkez.lat + (r() - 0.5) * (merkez.yaklasik ? 0.04 : 0.012),
+      lng: merkez.lng + (r() - 0.5) * (merkez.yaklasik ? 0.05 : 0.016),
+      konumYaklasik: merkez.yaklasik,
     };
   });
 }

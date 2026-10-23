@@ -49,6 +49,12 @@ export default function Harita({
             {a.ilce} — Ada {a.ada} / Parsel {a.parsel}
             <br />
             {a.imar} · Puan {puanlar[a.id]}
+            {a.konumYaklasik && (
+              <>
+                <br />
+                Konum yaklaşık (mahalle koordinatı yok)
+              </>
+            )}
           </Tooltip>
         </CircleMarker>
       ))}

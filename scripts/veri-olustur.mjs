@@ -11,6 +11,9 @@ const n2025 = Object.fromEntries(csv("kaynak/tuik-2025.csv").map(([il, n]) => [i
 const n2021 = Object.fromEntries(csv("kaynak/tuik-2021.csv").map(([kod, n]) => [kod, +n]));
 const profil = JSON.parse(oku("kaynak/tuik-profil.json"));
 const egitim = JSON.parse(oku("kaynak/tuik-egitim-2025.json"));
+// Wikidata ilçe/mahalle koordinatları (scripts/koordinat-cek.mjs ile üretilir)
+const ilceKoord = JSON.parse(oku("kaynak/ilce-koordinat.json"));
+const mahKoord = JSON.parse(oku("kaynak/mahalle-koordinat.json"));
 
 // TCMB'nin il bazında yayımlamadığı iller için Türkiye ortalamasına göre tahmini seviye çarpanı.
 const SEVIYE_B = ["07", "48", "41", "16", "59", "77", "54", "09", "33"];
@@ -36,6 +39,8 @@ const sonuc = iller.map((il) => {
     ...il,
     lat: koordinat[il.kod][0],
     lng: koordinat[il.kod][1],
+    ilceKonum: ilceKoord.ilceler[il.kod] ?? {},
+    mahalleKonum: mahKoord.mahalleler[il.kod] ?? {},
     nufus: yeni,
     buyume: Math.round((Math.pow(yeni / eski, 1 / 4) - 1) * 10000) / 10, // binde, yıllık ortalama
     satisM2,
@@ -54,6 +59,7 @@ const veri = {
     `Nüfus profili: ${profil.kaynak}`,
     `Eğitim: ${egitim.kaynak}`,
     "İl/ilçe listesi: PTT (turkey-neighbourhoods)",
+    `İlçe/mahalle koordinatları: ${ilceKoord.kaynak}, ${ilceKoord.tarih}`,
   ],
   konutDonemi: tcmb.donem,
   nufusYili: 2025, // TÜİK ADNKS; yeni yıl yayımlanınca kaynak/tuik-2025.csv güncellenmeli

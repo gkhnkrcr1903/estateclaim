@@ -21,12 +21,13 @@ function sapma(s: string) {
 
 // Büyük şehirlerde ilçelerin genel piyasa konumu (A: en pahalı … D: en uygun). Kesin fiyat değil,
 // yaygın bilinen göreli sıralamaya dayanan tahmindir. Listede olmayan ilçeler "varsayilan" kademeyi alır.
+// Kademe içindeki sıra da anlamlıdır: listede önce gelen ilçe daha pahalı kabul edilir.
 type Kademe = "A" | "B" | "C" | "D";
 const KADEME_CARPANI: Record<Kademe, number> = { A: 1.45, B: 1.15, C: 0.95, D: 0.75 };
 const ILCE_KADEMELERI: Record<string, { varsayilan: Kademe } & Partial<Record<Kademe, string[]>>> = {
   "34": {
     varsayilan: "C",
-    A: ["Beşiktaş", "Sarıyer", "Kadıköy", "Bakırköy", "Adalar", "Şişli", "Üsküdar"],
+    A: ["Beşiktaş", "Sarıyer", "Kadıköy", "Bakırköy", "Şişli", "Üsküdar", "Adalar"],
     B: ["Beykoz", "Ataşehir", "Beyoğlu", "Fatih", "Maltepe", "Eyüpsultan", "Kartal", "Zeytinburnu", "Çekmeköy", "Ümraniye", "Kağıthane", "Başakşehir", "Büyükçekmece"],
     D: ["Esenyurt", "Sultanbeyli", "Arnavutköy", "Esenler", "Sultangazi", "Bağcılar"],
   },
@@ -62,12 +63,21 @@ const ILCE_KADEMELERI: Record<string, { varsayilan: Kademe } & Partial<Record<Ka
   },
 };
 
+// İlçe sıralaması yalnızca kademe bilgisi olan illerde anlamlıdır; diğerlerinde farklar örnek sapmadır.
+export function ilceKademesiVar(ilKod: string) {
+  return ilKod in ILCE_KADEMELERI;
+}
+
 function ilceCarpani(ilKod: string, ilce: string): number {
-  const ince = 0.94 + (sapma(ilKod + ilce) - 0.75) * 0.24; // aynı kademe içinde ±%6 fark
+  const ince = 0.94 + (sapma(ilKod + ilce) - 0.75) * 0.24; // aynı kademe içinde ±%6 örnek fark
   const t = ILCE_KADEMELERI[ilKod];
   if (t) {
-    const kademe = (["A", "B", "C", "D"] as Kademe[]).find((k) => t[k]?.includes(ilce)) ?? t.varsayilan;
-    return KADEME_CARPANI[kademe] * ince;
+    const kademe = (["A", "B", "C", "D"] as Kademe[]).find((k) => t[k]?.includes(ilce));
+    if (!kademe) return KADEME_CARPANI[t.varsayilan];
+    // Listedeki sıraya göre +%6 … −%6; rastgele sapma kademe içi sırayı bozmasın.
+    const liste = t[kademe]!;
+    const sira = liste.length > 1 ? liste.indexOf(ilce) / (liste.length - 1) : 0.5;
+    return KADEME_CARPANI[kademe] * (1.06 - sira * 0.12);
   }
   // Diğer illerde merkez ilçe daha değerli, kırsal ilçeler daha uygun.
   if (ilMeta(ilKod).ilceler.includes("Merkez")) return (ilce === "Merkez" ? KADEME_CARPANI.B : KADEME_CARPANI.D) * ince;

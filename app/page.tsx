@@ -290,8 +290,9 @@ function ArsaEkle({ ilKod, ilceler, varsayilanIlce, varsayilanMahalle, ekle }: {
       yolCephesi: f.yolCephesi,
       hisseli: f.hisseli,
       projeler: f.projeler,
-      lat: k.lat + (Math.random() - 0.5) * 0.05,
-      lng: k.lng + (Math.random() - 0.5) * 0.05,
+      lat: k.lat + (Math.random() - 0.5) * (k.yaklasik ? 0.04 : 0.01),
+      lng: k.lng + (Math.random() - 0.5) * (k.yaklasik ? 0.05 : 0.013),
+      konumYaklasik: k.yaklasik,
       manuel: true,
     });
     setF(bos);

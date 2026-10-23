@@ -51,20 +51,25 @@ export function IlGenelBilgi({ ilKod }: { ilKod: string }) {
 }
 
 export function EnDegerliSemtler({ ilKod, ilce, ilAd }: { ilKod: string; ilce: string; ilAd: string }) {
-  const s = useMemo(() => semtSiralamasi(ilKod, ilce || undefined), [ilKod, ilce]);
-  const birim = s.birim === "mahalle" ? "semtler" : "ilçeler";
+  const s = useMemo(() => semtSiralamasi(ilKod), [ilKod]);
   return (
     <section className="kart">
-      <h2>📍 En değerli {birim} — {ilce ? `${ilce}, ` : ""}{ilAd}</h2>
-      <div className="oneriler">
-        <Liste baslik="🏠 Satılık konut (m²)" kalemler={s.satis} birim="" />
-        <Liste baslik="🔑 Kiralık konut (m²/ay)" kalemler={s.kira} birim="" />
-        <Liste baslik="🌳 Arsa (imarlı, m²)" kalemler={s.arsa} birim="" />
-      </div>
+      <h2>📍 En değerli ilçeler — {ilAd}</h2>
+      {s ? (
+        <div className="oneriler">
+          <Liste baslik="🏠 Satılık konut (m²)" kalemler={s.satis} birim="" />
+          <Liste baslik="🔑 Kiralık konut (m²/ay)" kalemler={s.kira} birim="" />
+          <Liste baslik="🌳 Arsa (imarlı, m²)" kalemler={s.arsa} birim="" />
+        </div>
+      ) : (
+        <p style={{ marginTop: 0 }}>
+          {ilAd} için ilçe bazında güvenilir fiyat kademesi bilgisi yok; sıralama gösterilmiyor. İl ortalaması ve merkez/kırsal ayrımı
+          konut piyasası bölümünde yer alır.
+        </p>
+      )}
       <p className="soluk" style={{ fontSize: 12, marginBottom: 0 }}>
-        {s.birim === "mahalle"
-          ? "⚠️ Mahalle farkları örnek veridir, gerçek semt sıralaması değildir; ilçe ve il düzeyi tahmini/TCMB veriye dayanır."
-          : "⚠️ İlçe farkları tahminidir: büyük şehirlerde ilçelerin genel piyasa konumuna, diğer illerde merkez/kırsal ayrımına dayanır. Semtleri görmek için bir ilçe seçin."}
+        ⚠️ İlçe sıralaması tahminidir: ilçelerin yaygın bilinen genel piyasa konumuna (kademe) dayanır, aynı kademedeki ilçelerin sırası kesin değildir.
+        Mahalle bazında açık fiyat verisi olmadığından semt (mahalle) sıralaması yapılmıyor{ilce ? `; ${ilce} içindeki mahalle farkları örnek veridir` : ""}.
       </p>
     </section>
   );

@@ -1,6 +1,6 @@
 import { ilMeta, iller, turkiyeOrtalamaM2 } from "./iller-meta";
-import { konutPiyasasi } from "./konut";
-import { mahalleler, tahminiArsaM2 } from "./arsa";
+import { konutPiyasasi, ilceKademesiVar } from "./konut";
+import { tahminiArsaM2 } from "./arsa";
 
 export interface SiraKalemi {
   ad: string;
@@ -8,7 +8,6 @@ export interface SiraKalemi {
 }
 
 export interface SemtSiralamasi {
-  birim: "mahalle" | "ilçe";
   satis: SiraKalemi[];
   kira: SiraKalemi[];
   arsa: SiraKalemi[];
@@ -16,18 +15,16 @@ export interface SemtSiralamasi {
 
 const ilkN = (l: SiraKalemi[], n: number) => [...l].sort((a, b) => b.deger - a.deger).slice(0, n);
 
-// İlçe seçiliyse mahalleleri, değilse ilin ilçelerini satış, kira ve arsa m² değerine göre sıralar.
-// Arsa değeri, merkeze 5 km uzaklıktaki imarlı bir konut arsası için tahmindir.
-export function semtSiralamasi(ilKod: string, ilce?: string, n = 3): SemtSiralamasi {
-  const yerler = ilce
-    ? mahalleler(ilKod, ilce).map((m) => ({ ad: m, ilce, mahalle: m as string | undefined }))
-    : ilMeta(ilKod).ilceler.map((x) => ({ ad: x, ilce: x, mahalle: undefined }));
-  const veriler = yerler.map((y) => {
-    const k = konutPiyasasi(ilKod, y.ilce, y.mahalle);
-    return { ad: y.ad, satis: k.satisM2, kira: k.kiraM2, arsa: tahminiArsaM2(ilKod, "Konut", 5, y.ilce, y.mahalle) };
+// İlin ilçelerini satış, kira ve arsa m² değerine göre sıralar. Arsa değeri, merkeze 5 km uzaklıktaki
+// imarlı bir konut arsası için tahmindir. Mahalle fiyatları için açık kaynak olmadığından mahalle sıralaması
+// yapılmaz; ilçe kademe bilgisi olmayan illerde de sıralama örnek sapmaya dayanacağı için null döner.
+export function semtSiralamasi(ilKod: string, n = 3): SemtSiralamasi | null {
+  if (!ilceKademesiVar(ilKod)) return null;
+  const veriler = ilMeta(ilKod).ilceler.map((ilce) => {
+    const k = konutPiyasasi(ilKod, ilce);
+    return { ad: ilce, satis: k.satisM2, kira: k.kiraM2, arsa: tahminiArsaM2(ilKod, "Konut", 5, ilce) };
   });
   return {
-    birim: ilce ? "mahalle" : "ilçe",
     satis: ilkN(veriler.map((v) => ({ ad: v.ad, deger: v.satis })), n),
     kira: ilkN(veriler.map((v) => ({ ad: v.ad, deger: v.kira })), n),
     arsa: ilkN(veriler.map((v) => ({ ad: v.ad, deger: v.arsa })), n),
