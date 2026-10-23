@@ -8,6 +8,7 @@ import { degerlendir, fiyatBandi, bolgeTavsiyeleri, arsaKarari, butceOnerileri }
 import { konutPiyasasi } from "../lib/konut";
 import MahalleEvFiyatlari from "../components/MahalleEvFiyatlari";
 import { IlGenelBilgi, EnDegerliSemtler } from "../components/BolgeOzeti";
+import PdfKaydet from "../components/PdfKaydet";
 import BolgeProfiliBolumu from "../components/BolgeProfili";
 
 const Harita = dynamic(() => import("../components/Harita"), { ssr: false, loading: () => <div className="harita" /> });
@@ -58,7 +59,7 @@ export default function Sayfa() {
   const puanlar = useMemo(() => Object.fromEntries(arsalar.map((a) => [a.id, degerler[a.id].puan])), [arsalar, degerler]);
   const sirali = useMemo(() => [...arsalar].sort((p, q) => puanlar[q.id] - puanlar[p.id]), [arsalar, puanlar]);
   const butceler = useMemo(() => butceOnerileri(ilKod, arsalar), [ilKod, arsalar]);
-  const tavsiyeler = useMemo(() => bolgeTavsiyeleri(ilKod, arsalar), [ilKod, arsalar]);
+  const tavsiyeler = useMemo(() => bolgeTavsiyeleri(ilKod, arsalar, ilce || undefined), [ilKod, arsalar, ilce]);
   const konut = useMemo(() => konutPiyasasi(ilKod, ilce || undefined, mahalle || undefined), [ilKod, ilce, mahalle]);
 
   // Öneri başka bir ilçe/ilden geliyorsa önce oraya geçip arsayı seçer.
@@ -80,9 +81,12 @@ export default function Sayfa() {
 
   return (
     <>
-      <header>
-        <h1>Arsa Analiz</h1>
-        <p>İl, ilçe ve mahalle seçin: arsaların imar ve tapu durumu, tahmini değeri, değerlenme puanı ve konut fiyatları.</p>
+      <header className="baslik-satiri">
+        <div>
+          <h1>Arsa Analiz — {yer}</h1>
+          <p>İl, ilçe ve mahalle seçin: arsaların imar ve tapu durumu, tahmini değeri, değerlenme puanı ve konut fiyatları.</p>
+        </div>
+        <PdfKaydet dosyaAdi={`Arsa Analizi - ${yer}`} />
       </header>
       <main>
         <div className="uyari">

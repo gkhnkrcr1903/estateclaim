@@ -1,3 +1,4 @@
+import { buyumeTavsiyeleri } from "./buyume";
 import { kamuMu, tahminiArsaM2, ornekArsalar, KAMU_EDINIM, type Arsa } from "./arsa";
 import { ilMeta, iller, turkiyeOrtalamaM2 } from "./iller-meta";
 
@@ -85,7 +86,7 @@ export function fiyatBandi(a: Arsa, tumu: Arsa[]): FiyatBandi {
 }
 
 // İl/ilçe düzeyinde ileriye dönük genel tavsiyeler.
-export function bolgeTavsiyeleri(ilKod: string, tumu: Arsa[]): string[] {
+export function bolgeTavsiyeleri(ilKod: string, tumu: Arsa[], ilce?: string): string[] {
   const m = ilMeta(ilKod);
   const t: string[] = [];
   if (m.buyume >= 10) t.push("Nüfusu hızlı artan bir il: konut ve konut+ticaret arsalarında talep artışı sürebilir; 3–5 yıllık vade mantıklı.");
@@ -100,6 +101,7 @@ export function bolgeTavsiyeleri(ilKod: string, tumu: Arsa[]): string[] {
   if (kamu) t.push(`${kamu} arsa kamuya ait (Hazine/belediye/vakıf): bunlar ihaleyle satılır ve muhammen bedeller çoğu zaman piyasanın altındadır; Milli Emlak ve belediye ihale ilanlarını düzenli takip edin.`);
   if (tumu.some((a) => a.hisseli)) t.push("Hisseli tapulardan mümkünse kaçının ya da müstakil parselasyon imkânını araştırın.");
   if (m.satisM2 > turkiyeOrtalamaM2() * 1.1) t.push("Fiyat seviyesi yüksek bir bölge: düşük fiyat bandındaki arsalar çevre ilçelerde daha fazla getiri potansiyeli taşıyabilir.");
+  t.push(...buyumeTavsiyeleri(ilKod, ilce));
   t.push("Her alımdan önce resmi imar durum belgesi, güncel tapu kaydı (ipotek/haciz/şerh) ve yerinde inceleme şarttır.");
   return t;
 }

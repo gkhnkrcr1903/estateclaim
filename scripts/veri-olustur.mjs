@@ -14,6 +14,8 @@ const egitim = JSON.parse(oku("kaynak/tuik-egitim-2025.json"));
 // Wikidata ilçe/mahalle koordinatları (scripts/koordinat-cek.mjs ile üretilir)
 const ilceKoord = JSON.parse(oku("kaynak/ilce-koordinat.json"));
 const mahKoord = JSON.parse(oku("kaynak/mahalle-koordinat.json"));
+// TÜİK ilçe nüfus serisi (scripts/ilce-nufus-cek.mjs ile üretilir)
+const ilceNufus = JSON.parse(oku("kaynak/tuik-ilce-nufus.json"));
 
 // TCMB'nin il bazında yayımlamadığı iller için Türkiye ortalamasına göre tahmini seviye çarpanı.
 const SEVIYE_B = ["07", "48", "41", "16", "59", "77", "54", "09", "33"];
@@ -41,6 +43,7 @@ const sonuc = iller.map((il) => {
     lng: koordinat[il.kod][1],
     ilceKonum: ilceKoord.ilceler[il.kod] ?? {},
     mahalleKonum: mahKoord.mahalleler[il.kod] ?? {},
+    ilceNufusSeri: ilceNufus.iller[il.kod] ?? {},
     nufus: yeni,
     buyume: Math.round((Math.pow(yeni / eski, 1 / 4) - 1) * 10000) / 10, // binde, yıllık ortalama
     satisM2,
@@ -59,6 +62,7 @@ const veri = {
     `Nüfus profili: ${profil.kaynak}`,
     `Eğitim: ${egitim.kaynak}`,
     "İl/ilçe listesi: PTT (turkey-neighbourhoods)",
+    `İlçe nüfus serisi: ${ilceNufus.kaynak}, ${ilceNufus.tarih}`,
     `İlçe/mahalle koordinatları: ${ilceKoord.kaynak}, ${ilceKoord.tarih}`,
   ],
   konutDonemi: tcmb.donem,

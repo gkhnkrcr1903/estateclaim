@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { iller as ilListesi } from "../../lib/iller-meta";
 import { mahalleler } from "../../lib/arsa";
 import { evDegerle, type EvBilgisi, type Tavsiye } from "../../lib/ev";
+import PdfKaydet from "../../components/PdfKaydet";
 
 const TL = (n: number) => n.toLocaleString("tr-TR", { maximumFractionDigits: 0 }) + " ₺";
 
@@ -46,9 +47,12 @@ export default function EvSayfasi() {
 
   return (
     <>
-      <header>
-        <h1>Bu ev alınır mı?</h1>
-        <p>Evin özelliklerini girin: adil değer dört yöntemle hesaplanır, pazarlık, finansman ve kontrol tavsiyeleri verilir.</p>
+      <header className="baslik-satiri">
+        <div>
+          <h1>Bu ev alınır mı?</h1>
+          <p>Evin özelliklerini girin: adil değer dört yöntemle hesaplanır, pazarlık, finansman ve kontrol tavsiyeleri verilir.</p>
+        </div>
+        <PdfKaydet dosyaAdi={`Ev Değerleme - ${[e.mahalle, e.ilce, il.ad].filter(Boolean).join(", ")}`} />
       </header>
       <main>
         <div className="uyari">⚠️ Tahminler TCMB/tahmini bölge fiyatları, Bakanlık 2026 yapı maliyetleri ve kural tabanlı düzeltmelerle hesaplanır, <b>ekspertiz veya yatırım tavsiyesi değildir</b>. Kesin değer için lisanslı gayrimenkul değerleme raporu alın.</div>
@@ -115,6 +119,10 @@ export default function EvSayfasi() {
                 <div><div className="soluk">Tahmini kira</div><b>{TL(s.kiraTahmini)}/ay</b><div className="soluk">%{s.brutGetiri.toLocaleString("tr-TR")} getiri · {s.amortismanYil.toLocaleString("tr-TR")} yıl</div></div>
                 {s.kredi && <div><div className="soluk">Kredi taksiti</div><b>{TL(s.kredi.taksit)}/ay</b><div className="soluk">Peşinat {TL(s.kredi.pesinat)}</div></div>}
               </div>
+              <div className="hesap-ozeti">
+                <h3>🧮 Tahmini adil değer nasıl hesaplandı?</h3>
+                <ol>{s.hesapOzeti.map((m, i) => <li key={i}>{m}</li>)}</ol>
+              </div>
             </section>
 
             <section className="kart">
@@ -128,6 +136,15 @@ export default function EvSayfasi() {
                     </div>
                     <div className="cubuk"><div style={{ width: `${(y.deger / enBuyuk) * 100}%`, opacity: y.agirlik > 0 ? 1 : 0.45 }} /></div>
                     <div className="soluk" style={{ fontSize: 12 }}>{y.aciklama}</div>
+                    {y.agirlik > 0 && <div className="soluk" style={{ fontSize: 12 }}>Adil değere katkısı: {TL(y.deger * y.agirlik)} · istenen fiyata göre {y.deger >= e.istenenFiyat ? "%" + Math.round((y.deger / e.istenenFiyat - 1) * 100) + " yüksek" : "%" + Math.round((1 - y.deger / e.istenenFiyat) * 100) + " düşük"}</div>}
+                    <details className="ayrinti">
+                      <summary>Hesap adımları</summary>
+                      <table>
+                        <tbody>{y.adimlar.map((a, i) => <tr key={i}><td>{a.ad}</td><td>{a.deger}</td></tr>)}</tbody>
+                      </table>
+                      <p><b>Güçlü yanı:</b> {y.guclu}</p>
+                      <p><b>Sınırlılığı:</b> {y.zayif}</p>
+                    </details>
                   </div>
                 ))}
                 <div className="yontem">
@@ -135,7 +152,7 @@ export default function EvSayfasi() {
                   <div className="cubuk istenen"><div style={{ width: `${(e.istenenFiyat / enBuyuk) * 100}%` }} /></div>
                 </div>
               </div>
-              <p className="soluk" style={{ fontSize: 12, marginBottom: 0 }}>Adil değer, emsal (%60), gelir (%25) ve maliyet (%15) yöntemlerinin ağırlıklı ortalamasıdır. Maliyet yöntemi değerli semtlerde piyasa değerinin altında kalır; bu normaldir.</p>
+              <p className="soluk" style={{ fontSize: 12, marginBottom: 0 }}>Adil değer, emsal (%60), gelir (%25) ve maliyet (%15) yöntemlerinin ağırlıklı ortalamasıdır. Emsal en yüksek ağırlığı alır çünkü alıcıların ödediği fiyatı en doğrudan yansıtır; maliyet yöntemi değerli semtlerde piyasa değerinin altında kalır, bu normaldir. Her yöntemin ayrıntısı için "Hesap adımları"nı açın.</p>
             </section>
 
             <div className="izgara">

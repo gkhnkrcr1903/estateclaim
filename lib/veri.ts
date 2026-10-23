@@ -9,6 +9,7 @@ export interface IlVerisi {
   lng: number;
   ilceKonum?: Record<string, [number, number]>; // Wikidata; eksik ilçe olabilir
   mahalleKonum?: Record<string, Record<string, [number, number]>>; // ilçe → mahalle → konum; kapsam kısmi
+  ilceNufusSeri?: Record<string, Partial<Record<2015 | 2020 | 2024 | 2025, number>>>; // TÜİK ADNKS
   nufus: number;
   buyume: number; // yıllık ortalama nüfus artışı, binde
   satisM2: number;

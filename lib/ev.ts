@@ -47,6 +47,9 @@ export interface Yontem {
   deger: number;
   agirlik: number; // 0–1, ağırlıklı ortalamaya katkısı (0: yalnızca referans)
   aciklama: string;
+  adimlar: { ad: string; deger: string }[]; // ayrıntılı hesap dökümü
+  guclu: string; // yöntemin güçlü yanı
+  zayif: string; // sınırlılığı
 }
 
 export interface Tavsiye {
@@ -64,6 +67,8 @@ export interface EvSonuc {
   hedefFiyat: number; // pazarlıkta hedeflenecek fiyat
   acilisTeklifi: number;
   yontemler: Yontem[];
+  aralikPayi: number; // ± oran (0,06–0,20)
+  hesapOzeti: string[]; // "Tahmini adil değer nasıl hesaplandı?" maddeleri
   etkenler: Etken[];
   kiraTahmini: number;
   brutGetiri: number;
@@ -160,11 +165,62 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
   const il = ilMeta(e.il);
   const tcmbBaz = yuvarla(il.satisM2 * e.netM2);
 
+  const T = (n: number) => Math.round(n).toLocaleString("tr-TR") + " ₺";
+  const Y = (n: number) => "%" + n.toLocaleString("tr-TR", { maximumFractionDigits: 1 });
+  const ham = p.satisM2 * e.netM2;
+  const enOlumlu = [...et].sort((x, y) => y.oran - x.oran).filter((x) => x.oran > 0).slice(0, 3);
+  const enOlumsuz = [...et].sort((x, y) => x.oran - y.oran).filter((x) => x.oran < 0).slice(0, 3);
+  const hamToplam = et.reduce((t, x) => t + x.oran, 0);
+
   const yontemler: Yontem[] = [
-    { ad: "Emsal (karşılaştırma) yöntemi", deger: emsal, agirlik: 0.6, aciklama: `Bölge m² fiyatı (${p.satisM2.toLocaleString("tr-TR")} ₺) × net m², evin özelliklerine göre %${toplamOran >= 0 ? "+" : ""}${toplamOran} düzeltme.` },
-    { ad: "Gelir (kira) yöntemi", deger: gelir, agirlik: 0.25, aciklama: `Tahmini kira ${kiraTahmini.toLocaleString("tr-TR")} ₺/ay; yılda 1 ay boşluk ve %5 gider düşülüp bölgenin %${(bolgeGetirisi * 100).toFixed(1).replace(".", ",")} brüt getirisiyle değerlendi.` },
-    { ad: "Maliyet yöntemi", deger: maliyet, agirlik: 0.15, aciklama: `Arsa payı ≈ ${yuvarla(arsaPayi).toLocaleString("tr-TR")} ₺ + yapım (${yapi.sinif} sınıfı ${yapi.tl.toLocaleString("tr-TR")} ₺/m² × ${PIYASA_MALIYET_CARPANI.toLocaleString("tr-TR")} piyasa farkı, ${Math.round(brutM2)} m² brüt) − %${Math.round(yipranma * 100)} yıpranma.` },
-    { ad: `${il.ad} ortalaması (${il.satisKaynak === "TCMB" ? "TCMB" : "tahmini"})`, deger: tcmbBaz, agirlik: 0, aciklama: "İl ortalama m² fiyatı × net m². İlçe, mahalle ve ev özellikleri hesaba katılmaz; yalnızca karşılaştırma içindir." },
+    {
+      ad: "Emsal (karşılaştırma) yöntemi", deger: emsal, agirlik: 0.6,
+      aciklama: `Bölge m² fiyatı (${p.satisM2.toLocaleString("tr-TR")} ₺) × net m², evin özelliklerine göre %${toplamOran >= 0 ? "+" : ""}${toplamOran} düzeltme.`,
+      adimlar: [
+        { ad: "Bölge ortalama m² fiyatı", deger: `${T(p.satisM2)} (${p.kaynak})` },
+        { ad: "Ham değer (m² fiyatı × net m²)", deger: `${T(p.satisM2)} × ${e.netM2} = ${T(ham)}` },
+        { ad: `Özellik düzeltmeleri (${et.length} etken)`, deger: (hamToplam >= 0 ? "+" : "") + Y(hamToplam) + (hamToplam !== toplamOran ? ` → sınır nedeniyle ${toplamOran >= 0 ? "+" : ""}${Y(toplamOran)}` : "") },
+        ...(enOlumlu.length ? [{ ad: "En çok artıranlar", deger: enOlumlu.map((x) => `${x.metin} (+${x.oran})`).join(", ") }] : []),
+        ...(enOlumsuz.length ? [{ ad: "En çok düşürenler", deger: enOlumsuz.map((x) => `${x.metin} (${x.oran})`).join(", ") }] : []),
+        { ad: "Sonuç", deger: `${T(ham)} × (1 ${toplamOran >= 0 ? "+" : "−"} ${Math.abs(toplamOran)}/100) = ${T(emsal)}` },
+      ],
+      guclu: "Alıcıların gerçekte ödediği bölge fiyatlarına dayanır; konut değerlemesinde en çok kullanılan yöntemdir.",
+      zayif: "Bölge fiyatı il ortalamasından ilçe/mahalle farkıyla türetilir; aynı sokaktaki gerçek satışları bilmez.",
+    },
+    {
+      ad: "Gelir (kira) yöntemi", deger: gelir, agirlik: 0.25,
+      aciklama: `Tahmini kira ${kiraTahmini.toLocaleString("tr-TR")} ₺/ay; yılda 1 ay boşluk ve %5 gider düşülüp bölgenin %${(bolgeGetirisi * 100).toFixed(1).replace(".", ",")} brüt getirisiyle değerlendi.`,
+      adimlar: [
+        { ad: "Bölge kira m² fiyatı", deger: `${T(p.kiraM2)}/ay` },
+        { ad: "Bu evin tahmini kirası", deger: `${T(kiraTahmini)}/ay (oda tipi${e.esyali ? ", eşya" : ""} ve özelliklerin yarısı kadar etki)` },
+        ...(fazlaAidat ? [{ ad: "Normalin üstündeki aidat düşülür", deger: `−${T(fazlaAidat)}/ay` }] : []),
+        { ad: "Yıllık net kira", deger: `(${T(kiraTahmini - fazlaAidat)}) × 11 ay × 0,95 = ${T(netYillikKira)}` },
+        { ad: "Kapitalizasyon oranı (bölge brüt getirisi, aynı kesintilerle)", deger: ("%" + (bolgeGetirisi * (11 / 12) * 0.95 * 100).toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })) },
+        { ad: "Sonuç", deger: `${T(netYillikKira)} ÷ ${("%" + (bolgeGetirisi * (11 / 12) * 0.95 * 100).toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }))} = ${T(gelir)}` },
+      ],
+      guclu: "Evin ürettiği kira gelirine bakar; yatırım amaçlı alımda fiyatın kirayla uyumunu gösterir.",
+      zayif: "Kira, varsayılan %5,5 bölge getirisinden tahmin edilir; ilan kiralarını bilmez.",
+    },
+    {
+      ad: "Maliyet yöntemi", deger: maliyet, agirlik: 0.15,
+      aciklama: `Arsa payı ≈ ${yuvarla(arsaPayi).toLocaleString("tr-TR")} ₺ + yapım (${yapi.sinif} sınıfı ${yapi.tl.toLocaleString("tr-TR")} ₺/m² × ${PIYASA_MALIYET_CARPANI.toLocaleString("tr-TR")} piyasa farkı, ${Math.round(brutM2)} m² brüt) − %${Math.round(yipranma * 100)} yıpranma.`,
+      adimlar: [
+        { ad: "Arsa payı (bölge satış değerinin %40'ı)", deger: `${T(ham)} × 0,40 = ${T(arsaPayi)}` },
+        { ad: "Brüt alan (net × 1,25)", deger: `${Math.round(brutM2)} m²` },
+        { ad: `Yapım maliyeti (${YAPI_MALIYET_YILI} Bakanlık ${yapi.sinif} sınıfı × ${PIYASA_MALIYET_CARPANI.toLocaleString("tr-TR")})`, deger: `${T(yapi.tl)} × ${PIYASA_MALIYET_CARPANI.toLocaleString("tr-TR")} × ${Math.round(brutM2)} = ${T(yapi.tl * PIYASA_MALIYET_CARPANI * brutM2)}` },
+        { ad: `Yıpranma (${e.binaYasi} yaş × %1,5, en fazla %60)`, deger: `−${Y(Math.round(yipranma * 100))}` },
+        { ad: "Sonuç", deger: `${T(arsaPayi)} + ${T(yapi.tl * PIYASA_MALIYET_CARPANI * brutM2 * (1 - yipranma))} = ${T(maliyet)}` },
+      ],
+      guclu: "Aynı evi bugün yeniden yapmanın bedelini verir; yeni binalarda ve az satış olan yerlerde iyi bir alt sınırdır.",
+      zayif: "Konumun prestijini tam yansıtmaz; değerli semtlerde piyasa değerinin altında kalır.",
+    },
+    {
+      ad: `${il.ad} ortalaması (${il.satisKaynak === "TCMB" ? "TCMB" : "tahmini"})`, deger: tcmbBaz, agirlik: 0,
+      aciklama: "İl ortalama m² fiyatı × net m². İlçe, mahalle ve ev özellikleri hesaba katılmaz; yalnızca karşılaştırma içindir.",
+      adimlar: [{ ad: "İl ortalama m² × net m²", deger: `${T(il.satisM2)} × ${e.netM2} = ${T(tcmbBaz)}` }],
+      guclu: il.satisKaynak === "TCMB" ? "Resmî TCMB konut fiyat verisidir." : "İlin genel fiyat seviyesini gösterir.",
+      zayif: "Evin konumunu ve özelliklerini hiç dikkate almaz.",
+    },
   ];
 
   const tahmini = yuvarla(yontemler.reduce((t, y) => t + y.deger * y.agirlik, 0));
@@ -175,6 +231,13 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
   const alt = yuvarla(tahmini * (1 - pay));
   const ust = yuvarla(tahmini * (1 + pay));
   const fark = e.istenenFiyat / tahmini - 1;
+  const agirlikliYontemler = yontemler.filter((y) => y.agirlik > 0);
+  const hesapOzeti = [
+    `Üç yöntemle ayrı ayrı değer bulundu: ${agirlikliYontemler.map((y) => `${y.ad.split(" ")[0].toLocaleLowerCase("tr")} ${T(y.deger)}`).join(", ")}.`,
+    `Ağırlıklı ortalama: ${agirlikliYontemler.map((y) => `${T(y.deger)} × %${Math.round(y.agirlik * 100)}`).join(" + ")} = ${T(tahmini)}.`,
+    `Yöntemler arasındaki fark tahmini değerin %${Math.round(yayilim * 100)}'i; bu yüzden aralık ±%${Math.round(pay * 100)} alındı (${T(alt)} – ${T(ust)}).`,
+    `Bölge m² fiyatı ${p.kaynak} üzerinden hesaplandı; evin özellikleri toplamda %${toplamOran >= 0 ? "+" : ""}${toplamOran} etki yaptı.`,
+  ];
 
   const karar: EvSonuc["karar"] = fark <= 0.03 ? "Alınır — fiyatı uygun" : fark <= 0.15 ? "Makul — pazarlıkla alınır" : "Pahalı — önerilmez";
   const hedefFiyat = Math.min(e.istenenFiyat, yuvarla(tahmini * 0.97));
@@ -246,7 +309,7 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
   }
 
   return {
-    tahmini, alt, ust, fark, karar, hedefFiyat, acilisTeklifi, yontemler, etkenler: et,
+    tahmini, alt, ust, fark, karar, hedefFiyat, acilisTeklifi, yontemler, aralikPayi: pay, hesapOzeti, etkenler: et,
     kiraTahmini, brutGetiri, amortismanYil, kredi, tavsiyeler: t, notlar: t.map((x) => x.metin),
   };
 }
