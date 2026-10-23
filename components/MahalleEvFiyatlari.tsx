@@ -9,7 +9,7 @@ const M2 = 100;
 // Ortalama bir daire; satırlar ve sütunlar yalnızca kat/asansör/site/yaş özelliklerini değiştirir.
 const TEMEL: Omit<EvBilgisi, "il" | "ilce" | "mahalle"> = {
   netM2: M2, odaSayisi: "3+1", binaYasi: 10, kat: "Ara kat", toplamKat: 6, durum: "Bakımlı",
-  isinma: "Doğalgaz kombi", asansor: true, otopark: false, site: false, manzara: false,
+  isinma: "Doğalgaz kombi", asansor: true, otopark: "Yok", site: false, manzara: "Yok",
   ulasimKm: 2, tapu: "Kat mülkiyeti", krediyeUygun: true, istenenFiyat: 1,
 };
 
@@ -35,11 +35,11 @@ const TIPLER: { oda: string; m2: number }[] = [
 // Aynı bölgede bir dairenin alabileceği en düşük ve en yüksek özellik kombinasyonları
 const EN_UCUZ: Partial<EvBilgisi> = {
   kat: "Bodrum", asansor: false, binaYasi: 30, durum: "Tadilat gerekli", isinma: "Soba/diğer",
-  site: false, otopark: false, manzara: false, ulasimKm: 6,
+  site: false, otopark: "Yok", manzara: "Yok", ulasimKm: 6,
 };
 const EN_PAHALI: Partial<EvBilgisi> = {
   kat: "Ara kat", asansor: true, binaYasi: 1, durum: "Sıfır/yeni", isinma: "Yerden ısıtma",
-  site: true, otopark: true, manzara: true, ulasimKm: 0.5,
+  site: true, otopark: "Kapalı", manzara: "Şehir/doğa", ulasimKm: 0.5,
 };
 
 function OdaTipleri({ ilKod, ilce, mahalle }: { ilKod: string; ilce: string; mahalle: string }) {
@@ -120,7 +120,7 @@ export default function MahalleEvFiyatlari({ ilKod, ilce, mahalle, yer }: { ilKo
     () =>
       SATIRLAR.map((s) => {
         const hucre = (site: boolean) => {
-          const r = evDegerle({ ...TEMEL, ...s.d, site, otopark: site, il: ilKod, ilce, mahalle: mahalle || undefined });
+          const r = evDegerle({ ...TEMEL, ...s.d, site, otopark: site ? "Kapalı" : "Yok", il: ilKod, ilce, mahalle: mahalle || undefined });
           return { fiyat: r.tahmini, kira: r.kiraTahmini, getiri: Math.round(((r.kiraTahmini * 12) / r.tahmini) * 1000) / 10 };
         };
         return { ad: s.ad, disi: hucre(false), ici: hucre(true) };

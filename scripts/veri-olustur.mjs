@@ -43,6 +43,7 @@ const veri = {
     "İl/ilçe listesi: PTT (turkey-neighbourhoods)",
   ],
   konutDonemi: tcmb.donem,
+  nufusYili: 2025, // TÜİK ADNKS; yeni yıl yayımlanınca kaynak/tuik-2025.csv güncellenmeli
   iller: sonuc,
 };
 writeFileSync(new URL("../data/veri.json", import.meta.url), JSON.stringify(veri));

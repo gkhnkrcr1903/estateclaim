@@ -96,3 +96,19 @@ select, input { max-width: 100%; }
 ol.sira { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 14px; }
 ol.sira li { display: flex; justify-content: space-between; gap: 8px; padding: 6px 8px; border-radius: 8px; background: color-mix(in srgb, var(--vurgu) 6%, transparent); }
 ol.sira li span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.yontemler { display: grid; gap: 14px; }
+.yontem { display: grid; gap: 4px; }
+.yontem-ust { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 14px; }
+.cubuk { height: 10px; border-radius: 999px; background: var(--cizgi); overflow: hidden; }
+.cubuk > div { height: 100%; border-radius: 999px; background: var(--vurgu); }
+.cubuk.istenen > div { background: var(--sari); }
+ul.tavsiye-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 14px; line-height: 1.45; }
+ul.tavsiye-liste li { display: flex; gap: 8px; padding: 8px 10px; border-radius: 8px; border-left: 3px solid var(--cizgi); background: color-mix(in srgb, var(--vurgu) 4%, transparent); }
+ul.tavsiye-liste li.t-uyari { border-left-color: var(--sari); }
+ul.tavsiye-liste li.t-olumlu { border-left-color: var(--yesil); }
+details.guncellik { flex-basis: 100%; font-size: 12px; }
+details.guncellik summary { cursor: pointer; text-align: right; list-style-position: inside; }
+details.guncellik[open] summary { margin-bottom: 6px; }
+details.guncellik table { font-size: 12px; }
+details.guncellik td { white-space: normal; }
+@media (max-width: 600px) { details.guncellik summary { text-align: left; } }

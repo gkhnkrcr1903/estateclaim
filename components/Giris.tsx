@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { girisYap, yenidenYukle, cikisYap, SifreHatasi, type Veri } from "../lib/veri";
+import VeriGuncelligi from "./VeriGuncelligi";
 
 // Şifre girilip veri çözülene kadar uygulama içeriğini göstermez.
 export default function Giris({ children }: { children: React.ReactNode }) {
@@ -67,6 +68,7 @@ export default function Giris({ children }: { children: React.ReactNode }) {
         {mesaj && <span className="arti">{mesaj}</span>}
         <button className="ikincil" onClick={guncelle} disabled={bekle}>{bekle ? "Çekiliyor…" : "🔄 Güncel veriyi çek"}</button>
         <button className="ikincil" onClick={() => { cikisYap(); setV(null); }}>Çıkış</button>
+        <VeriGuncelligi v={v} />
       </div>
       <div key={surum}>{children}</div>
     </>

@@ -18,6 +18,7 @@ export interface Veri {
   guncelleme: string;
   kaynaklar: string[];
   konutDonemi: string;
+  nufusYili?: number;
   iller: IlVerisi[];
 }
 
