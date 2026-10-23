@@ -10,14 +10,16 @@ if (!KEY) {
   process.exit(0);
 }
 
-const API = "https://evds2.tcmb.gov.tr/service/evds/";
+// EVDS 3 (2026): eski evds2.tcmb.gov.tr/service/evds/ adresi artık veri yerine web arayüzü döndürüyor.
+const API = "https://evds3.tcmb.gov.tr/igmevdsms-dis/";
 const al = async (yol) => {
   const r = await fetch(API + yol, { headers: { key: KEY } });
+  if (r.status === 401) throw new Error("EVDS anahtarı reddetti (401). EVDS_API_KEY'i evds3.tcmb.gov.tr > Profil > API Anahtarı ile kontrol edin.");
   if (!r.ok) throw new Error(`${r.status} ${r.statusText} — ${yol}`);
   const govde = await r.text();
   // Geçersiz anahtarda EVDS JSON yerine HTML sayfası döndürür.
   if (govde.trimStart().startsWith("<")) {
-    throw new Error(`EVDS JSON yerine HTML döndürdü (HTTP ${r.status}). EVDS_API_KEY geçersiz olabilir; evds2.tcmb.gov.tr > Profil > API Anahtarı ile kontrol edin.`);
+    throw new Error(`EVDS JSON yerine HTML döndürdü (HTTP ${r.status}). EVDS_API_KEY geçersiz olabilir; evds3.tcmb.gov.tr > Profil > API Anahtarı ile kontrol edin.`);
   }
   return JSON.parse(govde);
 };
