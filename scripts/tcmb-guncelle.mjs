@@ -14,7 +14,12 @@ const API = "https://evds2.tcmb.gov.tr/service/evds/";
 const al = async (yol) => {
   const r = await fetch(API + yol, { headers: { key: KEY } });
   if (!r.ok) throw new Error(`${r.status} ${r.statusText} — ${yol}`);
-  return r.json();
+  const govde = await r.text();
+  // Geçersiz anahtarda EVDS JSON yerine HTML sayfası döndürür.
+  if (govde.trimStart().startsWith("<")) {
+    throw new Error(`EVDS JSON yerine HTML döndürdü (HTTP ${r.status}). EVDS_API_KEY geçersiz olabilir; evds2.tcmb.gov.tr > Profil > API Anahtarı ile kontrol edin.`);
+  }
+  return JSON.parse(govde);
 };
 // EVDS alan adları büyük harfli (SERIE_CODE vb.); küçük farklılıklara karşı anahtarı desene göre bul.
 const alan = (o, re) => o[Object.keys(o).find((k) => re.test(k))];
