@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import { iller as ilListesi } from "../lib/iller-meta";
 import { ornekArsalar, ilceKonumu, mahalleKonumu, mahalleler, kamuMu, IMAR_FONKSIYONLARI, PROJE_TURLERI, TAPU_DURUMLARI, type Arsa, type ImarFonksiyonu, type TapuDurumu } from "../lib/arsa";
-import { degerlendir, fiyatBandi, enIyiOneriler, bolgeTavsiyeleri, arsaKarari } from "../lib/puan";
+import { degerlendir, fiyatBandi, bolgeTavsiyeleri, arsaKarari, butceOnerileri } from "../lib/puan";
 import { konutPiyasasi } from "../lib/konut";
 import MahalleEvFiyatlari from "../components/MahalleEvFiyatlari";
 
@@ -55,10 +55,21 @@ export default function Sayfa() {
   const degerler = useMemo(() => Object.fromEntries(arsalar.map((a) => [a.id, degerlendir(a)])), [arsalar]);
   const puanlar = useMemo(() => Object.fromEntries(arsalar.map((a) => [a.id, degerler[a.id].puan])), [arsalar, degerler]);
   const sirali = useMemo(() => [...arsalar].sort((p, q) => puanlar[q.id] - puanlar[p.id]), [arsalar, puanlar]);
-  const oneriler = useMemo(() => enIyiOneriler(arsalar), [arsalar]);
+  const butceler = useMemo(() => butceOnerileri(ilKod, arsalar), [ilKod, arsalar]);
   const tavsiyeler = useMemo(() => bolgeTavsiyeleri(ilKod, arsalar), [ilKod, arsalar]);
   const konut = useMemo(() => konutPiyasasi(ilKod, ilce || undefined, mahalle || undefined), [ilKod, ilce, mahalle]);
 
+  // Öneri başka bir ilçe/ilden geliyorsa önce oraya geçip arsayı seçer.
+  const arsayaGit = (a: Arsa) => {
+    if (!arsalar.some((x) => x.id === a.id)) {
+      setIlKod(a.il);
+      setIlce(a.ilce);
+      setMahalle("");
+      setTapuFiltre("");
+    }
+    setSeciliId(a.id);
+    document.getElementById("detay")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
   const secili = arsalar.find((a) => a.id === seciliId);
   const seciliD = secili && degerler[secili.id];
   const karar = secili && arsaKarari(secili);
@@ -112,16 +123,36 @@ export default function Sayfa() {
         </section>
 
         <section className="kart">
-          <h2>🏆 Yatırıma en uygun arsalar (bütçeye göre)</h2>
-          <div className="oneriler">
-            {oneriler.map(({ bant, arsa, d }) => (
-              <div key={bant} className="oneri" onClick={() => setSeciliId(arsa.id)}>
-                <span className={`rozet f-${bant}`}>{bant} fiyat</span>{" "}
-                <span className={`rozet ${puanSinifi(d.puan)}`}>{d.puan} puan</span>
-                <h3 style={{ margin: "8px 0 4px", fontSize: 15 }}>{arsa.mahalle ?? arsa.ilce} · Ada {arsa.ada}/{arsa.parsel}</h3>
-                <div className="soluk">{arsa.imar} · {arsa.tapu ?? "Tapu bilinmiyor"} · {arsa.alan.toLocaleString("tr-TR")} m² · {TL(arsa.fiyatM2)}/m²</div>
-                <div style={{ fontWeight: 600, margin: "4px 0" }}>Toplam ≈ {TL(arsa.alan * arsa.fiyatM2)}</div>
-                <div style={{ fontSize: 13 }}>{d.oneri}</div>
+          <h2>💰 Bütçenize göre en iyi arsalar</h2>
+          <p className="soluk" style={{ marginTop: 0 }}>Her bütçe için gelecek potansiyeli en yüksek arsalar. Seçili yerde uygun arsa yoksa ilin diğer ilçelerinden, orada da yoksa yakın illerden önerilir.</p>
+          <div className="butceler">
+            {butceler.map(({ butce, kapsam, oneriler }) => (
+              <div key={butce.ad} className="butce">
+                <h3>{butce.ad}</h3>
+                {(kapsam === "yakin" || (kapsam === "il" && ilce)) && oneriler.length > 0 && (
+                  <div className="soluk" style={{ fontSize: 12, marginBottom: 6 }}>
+                    {kapsam === "il" ? `${yer} içinde yok — ${il.ad} genelinden` : `${il.ad} içinde yok — yakın illerden`}
+                  </div>
+                )}
+                {oneriler.length === 0 && <div className="soluk">Bu bütçede uygun arsa bulunamadı.</div>}
+                {oneriler.map(({ arsa, d, k }) => (
+                  <div key={arsa.id} className="oneri" onClick={() => arsayaGit(arsa)}>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 6 }}>
+                      <b>{TL(arsa.alan * arsa.fiyatM2)}</b>
+                      <span className={`rozet ${puanSinifi(d.puan)}`}>{d.puan} puan</span>
+                    </div>
+                    <div style={{ fontSize: 13, margin: "2px 0" }}>
+                      {[arsa.mahalle, arsa.ilce, arsa.il !== ilKod ? iller.find((i) => i.kod === arsa.il)?.ad : ""].filter(Boolean).join(", ")}
+                    </div>
+                    <div className="soluk" style={{ fontSize: 12 }}>
+                      {arsa.imar} · {arsa.alan.toLocaleString("tr-TR")} m² · {arsa.tapu ?? "Özel mülk"}
+                    </div>
+                    <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginTop: 4 }}>
+                      <span className={`rozet ${k.fiyatKarari === "Fiyatı uygun" ? "p-yuksek" : k.fiyatKarari === "Pahalı" ? "p-dusuk" : "p-orta"}`}>{k.fiyatKarari}</span>
+                      <span className={`rozet ${k.gelecek === "Gelecek için alınır" ? "p-yuksek" : k.gelecek === "Gelecek için zayıf" ? "p-dusuk" : "p-orta"}`}>{k.gelecek}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
@@ -150,7 +181,7 @@ export default function Sayfa() {
           <section className="kart">
             <Harita arsalar={arsalar} puanlar={puanlar} seciliId={seciliId} sec={setSeciliId} />
           </section>
-          <section className="kart">
+          <section className="kart" id="detay">
             {secili && seciliD ? (
               <>
                 <h2>{secili.mahalle ? `${secili.mahalle}, ` : ""}{secili.ilce} · Ada {secili.ada} / Parsel {secili.parsel} {secili.manuel && <span className="rozet f-Orta">Sizin kaydınız</span>}</h2>

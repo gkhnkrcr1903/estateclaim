@@ -72,7 +72,9 @@ export function mahalleler(ilKod: string, ilce: string): string[] {
 // Konum ve imara göre tahmini piyasa m² değeri (rastgele sapma içermez).
 export function tahminiArsaM2(ilKod: string, imar: ImarFonksiyonu, merkezKm: number) {
   const imarli = !["Tarla (imarsız)", "Koruma alanı"].includes(imar);
-  return Math.round((ortalamaArsaM2(ilKod) * (imarli ? 1 : 0.35) * (1.3 - Math.min(merkezKm, 30) / 30)) / 50) * 50;
+  // İmarsız arazinin değeri merkezden uzaklaştıkça imarlı arsaya göre çok daha hızlı düşer.
+  const konum = imarli ? 1.3 - Math.min(merkezKm, 30) / 30 : Math.max(0.12, 1 - merkezKm / 20);
+  return Math.round((ortalamaArsaM2(ilKod) * (imarli ? 1 : 0.35) * konum) / 10) * 10;
 }
 
 export function ornekArsalar(ilKod: string, ilce: string, adet = 8, mahalle?: string): Arsa[] {
@@ -90,7 +92,7 @@ export function ornekArsalar(ilKod: string, ilce: string, adet = 8, mahalle?: st
     const tapu: TapuDurumu = t < 0.7 ? "Özel mülk" : t < 0.85 ? "Hazine (Milli Emlak)" : t < 0.95 ? "Belediye" : "Vakıf";
     const tahminiM2 = tahminiArsaM2(ilKod, imar, merkezKm);
     // Özel mülkte satıcının istediği fiyat piyasadan sapabilir; kamuda muhammen bedel genelde biraz altındadır.
-    const fiyatM2 = Math.round((tahminiM2 * (kamuMu(tapu) ? 0.85 + r() * 0.1 : 0.7 + r() * 0.6)) / 50) * 50;
+    const fiyatM2 = Math.round((tahminiM2 * (kamuMu(tapu) ? 0.85 + r() * 0.1 : 0.7 + r() * 0.6)) / 10) * 10;
     const projeler = PROJE_TURLERI.filter(() => r() < 0.15);
     return {
       id: `${ilKod}-${ilce}-${mahalle ?? ""}-${i}`,
@@ -99,7 +101,8 @@ export function ornekArsalar(ilKod: string, ilce: string, adet = 8, mahalle?: st
       mahalle: mah,
       ada: String(100 + Math.floor(r() * 900)),
       parsel: String(1 + Math.floor(r() * 60)),
-      alan: Math.round((imarli ? 300 + r() * 1500 : 2000 + r() * 15000) / 10) * 10,
+      // İmarsız arazilerin bir kısmı küçük tarla/bahçe parselleridir.
+      alan: Math.round((imarli ? 300 + r() * 1500 : r() < 0.4 ? 300 + r() * 1200 : 1500 + r() * 14500) / 10) * 10,
       imar,
       emsal: imarli ? Math.round((0.3 + r() * 2.2) * 10) / 10 : imar === "Koruma alanı" ? 0 : 0.05,
       tapu,

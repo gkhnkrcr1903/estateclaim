@@ -1,5 +1,5 @@
-import { kamuMu, tahminiArsaM2, KAMU_EDINIM, type Arsa } from "./arsa";
-import { ilMeta, turkiyeOrtalamaM2 } from "./iller-meta";
+import { kamuMu, tahminiArsaM2, ornekArsalar, KAMU_EDINIM, type Arsa } from "./arsa";
+import { ilMeta, iller, turkiyeOrtalamaM2 } from "./iller-meta";
 
 export interface Neden {
   metin: string;
@@ -84,20 +84,6 @@ export function fiyatBandi(a: Arsa, tumu: Arsa[]): FiyatBandi {
   return b < alt ? "Düşük" : b < ust ? "Orta" : "Yüksek";
 }
 
-// Her fiyat bandından en yüksek puanlı arsa: bütçeye göre öneri.
-export function enIyiOneriler(tumu: Arsa[]) {
-  const bantlar: FiyatBandi[] = ["Düşük", "Orta", "Yüksek"];
-  return bantlar
-    .map((bant) => {
-      const aday = tumu
-        .filter((a) => fiyatBandi(a, tumu) === bant)
-        .map((a) => ({ arsa: a, d: degerlendir(a) }))
-        .sort((p, q) => q.d.puan - p.d.puan)[0];
-      return aday ? { bant, ...aday } : null;
-    })
-    .filter((x): x is NonNullable<typeof x> => x !== null);
-}
-
 // İl/ilçe düzeyinde ileriye dönük genel tavsiyeler.
 export function bolgeTavsiyeleri(ilKod: string, tumu: Arsa[]): string[] {
   const m = ilMeta(ilKod);
@@ -157,4 +143,68 @@ export function arsaKarari(a: Arsa): ArsaKarari {
     gelecek,
     ozet,
   };
+}
+
+export interface Butce {
+  ad: string;
+  min: number;
+  max: number;
+}
+
+export const BUTCELER: Butce[] = [
+  { ad: "1 milyona kadar", min: 0, max: 1_000_000 },
+  { ad: "1–5 milyon", min: 1_000_000, max: 5_000_000 },
+  { ad: "5–20 milyon", min: 5_000_000, max: 20_000_000 },
+  { ad: "20 milyon üzeri", min: 20_000_000, max: Infinity },
+];
+
+export interface ButceOnerisi {
+  butce: Butce;
+  kapsam: "secili" | "il" | "yakin"; // önerilerin nereden geldiği
+  oneriler: { arsa: Arsa; d: Degerlendirme; k: ArsaKarari }[];
+}
+
+const toplamFiyat = (a: Arsa) => a.alan * a.fiyatM2;
+
+function enIyiler(havuz: Arsa[], b: Butce, adet: number) {
+  return havuz
+    // Yapılaşma yasağı olan koruma alanları yatırım önerisi olarak gösterilmez.
+    .filter((a) => a.imar !== "Koruma alanı" && toplamFiyat(a) >= b.min && toplamFiyat(a) < b.max)
+    .map((arsa) => ({ arsa, d: degerlendir(arsa), k: arsaKarari(arsa) }))
+    // Önce gelecek puanı, eşitlikte tahmini değerine göre daha ucuz olan
+    .sort((p, q) => q.d.puan - p.d.puan || p.k.fark - q.k.fark)
+    .slice(0, adet);
+}
+
+// Her bütçe için en iyi arsalar: önce seçili yer, yoksa ilin tamamı, o da yoksa en yakın iller.
+export function butceOnerileri(ilKod: string, secili: Arsa[], adet = 3): ButceOnerisi[] {
+  const ILCE_BASINA = 6;
+  let ilHavuzu: Arsa[] | null = null;
+  const il = () => (ilHavuzu ??= ilMeta(ilKod).ilceler.flatMap((x) => ornekArsalar(ilKod, x, ILCE_BASINA)));
+
+  // Yakın iller uzaklık sırasıyla, gerektiği kadar (en fazla 12 il) taranır.
+  const m = ilMeta(ilKod);
+  const komsular = iller()
+    .filter((i) => i.kod !== ilKod)
+    .sort((p, q) => (p.lat - m.lat) ** 2 + (p.lng - m.lng) ** 2 - ((q.lat - m.lat) ** 2 + (q.lng - m.lng) ** 2))
+    .slice(0, 12);
+  const komsuHavuzu = new Map<string, Arsa[]>();
+  const komsu = (kod: string) => {
+    if (!komsuHavuzu.has(kod)) komsuHavuzu.set(kod, ilMeta(kod).ilceler.flatMap((x) => ornekArsalar(kod, x, ILCE_BASINA)));
+    return komsuHavuzu.get(kod)!;
+  };
+
+  return BUTCELER.map((butce) => {
+    let oneriler = enIyiler(secili, butce, adet);
+    if (oneriler.length) return { butce, kapsam: "secili" as const, oneriler };
+    oneriler = enIyiler(il(), butce, adet);
+    if (oneriler.length) return { butce, kapsam: "il" as const, oneriler };
+    const havuz: Arsa[] = [];
+    for (const k of komsular) {
+      havuz.push(...komsu(k.kod));
+      oneriler = enIyiler(havuz, butce, adet);
+      if (oneriler.length >= adet) break;
+    }
+    return { butce, kapsam: "yakin" as const, oneriler };
+  });
 }
