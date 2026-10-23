@@ -119,3 +119,6 @@ details.guncellik td { white-space: normal; }
 .dilim-cubuk { display: flex; height: 14px; border-radius: 999px; overflow: hidden; background: var(--cizgi); }
 .dilim-etiket { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 6px; font-size: 12px; color: var(--soluk); }
 .dilim-etiket i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 4px; }
+.kaynak-link { display: flex; flex-wrap: wrap; gap: 2px 10px; margin-top: 2px; }
+.kaynak-link a { color: var(--vurgu); text-decoration: none; font-size: 11px; }
+.kaynak-link a:hover { text-decoration: underline; }

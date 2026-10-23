@@ -9,6 +9,7 @@ interface Kaynak {
   nasil: string;
   eski: boolean;
   ornek?: boolean;
+  linkler?: { ad: string; url: string }[];
 }
 
 // "2026-Q3" veya "2026 Ç1" biçimindeki çeyreğin bittiği tarih
@@ -29,6 +30,10 @@ function kaynaklar(v: Veri, bugun = new Date()): Kaynak[] {
       nasil: "Otomatik: her ayın 20'si",
       // TCMB çeyrek verisini yaklaşık 2–3 ay sonra yayımlar; 7 aydan eskiyse güncelleme aksamış demektir.
       eski: tcmbSon ? gun(tcmbSon) > 210 : false,
+      linkler: [
+        { ad: "TCMB EVDS", url: "https://evds3.tcmb.gov.tr/" },
+        { ad: "Konut Fiyat Endeksi", url: "https://www.tcmb.gov.tr/wps/wcm/connect/TR/TCMB+TR/Main+Menu/Istatistikler/Reel+Sektor+Istatistikleri/Konut+Fiyat+Endeksi/" },
+      ],
     },
     {
       ad: "Nüfus, yaş ve hane profili (TÜİK ADNKS)",
@@ -36,6 +41,10 @@ function kaynaklar(v: Veri, bugun = new Date()): Kaynak[] {
       nasil: "Yılda bir (Şubat), elle",
       // N yılının ADNKS verisi N+1 Şubat'ında yayımlanır; N+2 Mart'ından sonra yenisi çıkmış olmalıdır.
       eski: bugun > new Date(nufusYili + 2, 2, 1),
+      linkler: [
+        { ad: "TÜİK veri portalı", url: "https://data.tuik.gov.tr/" },
+        { ad: "İl derlemesi (nufusune.com)", url: "https://www.nufusune.com/" },
+      ],
     },
     {
       ad: "Eğitim süresi (TÜİK Ulusal Eğitim İst.)",
@@ -43,14 +52,22 @@ function kaynaklar(v: Veri, bugun = new Date()): Kaynak[] {
       nasil: "Yılda bir (Haziran), elle",
       // N yılının eğitim istatistikleri N+1 Haziran'ında yayımlanır.
       eski: bugun > new Date(nufusYili + 2, 6, 1),
+      linkler: [
+        { ad: "TÜİK veri portalı", url: "https://data.tuik.gov.tr/" },
+        { ad: "2025 bülten haberi", url: "https://www.alomaliye.com/2026/06/02/ulusal-egitim-istatistikleri-2025-yuksekogretim-mezunu-orani-genc-nufusta-yuzde-45-6-oldu/" },
+      ],
     },
     {
       ad: "Yapı maliyeti (Bakanlık tebliği)",
       donem: String(YAPI_MALIYET_YILI),
       nasil: "Yılda bir (Ocak–Şubat), elle",
       eski: bugun > new Date(YAPI_MALIYET_YILI + 1, 2, 1),
+      linkler: [
+        { ad: "Resmî Gazete", url: "https://www.resmigazete.gov.tr/" },
+        { ad: "2026 tebliğ metni", url: "https://www.hukukihaber.net/mimarlik-ve-muhendislik-hizmet-bedellerinin-hesabinda-kullanilacak-2026-yili-yapi-yaklasik-birim-maliyetleri-hakkinda-teblig" },
+      ],
     },
-    { ad: "İl / ilçe / mahalle listesi (PTT)", donem: v.guncelleme, nasil: "Her yayında", eski: false },
+    { ad: "İl / ilçe / mahalle listesi (PTT)", donem: v.guncelleme, nasil: "Her yayında", eski: false, linkler: [{ ad: "PTT posta kodları", url: "https://postakodu.ptt.gov.tr/" }] },
     { ad: "Arsa ilanları ve tapu durumları", donem: "—", nasil: "Gerçek kaynak yok", eski: false, ornek: true },
   ];
 }
@@ -68,7 +85,14 @@ export default function VeriGuncelligi({ v }: { v: Veri }) {
         <tbody>
           {liste.map((k) => (
             <tr key={k.ad} style={{ cursor: "default" }}>
-              <td>{k.ad}</td>
+              <td>
+                {k.ad}
+                {k.linkler && (
+                  <div className="kaynak-link">
+                    {k.linkler.map((l) => <a key={l.url} href={l.url} target="_blank" rel="noreferrer">{l.ad} ↗</a>)}
+                  </div>
+                )}
+              </td>
               <td>{k.donem}</td>
               <td className="soluk">{k.nasil}</td>
               <td>{k.ornek ? <span className="rozet r-Orta">Örnek</span> : k.eski ? <span className="rozet p-dusuk">Eski</span> : <span className="rozet p-yuksek">Güncel</span>}</td>
