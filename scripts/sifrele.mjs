@@ -8,7 +8,7 @@ if (!process.env.SITE_PASSWORD && existsSync(".env.local")) {
     if (m) process.env.SITE_PASSWORD = m[1].trim();
   }
 }
-const sifre = process.env.SITE_PASSWORD;
+const sifre = process.env.SITE_PASSWORD?.trim();
 if (!sifre) throw new Error("SITE_PASSWORD tanımlı değil (.env.local veya ortam değişkeni)");
 
 const ITER = 310000;

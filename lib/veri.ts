@@ -64,10 +64,18 @@ async function coz(s: Sifreli, anahtar: CryptoKey): Promise<Veri> {
   return JSON.parse(new TextDecoder().decode(acik));
 }
 
+export class SifreHatasi extends Error {}
+
 // Şifreyle giriş: başarılıysa veriyi çözer ve şifreyi (oturum boyunca) saklar.
 export async function girisYap(sifre: string): Promise<Veri> {
+  sifre = sifre.trim();
   const s = await indir();
-  const v = await coz(s, await anahtarTuret(sifre, s));
+  let v: Veri;
+  try {
+    v = await coz(s, await anahtarTuret(sifre, s));
+  } catch {
+    throw new SifreHatasi("Şifre hatalı");
+  }
   try {
     sessionStorage.setItem(ANAHTAR_SAKLAMA, sifre);
   } catch {}

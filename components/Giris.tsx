@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { girisYap, yenidenYukle, cikisYap, type Veri } from "../lib/veri";
+import { girisYap, yenidenYukle, cikisYap, SifreHatasi, type Veri } from "../lib/veri";
 
 // Şifre girilip veri çözülene kadar uygulama içeriğini göstermez.
 export default function Giris({ children }: { children: React.ReactNode }) {
@@ -27,8 +27,8 @@ export default function Giris({ children }: { children: React.ReactNode }) {
     try {
       setV(await girisYap(sifre));
       setSifre("");
-    } catch {
-      setHata("Şifre hatalı.");
+    } catch (e) {
+      setHata(e instanceof SifreHatasi ? "Şifre hatalı." : "Veri dosyası indirilemedi, bağlantınızı kontrol edip tekrar deneyin.");
     }
     setBekle(false);
   };
@@ -53,7 +53,7 @@ export default function Giris({ children }: { children: React.ReactNode }) {
         <form className="kart giris-kart" onSubmit={gonder}>
           <h1>🔒 Arsa Analiz</h1>
           <p className="soluk">Devam etmek için şifreyi girin.</p>
-          <input type="password" autoFocus required placeholder="Şifre" value={sifre} onChange={(e) => setSifre(e.target.value)} />
+          <input type="password" autoFocus required autoCapitalize="off" autoCorrect="off" spellCheck={false} placeholder="Şifre" value={sifre} onChange={(e) => setSifre(e.target.value)} />
           {hata && <div className="eksi">{hata}</div>}
           <button type="submit" disabled={bekle}>{bekle ? "Açılıyor…" : "Giriş yap"}</button>
         </form>
