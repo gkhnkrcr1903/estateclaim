@@ -19,12 +19,76 @@ function sapma(s: string) {
   return 0.75 + (h % 1000) / 2000; // 0.75–1.25
 }
 
-export function konutPiyasasi(ilKod: string, ilce?: string, mahalle?: string): KonutPiyasasi {
-  const m = ilMeta(ilKod);
+// Büyük şehirlerde ilçelerin genel piyasa konumu (A: en pahalı … D: en uygun). Kesin fiyat değil,
+// yaygın bilinen göreli sıralamaya dayanan tahmindir. Listede olmayan ilçeler "varsayilan" kademeyi alır.
+type Kademe = "A" | "B" | "C" | "D";
+const KADEME_CARPANI: Record<Kademe, number> = { A: 1.45, B: 1.15, C: 0.95, D: 0.75 };
+const ILCE_KADEMELERI: Record<string, { varsayilan: Kademe } & Partial<Record<Kademe, string[]>>> = {
+  "34": {
+    varsayilan: "C",
+    A: ["Beşiktaş", "Sarıyer", "Kadıköy", "Bakırköy", "Adalar", "Şişli", "Üsküdar"],
+    B: ["Beykoz", "Ataşehir", "Beyoğlu", "Fatih", "Maltepe", "Eyüpsultan", "Kartal", "Zeytinburnu", "Çekmeköy", "Ümraniye", "Kağıthane", "Başakşehir", "Büyükçekmece"],
+    D: ["Esenyurt", "Sultanbeyli", "Arnavutköy", "Esenler", "Sultangazi", "Bağcılar"],
+  },
+  "06": {
+    varsayilan: "D",
+    A: ["Çankaya"],
+    B: ["Yenimahalle", "Etimesgut", "Gölbaşı"],
+    C: ["Keçiören", "Sincan", "Pursaklar", "Kahramankazan", "Altındağ", "Mamak"],
+  },
+  "35": {
+    varsayilan: "D",
+    A: ["Çeşme", "Urla", "Karşıyaka", "Narlıdere", "Balçova", "Güzelbahçe"],
+    B: ["Bornova", "Konak", "Bayraklı", "Seferihisar", "Foça", "Gaziemir", "Çiğli"],
+    C: ["Buca", "Karabağlar", "Menderes", "Torbalı", "Dikili", "Selçuk"],
+  },
+  "07": {
+    varsayilan: "D",
+    A: ["Konyaaltı", "Muratpaşa", "Kaş", "Kemer"],
+    B: ["Alanya", "Döşemealtı", "Manavgat"],
+    C: ["Kepez", "Aksu", "Serik", "Finike", "Demre", "Kumluca", "Gazipaşa"],
+  },
+  "16": {
+    varsayilan: "D",
+    A: ["Nilüfer", "Mudanya"],
+    B: ["Osmangazi", "Gemlik"],
+    C: ["Yıldırım", "İnegöl", "Gürsu", "Kestel", "İznik", "Orhangazi"],
+  },
+  "48": {
+    varsayilan: "D",
+    A: ["Bodrum"],
+    B: ["Fethiye", "Marmaris", "Datça"],
+    C: ["Menteşe", "Dalaman", "Ortaca", "Köyceğiz", "Milas", "Ula"],
+  },
+};
+
+function ilceCarpani(ilKod: string, ilce: string): number {
+  const ince = 0.94 + (sapma(ilKod + ilce) - 0.75) * 0.24; // aynı kademe içinde ±%6 fark
+  const t = ILCE_KADEMELERI[ilKod];
+  if (t) {
+    const kademe = (["A", "B", "C", "D"] as Kademe[]).find((k) => t[k]?.includes(ilce)) ?? t.varsayilan;
+    return KADEME_CARPANI[kademe] * ince;
+  }
+  // Diğer illerde merkez ilçe daha değerli, kırsal ilçeler daha uygun.
+  if (ilMeta(ilKod).ilceler.includes("Merkez")) return (ilce === "Merkez" ? KADEME_CARPANI.B : KADEME_CARPANI.D) * ince;
+  return 0.9 * ince * (0.85 + (sapma(ilce + ilKod) - 0.75) * 0.5); // büyükşehir, kademe bilgisi yok
+}
+
+// İl ortalamasına göre ilçe/mahalle fiyat çarpanı (tahmini). Konut ve arsa değerlemesi aynı çarpanı kullanır.
+export function bolgeCarpani(ilKod: string, ilce?: string, mahalle?: string) {
   // Mahalle farkı ilçe farkının üstüne daha dar bir sapma (±%15) olarak eklenir.
   const mh = ilce && mahalle ? 0.85 + (sapma(ilce + mahalle) - 0.75) * 0.6 : 1;
-  const s = (ilce ? sapma(ilKod + ilce) : 1) * mh;
-  const k = (ilce ? sapma(ilce + ilKod + "kira") : 1) * mh;
+  const ic = ilce ? ilceCarpani(ilKod, ilce) : 1;
+  return {
+    satis: ic * mh,
+    // Kira farkları satış farklarından daha dar olur (pahalı semtte getiri daha düşük).
+    kira: Math.pow(ic, 0.75) * mh,
+  };
+}
+
+export function konutPiyasasi(ilKod: string, ilce?: string, mahalle?: string): KonutPiyasasi {
+  const m = ilMeta(ilKod);
+  const { satis: s, kira: k } = bolgeCarpani(ilKod, ilce, mahalle);
   const satisM2 = Math.round((m.satisM2 * s) / 100) * 100;
   const kiraM2 = Math.round(m.kiraM2 * k);
   const brutGetiri = Math.round(((kiraM2 * 12) / satisM2) * 1000) / 10;

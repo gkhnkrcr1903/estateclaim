@@ -90,3 +90,9 @@ select, input { max-width: 100%; }
   table { font-size: 12px; }
   th, td { padding: 6px 4px; }
 }
+.bilgi-izgara { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px 16px; }
+.bilgi-izgara > div { min-width: 0; }
+.bilgi-izgara b { font-size: 16px; }
+ol.sira { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 14px; }
+ol.sira li { display: flex; justify-content: space-between; gap: 8px; padding: 6px 8px; border-radius: 8px; background: color-mix(in srgb, var(--vurgu) 6%, transparent); }
+ol.sira li span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

@@ -46,7 +46,7 @@ export function degerlendir(a: Arsa): Degerlendirme {
   }
 
   // Konum ve imara göre tahmini piyasa değerine kıyasla fiyat
-  const beklenen = a.tahminiM2 ?? tahminiArsaM2(a.il, a.imar, a.merkezKm);
+  const beklenen = a.tahminiM2 ?? tahminiArsaM2(a.il, a.imar, a.merkezKm, a.ilce, a.mahalle);
   const oran = a.fiyatM2 / beklenen;
   if (oran < 0.85) n.push({ metin: `m² fiyatı tahmini piyasa değerinin %${Math.round((1 - oran) * 100)} altında`, etki: Math.min(15, Math.round((1 - oran) * 30)) });
   else if (oran > 1.2) n.push({ metin: `m² fiyatı tahmini piyasa değerinin %${Math.round((oran - 1) * 100)} üstünde`, etki: -Math.min(10, Math.round((oran - 1) * 15)) });
@@ -118,7 +118,7 @@ export interface ArsaKarari {
 // "Bu arsa ne kadar eder, bu fiyata ve gelecek için alınır mı?" sorusunun cevabı.
 export function arsaKarari(a: Arsa): ArsaKarari {
   const d = degerlendir(a);
-  const m2 = a.tahminiM2 ?? tahminiArsaM2(a.il, a.imar, a.merkezKm);
+  const m2 = a.tahminiM2 ?? tahminiArsaM2(a.il, a.imar, a.merkezKm, a.ilce, a.mahalle);
   const tahmini = Math.round((m2 * a.alan) / 1000) * 1000;
   const fiyat = a.fiyatM2 * a.alan;
   const fark = fiyat / tahmini - 1;

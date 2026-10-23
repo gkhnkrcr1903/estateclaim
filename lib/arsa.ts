@@ -1,4 +1,5 @@
 import { ilMeta, ortalamaArsaM2 } from "./iller-meta";
+import { bolgeCarpani } from "./konut";
 
 export type ImarFonksiyonu = "Konut" | "Ticaret" | "Konut+Ticaret" | "Sanayi" | "Turizm" | "Tarla (imarsız)" | "Koruma alanı";
 
@@ -70,11 +71,12 @@ export function mahalleler(ilKod: string, ilce: string): string[] {
 }
 
 // Konum ve imara göre tahmini piyasa m² değeri (rastgele sapma içermez).
-export function tahminiArsaM2(ilKod: string, imar: ImarFonksiyonu, merkezKm: number) {
+export function tahminiArsaM2(ilKod: string, imar: ImarFonksiyonu, merkezKm: number, ilce?: string, mahalle?: string) {
   const imarli = !["Tarla (imarsız)", "Koruma alanı"].includes(imar);
   // İmarsız arazinin değeri merkezden uzaklaştıkça imarlı arsaya göre çok daha hızlı düşer.
   const konum = imarli ? 1.3 - Math.min(merkezKm, 30) / 30 : Math.max(0.12, 1 - merkezKm / 20);
-  return Math.round((ortalamaArsaM2(ilKod) * (imarli ? 1 : 0.35) * konum) / 10) * 10;
+  const bolge = bolgeCarpani(ilKod, ilce, mahalle).satis;
+  return Math.round((ortalamaArsaM2(ilKod) * bolge * (imarli ? 1 : 0.35) * konum) / 10) * 10;
 }
 
 export function ornekArsalar(ilKod: string, ilce: string, adet = 8, mahalle?: string): Arsa[] {
@@ -90,7 +92,7 @@ export function ornekArsalar(ilKod: string, ilce: string, adet = 8, mahalle?: st
     const merkezKm = Math.round((0.5 + r() * 18) * 10) / 10;
     const t = r();
     const tapu: TapuDurumu = t < 0.7 ? "Özel mülk" : t < 0.85 ? "Hazine (Milli Emlak)" : t < 0.95 ? "Belediye" : "Vakıf";
-    const tahminiM2 = tahminiArsaM2(ilKod, imar, merkezKm);
+    const tahminiM2 = tahminiArsaM2(ilKod, imar, merkezKm, ilce, mah);
     // Özel mülkte satıcının istediği fiyat piyasadan sapabilir; kamuda muhammen bedel genelde biraz altındadır.
     const fiyatM2 = Math.round((tahminiM2 * (kamuMu(tapu) ? 0.85 + r() * 0.1 : 0.7 + r() * 0.6)) / 10) * 10;
     const projeler = PROJE_TURLERI.filter(() => r() < 0.15);

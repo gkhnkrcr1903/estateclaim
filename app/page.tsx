@@ -7,6 +7,7 @@ import { ornekArsalar, ilceKonumu, mahalleKonumu, mahalleler, kamuMu, IMAR_FONKS
 import { degerlendir, fiyatBandi, bolgeTavsiyeleri, arsaKarari, butceOnerileri } from "../lib/puan";
 import { konutPiyasasi } from "../lib/konut";
 import MahalleEvFiyatlari from "../components/MahalleEvFiyatlari";
+import { IlGenelBilgi, EnDegerliSemtler } from "../components/BolgeOzeti";
 
 const Harita = dynamic(() => import("../components/Harita"), { ssr: false, loading: () => <div className="harita" /> });
 
@@ -121,6 +122,9 @@ export default function Sayfa() {
             {arsalar.length} arsa · ortalama puan <b>{ortPuan}</b>
           </div>
         </section>
+
+        <IlGenelBilgi ilKod={ilKod} />
+        <EnDegerliSemtler ilKod={ilKod} ilce={ilce} ilAd={il.ad} />
 
         <section className="kart">
           <h2>💰 Bütçenize göre en iyi arsalar</h2>
