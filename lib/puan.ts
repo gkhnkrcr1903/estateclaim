@@ -1,5 +1,5 @@
-import type { Arsa } from "./arsa";
-import { ilMeta, ortalamaArsaM2, turkiyeOrtalamaM2 } from "./iller-meta";
+import { kamuMu, tahminiArsaM2, KAMU_EDINIM, type Arsa } from "./arsa";
+import { ilMeta, turkiyeOrtalamaM2 } from "./iller-meta";
 
 export interface Neden {
   metin: string;
@@ -45,11 +45,13 @@ export function degerlendir(a: Arsa): Degerlendirme {
     n.push({ metin: `Yakın projeler: ${a.projeler.join(", ")}`, etki: Math.min(15, a.projeler.length * 6) });
   }
 
-  // Bölge ortalamasına göre fiyat (imarsız arsalar daha düşük beklenir)
-  const beklenen = ortalamaArsaM2(a.il) * (["Tarla (imarsız)", "Koruma alanı"].includes(a.imar) ? 0.35 : 1);
+  // Konum ve imara göre tahmini piyasa değerine kıyasla fiyat
+  const beklenen = a.tahminiM2 ?? tahminiArsaM2(a.il, a.imar, a.merkezKm);
   const oran = a.fiyatM2 / beklenen;
-  if (oran < 0.85) n.push({ metin: `m² fiyatı bölge ortalamasının %${Math.round((1 - oran) * 100)} altında`, etki: Math.min(15, Math.round((1 - oran) * 30)) });
-  else if (oran > 1.2) n.push({ metin: `m² fiyatı bölge ortalamasının %${Math.round((oran - 1) * 100)} üstünde`, etki: -Math.min(10, Math.round((oran - 1) * 15)) });
+  if (oran < 0.85) n.push({ metin: `m² fiyatı tahmini piyasa değerinin %${Math.round((1 - oran) * 100)} altında`, etki: Math.min(15, Math.round((1 - oran) * 30)) });
+  else if (oran > 1.2) n.push({ metin: `m² fiyatı tahmini piyasa değerinin %${Math.round((oran - 1) * 100)} üstünde`, etki: -Math.min(10, Math.round((oran - 1) * 15)) });
+
+  if (a.tapu && kamuMu(a.tapu)) n.push({ metin: `${a.tapu} — doğrudan satın alınamaz, ihale gerekir`, etki: -5 });
 
   if (a.hisseli) n.push({ metin: "Hisseli tapu — satış/yapılaşma zorlaşabilir", etki: -10 });
   if (!a.yolCephesi) n.push({ metin: "Yola cephesi yok", etki: -6 });
@@ -66,6 +68,7 @@ export function degerlendir(a: Arsa): Degerlendirme {
   else if (puan >= 65) oneri = "Göstergeler güçlü: resmi imar durum belgesi ve tapu kaydı (takyidat) kontrolünden sonra değerlendirilebilir.";
   else if (puan >= 40) oneri = "Orta: fiyat pazarlığı ve bölgedeki proje gelişmeleri belirleyici olur.";
   else oneri = "Zayıf göstergeler: benzer bütçeyle bölgedeki daha yüksek puanlı arsalara bakın.";
+  if (a.tapu && kamuMu(a.tapu)) oneri = `${KAMU_EDINIM[a.tapu]} ${oneri}`;
 
   return { puan, etiket, nedenler: n, oneri };
 }
@@ -107,8 +110,51 @@ export function bolgeTavsiyeleri(ilKod: string, tumu: Arsa[]): string[] {
   if (projeli) t.push(`${projeli} arsanın yakınında planlanan altyapı projesi var: projelerin ihale ve yapım durumunu takip edin, değer artışı genellikle proje başladığında hızlanır.`);
   const imarsiz = tumu.filter((a) => a.imar === "Tarla (imarsız)").length;
   if (imarsiz) t.push("İmarsız arsalar için belediyenin askıya çıkan imar planı değişikliklerini düzenli kontrol edin; plan değişikliği en büyük değer sıçramasını yaratır.");
+  const kamu = tumu.filter((a) => a.tapu && kamuMu(a.tapu)).length;
+  if (kamu) t.push(`${kamu} arsa kamuya ait (Hazine/belediye/vakıf): bunlar ihaleyle satılır ve muhammen bedeller çoğu zaman piyasanın altındadır; Milli Emlak ve belediye ihale ilanlarını düzenli takip edin.`);
   if (tumu.some((a) => a.hisseli)) t.push("Hisseli tapulardan mümkünse kaçının ya da müstakil parselasyon imkânını araştırın.");
   if (m.satisM2 > turkiyeOrtalamaM2() * 1.1) t.push("Fiyat seviyesi yüksek bir bölge: düşük fiyat bandındaki arsalar çevre ilçelerde daha fazla getiri potansiyeli taşıyabilir.");
   t.push("Her alımdan önce resmi imar durum belgesi, güncel tapu kaydı (ipotek/haciz/şerh) ve yerinde inceleme şarttır.");
   return t;
+}
+
+export interface ArsaKarari {
+  tahmini: number; // toplam tahmini piyasa değeri
+  alt: number;
+  ust: number;
+  fark: number; // fiyat / tahmini - 1
+  fiyatKarari: "Fiyatı uygun" | "Pazarlıkla alınır" | "Pahalı";
+  hedefFiyat: number;
+  gelecek: "Gelecek için alınır" | "Orta vadede makul" | "Gelecek için zayıf";
+  ozet: string;
+}
+
+// "Bu arsa ne kadar eder, bu fiyata ve gelecek için alınır mı?" sorusunun cevabı.
+export function arsaKarari(a: Arsa): ArsaKarari {
+  const d = degerlendir(a);
+  const m2 = a.tahminiM2 ?? tahminiArsaM2(a.il, a.imar, a.merkezKm);
+  const tahmini = Math.round((m2 * a.alan) / 1000) * 1000;
+  const fiyat = a.fiyatM2 * a.alan;
+  const fark = fiyat / tahmini - 1;
+  const fiyatKarari = fark <= 0.03 ? "Fiyatı uygun" : fark <= 0.15 ? "Pazarlıkla alınır" : "Pahalı";
+  const gelecek = d.puan >= 60 ? "Gelecek için alınır" : d.puan >= 40 ? "Orta vadede makul" : "Gelecek için zayıf";
+
+  let ozet: string;
+  if (fiyatKarari === "Pahalı" && gelecek !== "Gelecek için alınır") ozet = "Önerilmez: hem fiyatı yüksek hem de değer artışı beklentisi sınırlı.";
+  else if (fiyatKarari === "Pahalı") ozet = "Potansiyeli iyi ama fiyatı yüksek: pazarlık hedefine inmezse beklemek daha mantıklı.";
+  else if (gelecek === "Gelecek için alınır") ozet = "Alınabilir: fiyatı makul ve değer artışı göstergeleri güçlü.";
+  else if (gelecek === "Orta vadede makul") ozet = "Makul: fiyat uygun, ancak değer artışı orta düzeyde; uzun vadeli düşünün.";
+  else ozet = "Ucuz olsa da gelecek beklentisi zayıf; yalnızca kullanım amaçlıysa değerlendirin.";
+  if (a.tapu && kamuMu(a.tapu)) ozet = `Kamuya ait: ihaleyle satılır. ${ozet}`;
+
+  return {
+    tahmini,
+    alt: Math.round((tahmini * 0.85) / 1000) * 1000,
+    ust: Math.round((tahmini * 1.15) / 1000) * 1000,
+    fark,
+    fiyatKarari,
+    hedefFiyat: Math.min(fiyat, Math.round((tahmini * 0.95) / 1000) * 1000),
+    gelecek,
+    ozet,
+  };
 }

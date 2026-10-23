@@ -7,9 +7,16 @@ import type { Arsa } from "../lib/arsa";
 function Odakla({ arsalar }: { arsalar: Arsa[] }) {
   const map = useMap();
   useEffect(() => {
+    // Kapsayıcının boyutu sayfa düzeni oturduktan sonra değişebilir; haritayı yeniden ölçtür.
+    map.invalidateSize();
     if (!arsalar.length) return;
     map.fitBounds(arsalar.map((a) => [a.lat, a.lng] as [number, number]), { padding: [30, 30], maxZoom: 13 });
   }, [arsalar, map]);
+  useEffect(() => {
+    const g = new ResizeObserver(() => map.invalidateSize());
+    g.observe(map.getContainer());
+    return () => g.disconnect();
+  }, [map]);
   return null;
 }
 

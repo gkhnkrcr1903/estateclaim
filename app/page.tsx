@@ -3,9 +3,10 @@
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import { iller as ilListesi } from "../lib/iller-meta";
-import { ornekArsalar, ilceKonumu, IMAR_FONKSIYONLARI, PROJE_TURLERI, type Arsa, type ImarFonksiyonu } from "../lib/arsa";
-import { degerlendir, fiyatBandi, enIyiOneriler, bolgeTavsiyeleri } from "../lib/puan";
+import { ornekArsalar, ilceKonumu, mahalleKonumu, mahalleler, kamuMu, IMAR_FONKSIYONLARI, PROJE_TURLERI, TAPU_DURUMLARI, type Arsa, type ImarFonksiyonu, type TapuDurumu } from "../lib/arsa";
+import { degerlendir, fiyatBandi, enIyiOneriler, bolgeTavsiyeleri, arsaKarari } from "../lib/puan";
 import { konutPiyasasi } from "../lib/konut";
+import MahalleEvFiyatlari from "../components/MahalleEvFiyatlari";
 
 const Harita = dynamic(() => import("../components/Harita"), { ssr: false, loading: () => <div className="harita" /> });
 
@@ -20,6 +21,8 @@ export default function Sayfa() {
   const iller = ilListesi();
   const [ilKod, setIlKod] = useState("34");
   const [ilce, setIlce] = useState("");
+  const [mahalle, setMahalle] = useState("");
+  const [tapuFiltre, setTapuFiltre] = useState<"" | "kamu" | "ozel">("");
   const [manuel, setManuel] = useState<Arsa[]>([]);
   const [seciliId, setSeciliId] = useState<string>();
 
@@ -38,46 +41,69 @@ export default function Sayfa() {
   const il = iller.find((i) => i.kod === ilKod)!;
 
   const arsalar = useMemo(() => {
-    const ornek = ilce ? ornekArsalar(ilKod, ilce, 9) : il.ilceler.flatMap((x) => ornekArsalar(ilKod, x, 3));
-    const kendi = manuel.filter((a) => a.il === ilKod && (!ilce || a.ilce === ilce));
-    return [...kendi, ...ornek];
-  }, [ilKod, ilce, il, manuel]);
+    const ornek = mahalle
+      ? ornekArsalar(ilKod, ilce, 9, mahalle)
+      : ilce ? ornekArsalar(ilKod, ilce, 9) : il.ilceler.flatMap((x) => ornekArsalar(ilKod, x, 3));
+    const kendi = manuel.filter((a) => a.il === ilKod && (!ilce || a.ilce === ilce) && (!mahalle || a.mahalle === mahalle));
+    return [...kendi, ...ornek].filter((a) => {
+      if (!tapuFiltre) return true;
+      const kamu = !!a.tapu && kamuMu(a.tapu);
+      return tapuFiltre === "kamu" ? kamu : !kamu;
+    });
+  }, [ilKod, ilce, mahalle, tapuFiltre, il, manuel]);
 
   const degerler = useMemo(() => Object.fromEntries(arsalar.map((a) => [a.id, degerlendir(a)])), [arsalar]);
   const puanlar = useMemo(() => Object.fromEntries(arsalar.map((a) => [a.id, degerler[a.id].puan])), [arsalar, degerler]);
   const sirali = useMemo(() => [...arsalar].sort((p, q) => puanlar[q.id] - puanlar[p.id]), [arsalar, puanlar]);
   const oneriler = useMemo(() => enIyiOneriler(arsalar), [arsalar]);
   const tavsiyeler = useMemo(() => bolgeTavsiyeleri(ilKod, arsalar), [ilKod, arsalar]);
-  const konut = useMemo(() => konutPiyasasi(ilKod, ilce || undefined), [ilKod, ilce]);
+  const konut = useMemo(() => konutPiyasasi(ilKod, ilce || undefined, mahalle || undefined), [ilKod, ilce, mahalle]);
 
   const secili = arsalar.find((a) => a.id === seciliId);
   const seciliD = secili && degerler[secili.id];
+  const karar = secili && arsaKarari(secili);
+  const yer = [mahalle, ilce, il.ad].filter(Boolean).join(", ");
   const ortPuan = arsalar.length ? Math.round(arsalar.reduce((t, a) => t + puanlar[a.id], 0) / arsalar.length) : 0;
 
   return (
     <>
       <header>
         <h1>Arsa Analiz</h1>
-        <p>İl veya ilçe seçin: arsaların imar durumu, değerlenme puanı, fiyat bandı ve konut piyasası.</p>
+        <p>İl, ilçe ve mahalle seçin: arsaların imar ve tapu durumu, tahmini değeri, değerlenme puanı ve konut fiyatları.</p>
       </header>
       <main>
         <div className="uyari">
-          ⚠️ Nüfus verileri TÜİK, İstanbul/Ankara/İzmir konut fiyatları TCMB kaynaklıdır; <b>arsa ilanları örnek (demo) veridir</b>, diğer fiyatlar tahminidir. Puanlama kural tabanlıdır ve <b>yatırım tavsiyesi değildir</b>. Alım
+          ⚠️ Nüfus verileri TÜİK, İstanbul/Ankara/İzmir konut fiyatları TCMB kaynaklıdır; <b>arsalar ve tapu durumları örnek (demo) veridir</b>, diğer fiyatlar tahminidir. Puanlama kural tabanlıdır ve <b>yatırım tavsiyesi değildir</b>. Alım
           öncesinde belediyeden resmi imar durum belgesi, tapu müdürlüğünden güncel tapu kaydı alın ve lisanslı bir uzmana danışın.
         </div>
 
         <section className="kart secim">
           <label>
             İl
-            <select value={ilKod} onChange={(e) => { setIlKod(e.target.value); setIlce(""); setSeciliId(undefined); }}>
+            <select value={ilKod} onChange={(e) => { setIlKod(e.target.value); setIlce(""); setMahalle(""); setSeciliId(undefined); }}>
               {iller.map((i) => <option key={i.kod} value={i.kod}>{i.kod} - {i.ad}</option>)}
             </select>
           </label>
           <label>
             İlçe
-            <select value={ilce} onChange={(e) => { setIlce(e.target.value); setSeciliId(undefined); }}>
+            <select value={ilce} onChange={(e) => { setIlce(e.target.value); setMahalle(""); setSeciliId(undefined); }}>
               <option value="">Tüm ilçeler</option>
               {il.ilceler.map((x) => <option key={x}>{x}</option>)}
+            </select>
+          </label>
+          <label>
+            Mahalle
+            <select value={mahalle} disabled={!ilce} onChange={(e) => { setMahalle(e.target.value); setSeciliId(undefined); }}>
+              <option value="">{ilce ? "Tüm mahalleler" : "Önce ilçe seçin"}</option>
+              {ilce && mahalleler(ilKod, ilce).map((x) => <option key={x}>{x}</option>)}
+            </select>
+          </label>
+          <label>
+            Tapu durumu
+            <select value={tapuFiltre} onChange={(e) => { setTapuFiltre(e.target.value as typeof tapuFiltre); setSeciliId(undefined); }}>
+              <option value="">Tümü</option>
+              <option value="kamu">Kamuya ait (Hazine/belediye/vakıf)</option>
+              <option value="ozel">Özel mülk</option>
             </select>
           </label>
           <div className="soluk">
@@ -92,8 +118,8 @@ export default function Sayfa() {
               <div key={bant} className="oneri" onClick={() => setSeciliId(arsa.id)}>
                 <span className={`rozet f-${bant}`}>{bant} fiyat</span>{" "}
                 <span className={`rozet ${puanSinifi(d.puan)}`}>{d.puan} puan</span>
-                <h3 style={{ margin: "8px 0 4px", fontSize: 15 }}>{arsa.ilce} · Ada {arsa.ada}/{arsa.parsel}</h3>
-                <div className="soluk">{arsa.imar} · {arsa.alan.toLocaleString("tr-TR")} m² · {TL(arsa.fiyatM2)}/m²</div>
+                <h3 style={{ margin: "8px 0 4px", fontSize: 15 }}>{arsa.mahalle ?? arsa.ilce} · Ada {arsa.ada}/{arsa.parsel}</h3>
+                <div className="soluk">{arsa.imar} · {arsa.tapu ?? "Tapu bilinmiyor"} · {arsa.alan.toLocaleString("tr-TR")} m² · {TL(arsa.fiyatM2)}/m²</div>
                 <div style={{ fontWeight: 600, margin: "4px 0" }}>Toplam ≈ {TL(arsa.alan * arsa.fiyatM2)}</div>
                 <div style={{ fontSize: 13 }}>{d.oneri}</div>
               </div>
@@ -102,7 +128,7 @@ export default function Sayfa() {
         </section>
 
         <section className="kart">
-          <h2>🏠 Konut piyasası — {ilce || il.ad}</h2>
+          <h2>🏠 Konut piyasası — {yer}</h2>
           <div className="oneriler">
             <div><div className="soluk">Satılık konut</div><b>{TL(konut.satisM2)} / m²</b></div>
             <div><div className="soluk">Kira</div><b>{TL(konut.kiraM2)} / m² / ay</b></div>
@@ -118,6 +144,8 @@ export default function Sayfa() {
           </p>
         </section>
 
+        <MahalleEvFiyatlari ilKod={ilKod} ilce={ilce} mahalle={mahalle} yer={yer} />
+
         <div className="izgara">
           <section className="kart">
             <Harita arsalar={arsalar} puanlar={puanlar} seciliId={seciliId} sec={setSeciliId} />
@@ -125,13 +153,32 @@ export default function Sayfa() {
           <section className="kart">
             {secili && seciliD ? (
               <>
-                <h2>{secili.ilce} · Ada {secili.ada} / Parsel {secili.parsel} {secili.manuel && <span className="rozet f-Orta">Sizin kaydınız</span>}</h2>
+                <h2>{secili.mahalle ? `${secili.mahalle}, ` : ""}{secili.ilce} · Ada {secili.ada} / Parsel {secili.parsel} {secili.manuel && <span className="rozet f-Orta">Sizin kaydınız</span>}</h2>
+                {karar && (
+                  <div className="karar">
+                    <div className="soluk">Bu arsa ne kadar eder?</div>
+                    <div style={{ fontSize: 22, fontWeight: 700 }}>{TL(karar.tahmini)}</div>
+                    <div className="soluk">Tahmini aralık {TL(karar.alt)} – {TL(karar.ust)}</div>
+                    <div style={{ margin: "8px 0", display: "flex", gap: 6, flexWrap: "wrap" }}>
+                      <span className={`rozet ${karar.fiyatKarari === "Fiyatı uygun" ? "p-yuksek" : karar.fiyatKarari === "Pahalı" ? "p-dusuk" : "p-orta"}`}>
+                        Bu fiyata: {karar.fiyatKarari} ({karar.fark > 0 ? "%" + Math.round(karar.fark * 100) + " pahalı" : "%" + Math.round(-karar.fark * 100) + " ucuz"})
+                      </span>
+                      <span className={`rozet ${karar.gelecek === "Gelecek için alınır" ? "p-yuksek" : karar.gelecek === "Gelecek için zayıf" ? "p-dusuk" : "p-orta"}`}>{karar.gelecek}</span>
+                    </div>
+                    <div style={{ fontSize: 14 }}><b>{karar.ozet}</b> {karar.fark > 0 && <>Pazarlık hedefi: <b>{TL(karar.hedefFiyat)}</b>.</>}</div>
+                  </div>
+                )}
                 <span className={`rozet ${puanSinifi(seciliD.puan)}`}>{seciliD.puan}/100 · {seciliD.etiket}</span>{" "}
                 <span className={`rozet f-${fiyatBandi(secili, arsalar)}`}>{fiyatBandi(secili, arsalar)} fiyat</span>
                 <p className="soluk">
                   {secili.alan.toLocaleString("tr-TR")} m² · {secili.imar} · Emsal {secili.emsal} · {TL(secili.fiyatM2)}/m² · Toplam {TL(secili.alan * secili.fiyatM2)}
                   {secili.hisseli && " · Hisseli"}{!secili.yolCephesi && " · Yola cephesi yok"}
                 </p>
+                <div className="oneriler" style={{ marginBottom: 8 }}>
+                  <div><div className="soluk">Tapu durumu</div><b>{secili.tapu ?? "Belirtilmedi"}</b></div>
+                  <div><div className="soluk">{secili.tapu && kamuMu(secili.tapu) ? "Tahmini muhammen bedel" : "İstenen fiyat"}</div><b>{TL(secili.alan * secili.fiyatM2)}</b></div>
+                  {secili.tahminiM2 && <div><div className="soluk">Tahmini piyasa değeri</div><b>{TL(secili.alan * secili.tahminiM2)}</b><div className="soluk">{TL(secili.tahminiM2)}/m²</div></div>}
+                </div>
                 <ul className="nedenler">
                   {seciliD.nedenler.map((n, i) => (
                     <li key={i}><span>{n.metin}</span><span className={n.etki >= 0 ? "arti" : "eksi"}>{n.etki >= 0 ? "+" : ""}{n.etki}</span></li>
@@ -148,13 +195,14 @@ export default function Sayfa() {
                 <h2>Arsalar (puana göre)</h2>
                 <div className="tablo-kap">
                   <table>
-                    <thead><tr><th>İlçe</th><th>Ada/Parsel</th><th>İmar</th><th>m²</th><th>Fiyat</th><th>Puan</th></tr></thead>
+                    <thead><tr><th>{ilce ? "Mahalle" : "İlçe"}</th><th>Ada/Parsel</th><th>İmar</th><th>Tapu</th><th>m²</th><th>Fiyat</th><th>Puan</th></tr></thead>
                     <tbody>
                       {sirali.map((a) => (
                         <tr key={a.id} onClick={() => setSeciliId(a.id)}>
-                          <td>{a.ilce}</td>
+                          <td>{ilce ? a.mahalle ?? "—" : a.ilce}</td>
                           <td>{a.ada}/{a.parsel}</td>
                           <td>{a.imar}</td>
+                          <td>{a.tapu && kamuMu(a.tapu) ? <span className="rozet r-Orta">{a.tapu.split(" ")[0]}</span> : a.tapu ?? "—"}</td>
                           <td>{a.alan.toLocaleString("tr-TR")}</td>
                           <td><span className={`rozet f-${fiyatBandi(a, arsalar)}`}>{fiyatBandi(a, arsalar)}</span></td>
                           <td><span className={`rozet ${puanSinifi(puanlar[a.id])}`}>{puanlar[a.id]}</span></td>
@@ -169,28 +217,32 @@ export default function Sayfa() {
         </div>
 
         <section className="kart">
-          <h2>🔭 İlerisi için tavsiyeler — {ilce ? `${ilce}, ` : ""}{il.ad}</h2>
+          <h2>🔭 İlerisi için tavsiyeler — {yer}</h2>
           <ol className="tavsiye">{tavsiyeler.map((t, i) => <li key={i}>{t}</li>)}</ol>
         </section>
 
-        <ArsaEkle ilKod={ilKod} ilceler={il.ilceler} varsayilanIlce={ilce} ekle={(a) => { manuelKaydet([...manuel, a]); setSeciliId(a.id); }} />
+        <ArsaEkle ilKod={ilKod} ilceler={il.ilceler} varsayilanIlce={ilce} varsayilanMahalle={mahalle} ekle={(a) => { manuelKaydet([...manuel, a]); setSeciliId(a.id); }} />
       </main>
     </>
   );
 }
 
-function ArsaEkle({ ilKod, ilceler, varsayilanIlce, ekle }: { ilKod: string; ilceler: string[]; varsayilanIlce: string; ekle: (a: Arsa) => void }) {
-  const bos = { ilce: "", ada: "", parsel: "", alan: "", imar: "Konut" as ImarFonksiyonu, emsal: "1", fiyatM2: "", merkezKm: "5", yolCephesi: true, hisseli: false, projeler: [] as string[] };
+function ArsaEkle({ ilKod, ilceler, varsayilanIlce, varsayilanMahalle, ekle }: { ilKod: string; ilceler: string[]; varsayilanIlce: string; varsayilanMahalle: string; ekle: (a: Arsa) => void }) {
+  const bos = { ilce: "", mahalle: "", tapu: "Özel mülk" as TapuDurumu, ada: "", parsel: "", alan: "", imar: "Konut" as ImarFonksiyonu, emsal: "1", fiyatM2: "", merkezKm: "5", yolCephesi: true, hisseli: false, projeler: [] as string[] };
   const [f, setF] = useState(bos);
   const ilce = f.ilce || varsayilanIlce || ilceler[0];
+  const mahListe = mahalleler(ilKod, ilce);
+  const mahalle = f.mahalle || (mahListe.includes(varsayilanMahalle) ? varsayilanMahalle : "");
 
   const gonder = (e: React.FormEvent) => {
     e.preventDefault();
-    const k = ilceKonumu(ilKod, ilce);
+    const k = mahalle ? mahalleKonumu(ilKod, ilce, mahalle) : ilceKonumu(ilKod, ilce);
     ekle({
       id: `m-${Date.now()}`,
       il: ilKod,
       ilce,
+      mahalle: mahalle || undefined,
+      tapu: f.tapu,
       ada: f.ada,
       parsel: f.parsel,
       alan: Number(f.alan),
@@ -210,21 +262,23 @@ function ArsaEkle({ ilKod, ilceler, varsayilanIlce, ekle }: { ilKod: string; ilc
 
   return (
     <section className="kart">
-      <h2>➕ Kendi arsanızı ekleyin</h2>
+      <h2>🔎 Bu arsa ne kadar eder? Kendi arsanızı girin</h2>
       <p className="soluk">Ada/parseli <a href="https://parselsorgu.tkgm.gov.tr" target="_blank" rel="noreferrer">TKGM Parsel Sorgu</a>'dan, imar ve emsal bilgisini belediyenin e-İmar sisteminden alabilirsiniz. Kayıtlar yalnızca bu tarayıcıda saklanır.</p>
       <form className="form" onSubmit={gonder}>
-        <label>İlçe<select value={ilce} onChange={(e) => setF({ ...f, ilce: e.target.value })}>{ilceler.map((x) => <option key={x}>{x}</option>)}</select></label>
+        <label>İlçe<select value={ilce} onChange={(e) => setF({ ...f, ilce: e.target.value, mahalle: "" })}>{ilceler.map((x) => <option key={x}>{x}</option>)}</select></label>
+        <label>Mahalle<select value={mahalle} onChange={(e) => setF({ ...f, mahalle: e.target.value })}><option value="">Belirtilmedi</option>{mahListe.map((x) => <option key={x}>{x}</option>)}</select></label>
+        <label>Tapu durumu<select value={f.tapu} onChange={(e) => setF({ ...f, tapu: e.target.value as TapuDurumu })}>{TAPU_DURUMLARI.map((x) => <option key={x}>{x}</option>)}</select></label>
         <label>Ada<input required value={f.ada} onChange={(e) => setF({ ...f, ada: e.target.value })} /></label>
         <label>Parsel<input required value={f.parsel} onChange={(e) => setF({ ...f, parsel: e.target.value })} /></label>
         <label>Alan (m²)<input required type="number" min={1} value={f.alan} onChange={(e) => setF({ ...f, alan: e.target.value })} /></label>
         <label>İmar<select value={f.imar} onChange={(e) => setF({ ...f, imar: e.target.value as ImarFonksiyonu })}>{IMAR_FONKSIYONLARI.map((x) => <option key={x}>{x}</option>)}</select></label>
         <label>Emsal (KAKS)<input required type="number" step="0.05" min={0} value={f.emsal} onChange={(e) => setF({ ...f, emsal: e.target.value })} /></label>
-        <label>m² fiyatı (₺)<input required type="number" min={1} value={f.fiyatM2} onChange={(e) => setF({ ...f, fiyatM2: e.target.value })} /></label>
+        <label>İstenen m² fiyatı (₺)<input required type="number" min={1} value={f.fiyatM2} onChange={(e) => setF({ ...f, fiyatM2: e.target.value })} /></label>
         <label>Merkeze uzaklık (km)<input required type="number" step="0.1" min={0} value={f.merkezKm} onChange={(e) => setF({ ...f, merkezKm: e.target.value })} /></label>
         <label style={{ display: "flex", gap: 6, alignItems: "center" }}><input type="checkbox" checked={f.yolCephesi} onChange={(e) => setF({ ...f, yolCephesi: e.target.checked })} /> Yola cephe</label>
         <label style={{ display: "flex", gap: 6, alignItems: "center" }}><input type="checkbox" checked={f.hisseli} onChange={(e) => setF({ ...f, hisseli: e.target.checked })} /> Hisseli</label>
         <label>Yakın projeler<select multiple value={f.projeler} onChange={(e) => setF({ ...f, projeler: Array.from(e.target.selectedOptions, (o) => o.value) })} style={{ height: 80 }}>{PROJE_TURLERI.map((x) => <option key={x}>{x}</option>)}</select></label>
-        <button type="submit">Ekle ve puanla</button>
+        <button type="submit">Değerle ve karar ver</button>
       </form>
     </section>
   );

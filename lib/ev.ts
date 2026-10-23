@@ -3,6 +3,7 @@ import { konutPiyasasi } from "./konut";
 export interface EvBilgisi {
   il: string;
   ilce: string;
+  mahalle?: string;
   netM2: number;
   odaSayisi: string;
   binaYasi: number;
@@ -41,7 +42,7 @@ export interface EvSonuc {
 
 // Bölge ortalama m² fiyatından başlayıp her özellik için yüzde düzeltme uygular.
 export function evDegerle(e: EvBilgisi): EvSonuc {
-  const p = konutPiyasasi(e.il, e.ilce || undefined);
+  const p = konutPiyasasi(e.il, e.ilce || undefined, e.mahalle || undefined);
   const et: Etken[] = [];
   const ekle = (metin: string, oran: number) => oran !== 0 && et.push({ metin, oran });
 

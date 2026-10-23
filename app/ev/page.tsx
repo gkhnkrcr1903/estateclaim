@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { iller as ilListesi } from "../../lib/iller-meta";
+import { mahalleler } from "../../lib/arsa";
 import { evDegerle, type EvBilgisi } from "../../lib/ev";
 
 const TL = (n: number) => n.toLocaleString("tr-TR", { maximumFractionDigits: 0 }) + " ₺";
@@ -35,8 +36,9 @@ export default function EvSayfasi() {
         <section className="kart">
           <h2>🏠 Evin özellikleri</h2>
           <div className="form">
-            <label>İl<select value={e.il} onChange={(x) => setE({ ...e, il: x.target.value, ilce: iller.find((i) => i.kod === x.target.value)!.ilceler[0] })}>{iller.map((i) => <option key={i.kod} value={i.kod}>{i.ad}</option>)}</select></label>
-            <label>İlçe<select value={e.ilce} onChange={(x) => g("ilce", x.target.value)}>{il.ilceler.map((x) => <option key={x}>{x}</option>)}</select></label>
+            <label>İl<select value={e.il} onChange={(x) => setE({ ...e, il: x.target.value, ilce: iller.find((i) => i.kod === x.target.value)!.ilceler[0], mahalle: "" })}>{iller.map((i) => <option key={i.kod} value={i.kod}>{i.ad}</option>)}</select></label>
+            <label>İlçe<select value={e.ilce} onChange={(x) => setE({ ...e, ilce: x.target.value, mahalle: "" })}>{il.ilceler.map((x) => <option key={x}>{x}</option>)}</select></label>
+            <label>Mahalle<select value={e.mahalle ?? ""} onChange={(x) => g("mahalle", x.target.value)}><option value="">Belirtilmedi (ilçe ortalaması)</option>{mahalleler(e.il, e.ilce).map((x) => <option key={x}>{x}</option>)}</select></label>
             <label>Net m²<input type="number" min={1} value={e.netM2} onChange={(x) => g("netM2", Number(x.target.value))} /></label>
             <label>Oda sayısı<select value={e.odaSayisi} onChange={(x) => g("odaSayisi", x.target.value)}>{["1+0", "1+1", "2+1", "3+1", "4+1", "5+1 ve üzeri"].map((x) => <option key={x}>{x}</option>)}</select></label>
             <label>Bina yaşı<input type="number" min={0} value={e.binaYasi} onChange={(x) => g("binaYasi", Number(x.target.value))} /></label>

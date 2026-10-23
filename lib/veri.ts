@@ -4,6 +4,7 @@ export interface IlVerisi {
   kod: string;
   ad: string;
   ilceler: string[];
+  mahalleler: Record<string, string[]>; // ilçe → mahalle listesi
   lat: number;
   lng: number;
   nufus: number;
@@ -36,6 +37,7 @@ const ANAHTAR_SAKLAMA = "arsa-analiz:anahtar";
 const b64 = (s: string) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
 
 interface Sifreli {
+  v: number;
   iter: number;
   salt: string;
   iv: string;
@@ -61,7 +63,11 @@ async function anahtarTuret(sifre: string, s: Sifreli) {
 
 async function coz(s: Sifreli, anahtar: CryptoKey): Promise<Veri> {
   const acik = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(s.iv) }, anahtar, b64(s.data));
-  return JSON.parse(new TextDecoder().decode(acik));
+  // v2: içerik şifrelemeden önce gzip ile sıkıştırılmıştır.
+  const metin = s.v >= 2
+    ? await new Response(new Blob([acik]).stream().pipeThrough(new DecompressionStream("gzip"))).text()
+    : new TextDecoder().decode(acik);
+  return JSON.parse(metin);
 }
 
 export class SifreHatasi extends Error {}
