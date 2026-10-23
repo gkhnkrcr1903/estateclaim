@@ -1,0 +1,7713 @@
+{
+ "kaynak": "TÜİK ADNKS 2025 (nufusune.com derlemesi)",
+ "cekilme": "2026-10-23",
+ "iller": {
+  "10": {
+   "ortancaYas": 42.7,
+   "yas0_14": 15.2,
+   "yas15_64": 66.6,
+   "yas65": 18.2,
+   "hicEvlenmemis": 22,
+   "evli": 63.1,
+   "bosanmis": 6.5,
+   "esiOlmus": 8.5,
+   "haneBuyuklugu": 2.58,
+   "haneSayisi": 479651,
+   "tekKisilik": 25.7,
+   "cekirdekAile": 61.6,
+   "genisAile": 10.5,
+   "cocukBagimlilik": 22.9,
+   "yasliBagimlilik": 27.3,
+   "dogurganlik": 1.25,
+   "yerliOrani": 67.6,
+   "yogunluk": 91,
+   "yabanci": 12177,
+   "ilceler": {
+    "Altıeylül": {
+     "nufus": 188858,
+     "erkek": 95949,
+     "kadin": 92909,
+     "pay": 14.7
+    },
+    "Ayvalık": {
+     "nufus": 75815,
+     "erkek": 36786,
+     "kadin": 39029,
+     "pay": 5.9
+    },
+    "Balya": {
+     "nufus": 12296,
+     "erkek": 6189,
+     "kadin": 6107,
+     "pay": 0.96
+    },
+    "Bandırma": {
+     "nufus": 169476,
+     "erkek": 85389,
+     "kadin": 84087,
+     "pay": 13.19
+    },
+    "Bigadiç": {
+     "nufus": 49275,
+     "erkek": 24793,
+     "kadin": 24482,
+     "pay": 3.84
+    },
+    "Burhaniye": {
+     "nufus": 68370,
+     "erkek": 34308,
+     "kadin": 34062,
+     "pay": 5.32
+    },
+    "Dursunbey": {
+     "nufus": 32168,
+     "erkek": 15885,
+     "kadin": 16283,
+     "pay": 2.5
+    },
+    "Edremit": {
+     "nufus": 176251,
+     "erkek": 85582,
+     "kadin": 90669,
+     "pay": 13.72
+    },
+    "Erdek": {
+     "nufus": 32080,
+     "erkek": 16095,
+     "kadin": 15985,
+     "pay": 2.5
+    },
+    "Gömeç": {
+     "nufus": 19020,
+     "erkek": 9482,
+     "kadin": 9538,
+     "pay": 1.48
+    },
+    "Gönen": {
+     "nufus": 75730,
+     "erkek": 38034,
+     "kadin": 37696,
+     "pay": 5.9
+    },
+    "Havran": {
+     "nufus": 28152,
+     "erkek": 14001,
+     "kadin": 14151,
+     "pay": 2.19
+    },
+    "İvrindi": {
+     "nufus": 31295,
+     "erkek": 15668,
+     "kadin": 15627,
+     "pay": 2.44
+    },
+    "Karesi": {
+     "nufus": 189444,
+     "erkek": 91626,
+     "kadin": 97818,
+     "pay": 14.75
+    },
+    "Kepsut": {
+     "nufus": 21386,
+     "erkek": 11897,
+     "kadin": 9489,
+     "pay": 1.66
+    },
+    "Manyas": {
+     "nufus": 17650,
+     "erkek": 8739,
+     "kadin": 8911,
+     "pay": 1.37
+    },
+    "Marmara": {
+     "nufus": 11827,
+     "erkek": 6260,
+     "kadin": 5567,
+     "pay": 0.92
+    },
+    "Savaştepe": {
+     "nufus": 16266,
+     "erkek": 8171,
+     "kadin": 8095,
+     "pay": 1.27
+    },
+    "Sındırgı": {
+     "nufus": 31482,
+     "erkek": 15308,
+     "kadin": 16174,
+     "pay": 2.45
+    },
+    "Susurluk": {
+     "nufus": 37676,
+     "erkek": 18709,
+     "kadin": 18967,
+     "pay": 2.93
+    }
+   }
+  },
+  "11": {
+   "ortancaYas": 37.6,
+   "yas0_14": 17.5,
+   "yas15_64": 68.9,
+   "yas65": 13.6,
+   "hicEvlenmemis": 25.7,
+   "evli": 62.6,
+   "bosanmis": 4.6,
+   "esiOlmus": 7,
+   "haneBuyuklugu": 2.8,
+   "haneSayisi": 77360,
+   "tekKisilik": 22.4,
+   "cekirdekAile": 63.2,
+   "genisAile": 11.9,
+   "cocukBagimlilik": 25.3,
+   "yasliBagimlilik": 19.7,
+   "dogurganlik": 1.27,
+   "yerliOrani": 58,
+   "yogunluk": 54,
+   "yabanci": 3285,
+   "ilceler": {
+    "Bozüyük": {
+     "nufus": 81332,
+     "erkek": 40965,
+     "kadin": 40367,
+     "pay": 35.52
+    },
+    "Gölpazarı": {
+     "nufus": 10049,
+     "erkek": 5668,
+     "kadin": 4381,
+     "pay": 4.39
+    },
+    "İnhisar": {
+     "nufus": 2079,
+     "erkek": 1051,
+     "kadin": 1028,
+     "pay": 0.91
+    },
+    "Merkez": {
+     "nufus": 82863,
+     "erkek": 41839,
+     "kadin": 41024,
+     "pay": 36.19
+    },
+    "Osmaneli": {
+     "nufus": 22025,
+     "erkek": 11075,
+     "kadin": 10950,
+     "pay": 9.62
+    },
+    "Pazaryeri": {
+     "nufus": 9671,
+     "erkek": 4807,
+     "kadin": 4864,
+     "pay": 4.22
+    },
+    "Söğüt": {
+     "nufus": 18284,
+     "erkek": 9117,
+     "kadin": 9167,
+     "pay": 7.98
+    },
+    "Yenipazar": {
+     "nufus": 2692,
+     "erkek": 1311,
+     "kadin": 1381,
+     "pay": 1.18
+    }
+   }
+  },
+  "12": {
+   "ortancaYas": 31.1,
+   "yas0_14": 23.8,
+   "yas15_64": 67.4,
+   "yas65": 8.8,
+   "hicEvlenmemis": 34.4,
+   "evli": 59.1,
+   "bosanmis": 1.7,
+   "esiOlmus": 4.8,
+   "haneBuyuklugu": 3.29,
+   "haneSayisi": 83087,
+   "tekKisilik": 19.3,
+   "cekirdekAile": 66.5,
+   "genisAile": 11.1,
+   "cocukBagimlilik": 35.4,
+   "yasliBagimlilik": 13,
+   "dogurganlik": 1.52,
+   "yerliOrani": 88.2,
+   "yogunluk": 35,
+   "yabanci": 641,
+   "ilceler": {
+    "Adaklı": {
+     "nufus": 7491,
+     "erkek": 3901,
+     "kadin": 3590,
+     "pay": 2.65
+    },
+    "Genç": {
+     "nufus": 31654,
+     "erkek": 16421,
+     "kadin": 15233,
+     "pay": 11.21
+    },
+    "Karlıova": {
+     "nufus": 25265,
+     "erkek": 12933,
+     "kadin": 12332,
+     "pay": 8.95
+    },
+    "Kiğı": {
+     "nufus": 4487,
+     "erkek": 2541,
+     "kadin": 1946,
+     "pay": 1.59
+    },
+    "Merkez": {
+     "nufus": 175438,
+     "erkek": 86604,
+     "kadin": 88834,
+     "pay": 62.15
+    },
+    "Solhan": {
+     "nufus": 33233,
+     "erkek": 16712,
+     "kadin": 16521,
+     "pay": 11.77
+    },
+    "Yayladere": {
+     "nufus": 1889,
+     "erkek": 1137,
+     "kadin": 752,
+     "pay": 0.67
+    },
+    "Yedisu": {
+     "nufus": 2842,
+     "erkek": 1582,
+     "kadin": 1260,
+     "pay": 1.01
+    }
+   }
+  },
+  "13": {
+   "ortancaYas": 26.4,
+   "yas0_14": 28.9,
+   "yas15_64": 64.7,
+   "yas65": 6.3,
+   "hicEvlenmemis": 35.9,
+   "evli": 58.9,
+   "bosanmis": 1.2,
+   "esiOlmus": 4,
+   "haneBuyuklugu": 3.94,
+   "haneSayisi": 88274,
+   "tekKisilik": 15.5,
+   "cekirdekAile": 67.4,
+   "genisAile": 14.7,
+   "cocukBagimlilik": 44.7,
+   "yasliBagimlilik": 9.8,
+   "dogurganlik": 2.05,
+   "yerliOrani": 84.7,
+   "yogunluk": 55,
+   "yabanci": 491,
+   "ilceler": {
+    "Adilcevaz": {
+     "nufus": 28769,
+     "erkek": 14720,
+     "kadin": 14049,
+     "pay": 7.98
+    },
+    "Ahlat": {
+     "nufus": 45637,
+     "erkek": 24303,
+     "kadin": 21334,
+     "pay": 12.66
+    },
+    "Güroymak": {
+     "nufus": 49372,
+     "erkek": 25597,
+     "kadin": 23775,
+     "pay": 13.7
+    },
+    "Hizan": {
+     "nufus": 29948,
+     "erkek": 15246,
+     "kadin": 14702,
+     "pay": 8.31
+    },
+    "Merkez": {
+     "nufus": 74904,
+     "erkek": 38366,
+     "kadin": 36538,
+     "pay": 20.78
+    },
+    "Mutki": {
+     "nufus": 26748,
+     "erkek": 14105,
+     "kadin": 12643,
+     "pay": 7.42
+    },
+    "Tatvan": {
+     "nufus": 105045,
+     "erkek": 54264,
+     "kadin": 50781,
+     "pay": 29.14
+    }
+   }
+  },
+  "14": {
+   "ortancaYas": 38.8,
+   "yas0_14": 15.7,
+   "yas15_64": 68.6,
+   "yas65": 15.7,
+   "hicEvlenmemis": 26.9,
+   "evli": 61.4,
+   "bosanmis": 4.7,
+   "esiOlmus": 6.9,
+   "haneBuyuklugu": 2.77,
+   "haneSayisi": 109879,
+   "tekKisilik": 23.6,
+   "cekirdekAile": 59,
+   "genisAile": 14.3,
+   "cocukBagimlilik": 22.8,
+   "yasliBagimlilik": 22.9,
+   "dogurganlik": 1.22,
+   "yerliOrani": 67.9,
+   "yogunluk": 40,
+   "yabanci": 8078,
+   "ilceler": {
+    "Dörtdivan": {
+     "nufus": 6214,
+     "erkek": 3110,
+     "kadin": 3104,
+     "pay": 1.9
+    },
+    "Gerede": {
+     "nufus": 37196,
+     "erkek": 19806,
+     "kadin": 17390,
+     "pay": 11.37
+    },
+    "Göynük": {
+     "nufus": 14257,
+     "erkek": 7424,
+     "kadin": 6833,
+     "pay": 4.36
+    },
+    "Kıbrıscık": {
+     "nufus": 3783,
+     "erkek": 2008,
+     "kadin": 1775,
+     "pay": 1.16
+    },
+    "Mengen": {
+     "nufus": 14152,
+     "erkek": 7192,
+     "kadin": 6960,
+     "pay": 4.33
+    },
+    "Merkez": {
+     "nufus": 222589,
+     "erkek": 108661,
+     "kadin": 113928,
+     "pay": 68.03
+    },
+    "Mudurnu": {
+     "nufus": 18101,
+     "erkek": 9361,
+     "kadin": 8740,
+     "pay": 5.53
+    },
+    "Seben": {
+     "nufus": 4438,
+     "erkek": 2171,
+     "kadin": 2267,
+     "pay": 1.36
+    },
+    "Yeniçağa": {
+     "nufus": 6443,
+     "erkek": 3256,
+     "kadin": 3187,
+     "pay": 1.97
+    }
+   }
+  },
+  "15": {
+   "ortancaYas": 39.7,
+   "yas0_14": 15.2,
+   "yas15_64": 67.4,
+   "yas65": 17.4,
+   "hicEvlenmemis": 25.9,
+   "evli": 61.6,
+   "bosanmis": 4.8,
+   "esiOlmus": 7.8,
+   "haneBuyuklugu": 2.64,
+   "haneSayisi": 96766,
+   "tekKisilik": 25.5,
+   "cekirdekAile": 61,
+   "genisAile": 11.4,
+   "cocukBagimlilik": 22.6,
+   "yasliBagimlilik": 25.9,
+   "dogurganlik": 1.31,
+   "yerliOrani": 75.3,
+   "yogunluk": 40,
+   "yabanci": 3496,
+   "ilceler": {
+    "Ağlasun": {
+     "nufus": 7347,
+     "erkek": 3666,
+     "kadin": 3681,
+     "pay": 2.65
+    },
+    "Altınyayla": {
+     "nufus": 5060,
+     "erkek": 2552,
+     "kadin": 2508,
+     "pay": 1.83
+    },
+    "Bucak": {
+     "nufus": 68312,
+     "erkek": 34045,
+     "kadin": 34267,
+     "pay": 24.64
+    },
+    "Çavdır": {
+     "nufus": 12539,
+     "erkek": 6263,
+     "kadin": 6276,
+     "pay": 4.52
+    },
+    "Çeltikçi": {
+     "nufus": 4914,
+     "erkek": 2343,
+     "kadin": 2571,
+     "pay": 1.77
+    },
+    "Gölhisar": {
+     "nufus": 23969,
+     "erkek": 11899,
+     "kadin": 12070,
+     "pay": 8.65
+    },
+    "Karamanlı": {
+     "nufus": 8097,
+     "erkek": 3997,
+     "kadin": 4100,
+     "pay": 2.92
+    },
+    "Kemer": {
+     "nufus": 2727,
+     "erkek": 1356,
+     "kadin": 1371,
+     "pay": 0.98
+    },
+    "Merkez": {
+     "nufus": 120832,
+     "erkek": 62111,
+     "kadin": 58721,
+     "pay": 43.59
+    },
+    "Tefenni": {
+     "nufus": 9514,
+     "erkek": 4704,
+     "kadin": 4810,
+     "pay": 3.43
+    },
+    "Yeşilova": {
+     "nufus": 13915,
+     "erkek": 6753,
+     "kadin": 7162,
+     "pay": 5.02
+    }
+   }
+  },
+  "16": {
+   "ortancaYas": 36.8,
+   "yas0_14": 19.4,
+   "yas15_64": 69.2,
+   "yas65": 11.4,
+   "hicEvlenmemis": 25.6,
+   "evli": 63.1,
+   "bosanmis": 5.2,
+   "esiOlmus": 6,
+   "haneBuyuklugu": 3.06,
+   "haneSayisi": 1041514,
+   "tekKisilik": 18.5,
+   "cekirdekAile": 65.1,
+   "genisAile": 13.9,
+   "cocukBagimlilik": 28.1,
+   "yasliBagimlilik": 16.4,
+   "dogurganlik": 1.32,
+   "yerliOrani": 48.8,
+   "yogunluk": 314,
+   "yabanci": 54705,
+   "ilceler": {
+    "Büyükorhan": {
+     "nufus": 9148,
+     "erkek": 4550,
+     "kadin": 4598,
+     "pay": 0.28
+    },
+    "Gemlik": {
+     "nufus": 124400,
+     "erkek": 62434,
+     "kadin": 61966,
+     "pay": 3.81
+    },
+    "Gürsu": {
+     "nufus": 105799,
+     "erkek": 53738,
+     "kadin": 52061,
+     "pay": 3.24
+    },
+    "Harmancık": {
+     "nufus": 6089,
+     "erkek": 2975,
+     "kadin": 3114,
+     "pay": 0.19
+    },
+    "İnegöl": {
+     "nufus": 306004,
+     "erkek": 154061,
+     "kadin": 151943,
+     "pay": 9.38
+    },
+    "İznik": {
+     "nufus": 45510,
+     "erkek": 22396,
+     "kadin": 23114,
+     "pay": 1.39
+    },
+    "Karacabey": {
+     "nufus": 86543,
+     "erkek": 43376,
+     "kadin": 43167,
+     "pay": 2.65
+    },
+    "Keles": {
+     "nufus": 10939,
+     "erkek": 5542,
+     "kadin": 5397,
+     "pay": 0.34
+    },
+    "Kestel": {
+     "nufus": 77374,
+     "erkek": 38808,
+     "kadin": 38566,
+     "pay": 2.37
+    },
+    "Mudanya": {
+     "nufus": 112225,
+     "erkek": 54145,
+     "kadin": 58080,
+     "pay": 3.44
+    },
+    "Mustafakemalpaşa": {
+     "nufus": 103652,
+     "erkek": 51588,
+     "kadin": 52064,
+     "pay": 3.18
+    },
+    "Nilüfer": {
+     "nufus": 578059,
+     "erkek": 284545,
+     "kadin": 293514,
+     "pay": 17.72
+    },
+    "Orhaneli": {
+     "nufus": 18963,
+     "erkek": 9465,
+     "kadin": 9498,
+     "pay": 0.58
+    },
+    "Orhangazi": {
+     "nufus": 81997,
+     "erkek": 41153,
+     "kadin": 40844,
+     "pay": 2.51
+    },
+    "Osmangazi": {
+     "nufus": 886111,
+     "erkek": 443448,
+     "kadin": 442663,
+     "pay": 27.16
+    },
+    "Yenişehir": {
+     "nufus": 55609,
+     "erkek": 27586,
+     "kadin": 28023,
+     "pay": 1.7
+    },
+    "Yıldırım": {
+     "nufus": 654589,
+     "erkek": 328402,
+     "kadin": 326187,
+     "pay": 20.06
+    }
+   }
+  },
+  "17": {
+   "ortancaYas": 42,
+   "yas0_14": 14.7,
+   "yas15_64": 67.5,
+   "yas65": 17.8,
+   "hicEvlenmemis": 23.7,
+   "evli": 62.1,
+   "bosanmis": 6,
+   "esiOlmus": 8.1,
+   "haneBuyuklugu": 2.51,
+   "haneSayisi": 217050,
+   "tekKisilik": 26.8,
+   "cekirdekAile": 60.4,
+   "genisAile": 10.3,
+   "cocukBagimlilik": 21.8,
+   "yasliBagimlilik": 26.3,
+   "dogurganlik": 1.17,
+   "yerliOrani": 65.9,
+   "yogunluk": 58,
+   "yabanci": 5657,
+   "ilceler": {
+    "Ayvacık": {
+     "nufus": 35411,
+     "erkek": 17886,
+     "kadin": 17525,
+     "pay": 6.17
+    },
+    "Bayramiç": {
+     "nufus": 28480,
+     "erkek": 14072,
+     "kadin": 14408,
+     "pay": 4.96
+    },
+    "Biga": {
+     "nufus": 94526,
+     "erkek": 46885,
+     "kadin": 47641,
+     "pay": 16.47
+    },
+    "Bozcaada": {
+     "nufus": 3384,
+     "erkek": 1813,
+     "kadin": 1571,
+     "pay": 0.59
+    },
+    "Çan": {
+     "nufus": 46612,
+     "erkek": 23299,
+     "kadin": 23313,
+     "pay": 8.12
+    },
+    "Eceabat": {
+     "nufus": 8746,
+     "erkek": 4436,
+     "kadin": 4310,
+     "pay": 1.52
+    },
+    "Ezine": {
+     "nufus": 31894,
+     "erkek": 15934,
+     "kadin": 15960,
+     "pay": 5.56
+    },
+    "Gelibolu": {
+     "nufus": 44689,
+     "erkek": 22899,
+     "kadin": 21790,
+     "pay": 7.79
+    },
+    "Gökçeada": {
+     "nufus": 11331,
+     "erkek": 6145,
+     "kadin": 5186,
+     "pay": 1.97
+    },
+    "Lapseki": {
+     "nufus": 30654,
+     "erkek": 15169,
+     "kadin": 15485,
+     "pay": 5.34
+    },
+    "Merkez": {
+     "nufus": 208613,
+     "erkek": 101242,
+     "kadin": 107371,
+     "pay": 36.35
+    },
+    "Yenice": {
+     "nufus": 29636,
+     "erkek": 14629,
+     "kadin": 15007,
+     "pay": 5.16
+    }
+   }
+  },
+  "18": {
+   "ortancaYas": 40.3,
+   "yas0_14": 16.1,
+   "yas15_64": 65.8,
+   "yas65": 18.2,
+   "hicEvlenmemis": 23.9,
+   "evli": 64.4,
+   "bosanmis": 3.7,
+   "esiOlmus": 8.1,
+   "haneBuyuklugu": 2.69,
+   "haneSayisi": 70660,
+   "tekKisilik": 27,
+   "cekirdekAile": 55.5,
+   "genisAile": 13.9,
+   "cocukBagimlilik": 24.4,
+   "yasliBagimlilik": 27.6,
+   "dogurganlik": 1.28,
+   "yerliOrani": 81.7,
+   "yogunluk": 26,
+   "yabanci": 4899,
+   "ilceler": {
+    "Atkaracalar": {
+     "nufus": 5063,
+     "erkek": 2594,
+     "kadin": 2469,
+     "pay": 2.52
+    },
+    "Bayramören": {
+     "nufus": 2209,
+     "erkek": 1191,
+     "kadin": 1018,
+     "pay": 1.1
+    },
+    "Çerkeş": {
+     "nufus": 16927,
+     "erkek": 8723,
+     "kadin": 8204,
+     "pay": 8.44
+    },
+    "Eldivan": {
+     "nufus": 6198,
+     "erkek": 3148,
+     "kadin": 3050,
+     "pay": 3.09
+    },
+    "Ilgaz": {
+     "nufus": 13948,
+     "erkek": 6979,
+     "kadin": 6969,
+     "pay": 6.95
+    },
+    "Kızılırmak": {
+     "nufus": 6830,
+     "erkek": 3446,
+     "kadin": 3384,
+     "pay": 3.41
+    },
+    "Korgun": {
+     "nufus": 4239,
+     "erkek": 2169,
+     "kadin": 2070,
+     "pay": 2.11
+    },
+    "Kurşunlu": {
+     "nufus": 9130,
+     "erkek": 4726,
+     "kadin": 4404,
+     "pay": 4.55
+    },
+    "Merkez": {
+     "nufus": 99287,
+     "erkek": 48554,
+     "kadin": 50733,
+     "pay": 49.51
+    },
+    "Orta": {
+     "nufus": 17223,
+     "erkek": 9211,
+     "kadin": 8012,
+     "pay": 8.59
+    },
+    "Şabanözü": {
+     "nufus": 12493,
+     "erkek": 6327,
+     "kadin": 6166,
+     "pay": 6.23
+    },
+    "Yapraklı": {
+     "nufus": 7002,
+     "erkek": 3499,
+     "kadin": 3503,
+     "pay": 3.49
+    }
+   }
+  },
+  "19": {
+   "ortancaYas": 41.3,
+   "yas0_14": 16.6,
+   "yas15_64": 65.6,
+   "yas65": 17.9,
+   "hicEvlenmemis": 22.5,
+   "evli": 64.7,
+   "bosanmis": 4.5,
+   "esiOlmus": 8.2,
+   "haneBuyuklugu": 2.71,
+   "haneSayisi": 185097,
+   "tekKisilik": 23.8,
+   "cekirdekAile": 61.6,
+   "genisAile": 12.5,
+   "cocukBagimlilik": 25.3,
+   "yasliBagimlilik": 27.3,
+   "dogurganlik": 1.22,
+   "yerliOrani": 88.5,
+   "yogunluk": 42,
+   "yabanci": 5011,
+   "ilceler": {
+    "Alaca": {
+     "nufus": 28989,
+     "erkek": 14408,
+     "kadin": 14581,
+     "pay": 5.58
+    },
+    "Bayat": {
+     "nufus": 13312,
+     "erkek": 6437,
+     "kadin": 6875,
+     "pay": 2.56
+    },
+    "Boğazkale": {
+     "nufus": 3587,
+     "erkek": 1833,
+     "kadin": 1754,
+     "pay": 0.69
+    },
+    "Dodurga": {
+     "nufus": 5036,
+     "erkek": 2470,
+     "kadin": 2566,
+     "pay": 0.97
+    },
+    "İskilip": {
+     "nufus": 28132,
+     "erkek": 13914,
+     "kadin": 14218,
+     "pay": 5.41
+    },
+    "Kargı": {
+     "nufus": 15119,
+     "erkek": 7341,
+     "kadin": 7778,
+     "pay": 2.91
+    },
+    "Laçin": {
+     "nufus": 4094,
+     "erkek": 2133,
+     "kadin": 1961,
+     "pay": 0.79
+    },
+    "Mecitözü": {
+     "nufus": 12911,
+     "erkek": 6656,
+     "kadin": 6255,
+     "pay": 2.48
+    },
+    "Merkez": {
+     "nufus": 299565,
+     "erkek": 147664,
+     "kadin": 151901,
+     "pay": 57.65
+    },
+    "Oğuzlar": {
+     "nufus": 4610,
+     "erkek": 2259,
+     "kadin": 2351,
+     "pay": 0.89
+    },
+    "Ortaköy": {
+     "nufus": 6491,
+     "erkek": 3282,
+     "kadin": 3209,
+     "pay": 1.25
+    },
+    "Osmancık": {
+     "nufus": 42673,
+     "erkek": 21047,
+     "kadin": 21626,
+     "pay": 8.21
+    },
+    "Sungurlu": {
+     "nufus": 49079,
+     "erkek": 25514,
+     "kadin": 23565,
+     "pay": 9.45
+    },
+    "Uğurludağ": {
+     "nufus": 5992,
+     "erkek": 3127,
+     "kadin": 2865,
+     "pay": 1.15
+    }
+   }
+  },
+  "20": {
+   "ortancaYas": 38.8,
+   "yas0_14": 17.7,
+   "yas15_64": 68.8,
+   "yas65": 13.5,
+   "hicEvlenmemis": 24.2,
+   "evli": 62.8,
+   "bosanmis": 6.4,
+   "esiOlmus": 6.7,
+   "haneBuyuklugu": 2.8,
+   "haneSayisi": 369008,
+   "tekKisilik": 22.7,
+   "cekirdekAile": 62.5,
+   "genisAile": 12.5,
+   "cocukBagimlilik": 25.8,
+   "yasliBagimlilik": 19.6,
+   "dogurganlik": 1.25,
+   "yerliOrani": 71.6,
+   "yogunluk": 88,
+   "yabanci": 11643,
+   "ilceler": {
+    "Acıpayam": {
+     "nufus": 54769,
+     "erkek": 27547,
+     "kadin": 27222,
+     "pay": 5.16
+    },
+    "Babadağ": {
+     "nufus": 6199,
+     "erkek": 3221,
+     "kadin": 2978,
+     "pay": 0.58
+    },
+    "Baklan": {
+     "nufus": 5266,
+     "erkek": 2653,
+     "kadin": 2613,
+     "pay": 0.5
+    },
+    "Bekilli": {
+     "nufus": 6243,
+     "erkek": 3031,
+     "kadin": 3212,
+     "pay": 0.59
+    },
+    "Beyağaç": {
+     "nufus": 6011,
+     "erkek": 3056,
+     "kadin": 2955,
+     "pay": 0.57
+    },
+    "Bozkurt": {
+     "nufus": 11176,
+     "erkek": 5289,
+     "kadin": 5887,
+     "pay": 1.05
+    },
+    "Buldan": {
+     "nufus": 26231,
+     "erkek": 12896,
+     "kadin": 13335,
+     "pay": 2.47
+    },
+    "Çal": {
+     "nufus": 17277,
+     "erkek": 8554,
+     "kadin": 8723,
+     "pay": 1.63
+    },
+    "Çameli": {
+     "nufus": 17447,
+     "erkek": 8845,
+     "kadin": 8602,
+     "pay": 1.64
+    },
+    "Çardak": {
+     "nufus": 8497,
+     "erkek": 4327,
+     "kadin": 4170,
+     "pay": 0.8
+    },
+    "Çivril": {
+     "nufus": 59689,
+     "erkek": 29596,
+     "kadin": 30093,
+     "pay": 5.63
+    },
+    "Güney": {
+     "nufus": 9043,
+     "erkek": 4500,
+     "kadin": 4543,
+     "pay": 0.85
+    },
+    "Honaz": {
+     "nufus": 34468,
+     "erkek": 19420,
+     "kadin": 15048,
+     "pay": 3.25
+    },
+    "Kale": {
+     "nufus": 18855,
+     "erkek": 9518,
+     "kadin": 9337,
+     "pay": 1.78
+    },
+    "Merkezefendi": {
+     "nufus": 351085,
+     "erkek": 172378,
+     "kadin": 178707,
+     "pay": 33.09
+    },
+    "Pamukkale": {
+     "nufus": 343071,
+     "erkek": 168943,
+     "kadin": 174128,
+     "pay": 32.34
+    },
+    "Sarayköy": {
+     "nufus": 30883,
+     "erkek": 15564,
+     "kadin": 15319,
+     "pay": 2.91
+    },
+    "Serinhisar": {
+     "nufus": 14661,
+     "erkek": 7327,
+     "kadin": 7334,
+     "pay": 1.38
+    },
+    "Tavas": {
+     "nufus": 40104,
+     "erkek": 19908,
+     "kadin": 20196,
+     "pay": 3.78
+    }
+   }
+  },
+  "21": {
+   "ortancaYas": 26.7,
+   "yas0_14": 29.7,
+   "yas15_64": 64.6,
+   "yas65": 5.7,
+   "hicEvlenmemis": 36.8,
+   "evli": 57.5,
+   "bosanmis": 2,
+   "esiOlmus": 3.7,
+   "haneBuyuklugu": 4.09,
+   "haneSayisi": 441728,
+   "tekKisilik": 12.4,
+   "cekirdekAile": 69.8,
+   "genisAile": 15.5,
+   "cocukBagimlilik": 46.1,
+   "yasliBagimlilik": 8.8,
+   "dogurganlik": 2.14,
+   "yerliOrani": 84.9,
+   "yogunluk": 124,
+   "yabanci": 1973,
+   "ilceler": {
+    "Bağlar": {
+     "nufus": 402275,
+     "erkek": 201145,
+     "kadin": 201130,
+     "pay": 21.72
+    },
+    "Bismil": {
+     "nufus": 119815,
+     "erkek": 60155,
+     "kadin": 59660,
+     "pay": 6.47
+    },
+    "Çermik": {
+     "nufus": 49299,
+     "erkek": 24856,
+     "kadin": 24443,
+     "pay": 2.66
+    },
+    "Çınar": {
+     "nufus": 79114,
+     "erkek": 39921,
+     "kadin": 39193,
+     "pay": 4.27
+    },
+    "Çüngüş": {
+     "nufus": 10057,
+     "erkek": 5105,
+     "kadin": 4952,
+     "pay": 0.54
+    },
+    "Dicle": {
+     "nufus": 35948,
+     "erkek": 18399,
+     "kadin": 17549,
+     "pay": 1.94
+    },
+    "Eğil": {
+     "nufus": 21674,
+     "erkek": 11133,
+     "kadin": 10541,
+     "pay": 1.17
+    },
+    "Ergani": {
+     "nufus": 141098,
+     "erkek": 71573,
+     "kadin": 69525,
+     "pay": 7.62
+    },
+    "Hani": {
+     "nufus": 32285,
+     "erkek": 16676,
+     "kadin": 15609,
+     "pay": 1.74
+    },
+    "Hazro": {
+     "nufus": 16024,
+     "erkek": 8266,
+     "kadin": 7758,
+     "pay": 0.87
+    },
+    "Kayapınar": {
+     "nufus": 454311,
+     "erkek": 229998,
+     "kadin": 224313,
+     "pay": 24.53
+    },
+    "Kocaköy": {
+     "nufus": 15088,
+     "erkek": 7744,
+     "kadin": 7344,
+     "pay": 0.81
+    },
+    "Kulp": {
+     "nufus": 33973,
+     "erkek": 17406,
+     "kadin": 16567,
+     "pay": 1.83
+    },
+    "Lice": {
+     "nufus": 24060,
+     "erkek": 12729,
+     "kadin": 11331,
+     "pay": 1.3
+    },
+    "Silvan": {
+     "nufus": 86752,
+     "erkek": 44054,
+     "kadin": 42698,
+     "pay": 4.68
+    },
+    "Sur": {
+     "nufus": 97961,
+     "erkek": 49960,
+     "kadin": 48001,
+     "pay": 5.29
+    },
+    "Yenişehir": {
+     "nufus": 232622,
+     "erkek": 116643,
+     "kadin": 115979,
+     "pay": 12.56
+    }
+   }
+  },
+  "22": {
+   "ortancaYas": 41.8,
+   "yas0_14": 13.9,
+   "yas15_64": 68.1,
+   "yas65": 18,
+   "hicEvlenmemis": 25.4,
+   "evli": 60.5,
+   "bosanmis": 5.6,
+   "esiOlmus": 8.6,
+   "haneBuyuklugu": 2.6,
+   "haneSayisi": 151821,
+   "tekKisilik": 25.3,
+   "cekirdekAile": 57.2,
+   "genisAile": 14.3,
+   "cocukBagimlilik": 20.5,
+   "yasliBagimlilik": 26.5,
+   "dogurganlik": 1.12,
+   "yerliOrani": 68,
+   "yogunluk": 69,
+   "yabanci": 8229,
+   "ilceler": {
+    "Enez": {
+     "nufus": 10399,
+     "erkek": 5347,
+     "kadin": 5052,
+     "pay": 2.46
+    },
+    "Havsa": {
+     "nufus": 17302,
+     "erkek": 8696,
+     "kadin": 8606,
+     "pay": 4.1
+    },
+    "İpsala": {
+     "nufus": 25278,
+     "erkek": 12976,
+     "kadin": 12302,
+     "pay": 5.98
+    },
+    "Keşan": {
+     "nufus": 85259,
+     "erkek": 42478,
+     "kadin": 42781,
+     "pay": 20.18
+    },
+    "Lalapaşa": {
+     "nufus": 5932,
+     "erkek": 3231,
+     "kadin": 2701,
+     "pay": 1.4
+    },
+    "Meriç": {
+     "nufus": 12329,
+     "erkek": 6276,
+     "kadin": 6053,
+     "pay": 2.92
+    },
+    "Merkez": {
+     "nufus": 200753,
+     "erkek": 100523,
+     "kadin": 100230,
+     "pay": 47.52
+    },
+    "Süloğlu": {
+     "nufus": 6101,
+     "erkek": 3377,
+     "kadin": 2724,
+     "pay": 1.44
+    },
+    "Uzunköprü": {
+     "nufus": 59085,
+     "erkek": 29499,
+     "kadin": 29586,
+     "pay": 13.99
+    }
+   }
+  },
+  "23": {
+   "ortancaYas": 35.7,
+   "yas0_14": 19.7,
+   "yas15_64": 68.3,
+   "yas65": 12,
+   "hicEvlenmemis": 30.6,
+   "evli": 59.6,
+   "bosanmis": 3.7,
+   "esiOlmus": 6,
+   "haneBuyuklugu": 3.01,
+   "haneSayisi": 193468,
+   "tekKisilik": 20.9,
+   "cekirdekAile": 64.4,
+   "genisAile": 11.9,
+   "cocukBagimlilik": 28.8,
+   "yasliBagimlilik": 17.6,
+   "dogurganlik": 1.35,
+   "yerliOrani": 79.4,
+   "yogunluk": 69,
+   "yabanci": 4761,
+   "ilceler": {
+    "Ağın": {
+     "nufus": 2532,
+     "erkek": 1287,
+     "kadin": 1245,
+     "pay": 0.42
+    },
+    "Alacakaya": {
+     "nufus": 5336,
+     "erkek": 2819,
+     "kadin": 2517,
+     "pay": 0.88
+    },
+    "Arıcak": {
+     "nufus": 12340,
+     "erkek": 6401,
+     "kadin": 5939,
+     "pay": 2.04
+    },
+    "Baskil": {
+     "nufus": 13397,
+     "erkek": 6912,
+     "kadin": 6485,
+     "pay": 2.21
+    },
+    "Karakoçan": {
+     "nufus": 28320,
+     "erkek": 14132,
+     "kadin": 14188,
+     "pay": 4.68
+    },
+    "Keban": {
+     "nufus": 7112,
+     "erkek": 3527,
+     "kadin": 3585,
+     "pay": 1.17
+    },
+    "Kovancılar": {
+     "nufus": 37874,
+     "erkek": 18957,
+     "kadin": 18917,
+     "pay": 6.25
+    },
+    "Maden": {
+     "nufus": 9139,
+     "erkek": 4773,
+     "kadin": 4366,
+     "pay": 1.51
+    },
+    "Merkez": {
+     "nufus": 463686,
+     "erkek": 227169,
+     "kadin": 236517,
+     "pay": 76.56
+    },
+    "Palu": {
+     "nufus": 17872,
+     "erkek": 9291,
+     "kadin": 8581,
+     "pay": 2.95
+    },
+    "Sivrice": {
+     "nufus": 8070,
+     "erkek": 3823,
+     "kadin": 4247,
+     "pay": 1.33
+    }
+   }
+  },
+  "24": {
+   "ortancaYas": 36.1,
+   "yas0_14": 17.5,
+   "yas15_64": 68,
+   "yas65": 14.5,
+   "hicEvlenmemis": 30.1,
+   "evli": 58.8,
+   "bosanmis": 4.3,
+   "esiOlmus": 6.8,
+   "haneBuyuklugu": 2.73,
+   "haneSayisi": 80634,
+   "tekKisilik": 26.3,
+   "cekirdekAile": 59.8,
+   "genisAile": 10.7,
+   "cocukBagimlilik": 25.7,
+   "yasliBagimlilik": 21.3,
+   "dogurganlik": 1.3,
+   "yerliOrani": 70.6,
+   "yogunluk": 21,
+   "yabanci": 3501,
+   "ilceler": {
+    "Çayırlı": {
+     "nufus": 7491,
+     "erkek": 3927,
+     "kadin": 3564,
+     "pay": 3.13
+    },
+    "İliç": {
+     "nufus": 8543,
+     "erkek": 4446,
+     "kadin": 4097,
+     "pay": 3.57
+    },
+    "Kemah": {
+     "nufus": 6419,
+     "erkek": 3377,
+     "kadin": 3042,
+     "pay": 2.68
+    },
+    "Kemaliye": {
+     "nufus": 4484,
+     "erkek": 2380,
+     "kadin": 2104,
+     "pay": 1.87
+    },
+    "Merkez": {
+     "nufus": 169506,
+     "erkek": 85176,
+     "kadin": 84330,
+     "pay": 70.74
+    },
+    "Otlukbeli": {
+     "nufus": 2123,
+     "erkek": 1113,
+     "kadin": 1010,
+     "pay": 0.89
+    },
+    "Refahiye": {
+     "nufus": 10954,
+     "erkek": 5794,
+     "kadin": 5160,
+     "pay": 4.57
+    },
+    "Tercan": {
+     "nufus": 16145,
+     "erkek": 8533,
+     "kadin": 7612,
+     "pay": 6.74
+    },
+    "Üzümlü": {
+     "nufus": 13960,
+     "erkek": 7181,
+     "kadin": 6779,
+     "pay": 5.83
+    }
+   }
+  },
+  "25": {
+   "ortancaYas": 31.5,
+   "yas0_14": 22.5,
+   "yas15_64": 67.1,
+   "yas65": 10.4,
+   "hicEvlenmemis": 32.9,
+   "evli": 58.7,
+   "bosanmis": 2.3,
+   "esiOlmus": 6.1,
+   "haneBuyuklugu": 3.36,
+   "haneSayisi": 208606,
+   "tekKisilik": 18.7,
+   "cekirdekAile": 66.7,
+   "genisAile": 12.3,
+   "cocukBagimlilik": 33.6,
+   "yasliBagimlilik": 15.5,
+   "dogurganlik": 1.49,
+   "yerliOrani": 87.9,
+   "yogunluk": 29,
+   "yabanci": 4677,
+   "ilceler": {
+    "Aşkale": {
+     "nufus": 19983,
+     "erkek": 10130,
+     "kadin": 9853,
+     "pay": 2.71
+    },
+    "Aziziye": {
+     "nufus": 71827,
+     "erkek": 38925,
+     "kadin": 32902,
+     "pay": 9.75
+    },
+    "Çat": {
+     "nufus": 14015,
+     "erkek": 7367,
+     "kadin": 6648,
+     "pay": 1.9
+    },
+    "Hınıs": {
+     "nufus": 23011,
+     "erkek": 11621,
+     "kadin": 11390,
+     "pay": 3.12
+    },
+    "Horasan": {
+     "nufus": 34896,
+     "erkek": 17747,
+     "kadin": 17149,
+     "pay": 4.74
+    },
+    "İspir": {
+     "nufus": 13984,
+     "erkek": 7114,
+     "kadin": 6870,
+     "pay": 1.9
+    },
+    "Karaçoban": {
+     "nufus": 19922,
+     "erkek": 10161,
+     "kadin": 9761,
+     "pay": 2.7
+    },
+    "Karayazı": {
+     "nufus": 22570,
+     "erkek": 11602,
+     "kadin": 10968,
+     "pay": 3.06
+    },
+    "Köprüköy": {
+     "nufus": 12903,
+     "erkek": 6697,
+     "kadin": 6206,
+     "pay": 1.75
+    },
+    "Narman": {
+     "nufus": 11119,
+     "erkek": 5604,
+     "kadin": 5515,
+     "pay": 1.51
+    },
+    "Oltu": {
+     "nufus": 29765,
+     "erkek": 14862,
+     "kadin": 14903,
+     "pay": 4.04
+    },
+    "Olur": {
+     "nufus": 5985,
+     "erkek": 3006,
+     "kadin": 2979,
+     "pay": 0.81
+    },
+    "Palandöken": {
+     "nufus": 181922,
+     "erkek": 88838,
+     "kadin": 93084,
+     "pay": 24.69
+    },
+    "Pasinler": {
+     "nufus": 25401,
+     "erkek": 12973,
+     "kadin": 12428,
+     "pay": 3.45
+    },
+    "Pazaryolu": {
+     "nufus": 3537,
+     "erkek": 1782,
+     "kadin": 1755,
+     "pay": 0.48
+    },
+    "Şenkaya": {
+     "nufus": 14918,
+     "erkek": 7598,
+     "kadin": 7320,
+     "pay": 2.02
+    },
+    "Tekman": {
+     "nufus": 20826,
+     "erkek": 10616,
+     "kadin": 10210,
+     "pay": 2.83
+    },
+    "Tortum": {
+     "nufus": 12881,
+     "erkek": 6444,
+     "kadin": 6437,
+     "pay": 1.75
+    },
+    "Uzundere": {
+     "nufus": 8263,
+     "erkek": 4162,
+     "kadin": 4101,
+     "pay": 1.12
+    },
+    "Yakutiye": {
+     "nufus": 189149,
+     "erkek": 89683,
+     "kadin": 99466,
+     "pay": 25.67
+    }
+   }
+  },
+  "26": {
+   "ortancaYas": 38.6,
+   "yas0_14": 16.1,
+   "yas15_64": 70.2,
+   "yas65": 13.7,
+   "hicEvlenmemis": 27.6,
+   "evli": 58.9,
+   "bosanmis": 6.6,
+   "esiOlmus": 6.9,
+   "haneBuyuklugu": 2.56,
+   "haneSayisi": 348092,
+   "tekKisilik": 27.6,
+   "cekirdekAile": 59.3,
+   "genisAile": 9.2,
+   "cocukBagimlilik": 23,
+   "yasliBagimlilik": 19.6,
+   "dogurganlik": 1.11,
+   "yerliOrani": 55.2,
+   "yogunluk": 66,
+   "yabanci": 24257,
+   "ilceler": {
+    "Alpu": {
+     "nufus": 9725,
+     "erkek": 5190,
+     "kadin": 4535,
+     "pay": 1.05
+    },
+    "Beylikova": {
+     "nufus": 5611,
+     "erkek": 2911,
+     "kadin": 2700,
+     "pay": 0.6
+    },
+    "Çifteler": {
+     "nufus": 14487,
+     "erkek": 7441,
+     "kadin": 7046,
+     "pay": 1.56
+    },
+    "Günyüzü": {
+     "nufus": 5008,
+     "erkek": 2526,
+     "kadin": 2482,
+     "pay": 0.54
+    },
+    "Han": {
+     "nufus": 2126,
+     "erkek": 1114,
+     "kadin": 1012,
+     "pay": 0.23
+    },
+    "İnönü": {
+     "nufus": 6114,
+     "erkek": 3225,
+     "kadin": 2889,
+     "pay": 0.66
+    },
+    "Mahmudiye": {
+     "nufus": 7407,
+     "erkek": 3881,
+     "kadin": 3526,
+     "pay": 0.8
+    },
+    "Mihalgazi": {
+     "nufus": 2861,
+     "erkek": 1448,
+     "kadin": 1413,
+     "pay": 0.31
+    },
+    "Mihalıççık": {
+     "nufus": 7605,
+     "erkek": 4043,
+     "kadin": 3562,
+     "pay": 0.82
+    },
+    "Odunpazarı": {
+     "nufus": 431652,
+     "erkek": 211812,
+     "kadin": 219840,
+     "pay": 46.52
+    },
+    "Sarıcakaya": {
+     "nufus": 4477,
+     "erkek": 2258,
+     "kadin": 2219,
+     "pay": 0.48
+    },
+    "Seyitgazi": {
+     "nufus": 12565,
+     "erkek": 6679,
+     "kadin": 5886,
+     "pay": 1.35
+    },
+    "Sivrihisar": {
+     "nufus": 20189,
+     "erkek": 10464,
+     "kadin": 9725,
+     "pay": 2.18
+    },
+    "Tepebaşı": {
+     "nufus": 398129,
+     "erkek": 198188,
+     "kadin": 199941,
+     "pay": 42.9
+    }
+   }
+  },
+  "27": {
+   "ortancaYas": 27.5,
+   "yas0_14": 28.7,
+   "yas15_64": 65,
+   "yas65": 6.4,
+   "hicEvlenmemis": 30.1,
+   "evli": 62,
+   "bosanmis": 3.7,
+   "esiOlmus": 4.1,
+   "haneBuyuklugu": 3.67,
+   "haneSayisi": 589614,
+   "tekKisilik": 15.1,
+   "cekirdekAile": 70.5,
+   "genisAile": 12.6,
+   "cocukBagimlilik": 44.1,
+   "yasliBagimlilik": 9.8,
+   "dogurganlik": 2,
+   "yerliOrani": 64.4,
+   "yogunluk": 329,
+   "yabanci": 13695,
+   "ilceler": {
+    "Araban": {
+     "nufus": 32540,
+     "erkek": 16342,
+     "kadin": 16198,
+     "pay": 1.46
+    },
+    "İslahiye": {
+     "nufus": 66107,
+     "erkek": 34313,
+     "kadin": 31794,
+     "pay": 2.97
+    },
+    "Karkamış": {
+     "nufus": 9087,
+     "erkek": 4818,
+     "kadin": 4269,
+     "pay": 0.41
+    },
+    "Nizip": {
+     "nufus": 152660,
+     "erkek": 76873,
+     "kadin": 75787,
+     "pay": 6.87
+    },
+    "Nurdağı": {
+     "nufus": 38269,
+     "erkek": 19596,
+     "kadin": 18673,
+     "pay": 1.72
+    },
+    "Oğuzeli": {
+     "nufus": 36644,
+     "erkek": 19005,
+     "kadin": 17639,
+     "pay": 1.65
+    },
+    "Şahinbey": {
+     "nufus": 957792,
+     "erkek": 478554,
+     "kadin": 479238,
+     "pay": 43.1
+    },
+    "Şehitkamil": {
+     "nufus": 905880,
+     "erkek": 458018,
+     "kadin": 447862,
+     "pay": 40.76
+    },
+    "Yavuzeli": {
+     "nufus": 23436,
+     "erkek": 12038,
+     "kadin": 11398,
+     "pay": 1.05
+    }
+   }
+  },
+  "28": {
+   "ortancaYas": 43.5,
+   "yas0_14": 14.7,
+   "yas15_64": 65.4,
+   "yas65": 20,
+   "hicEvlenmemis": 24.6,
+   "evli": 61.9,
+   "bosanmis": 4.7,
+   "esiOlmus": 8.9,
+   "haneBuyuklugu": 2.5,
+   "haneSayisi": 175678,
+   "tekKisilik": 30.5,
+   "cekirdekAile": 55.6,
+   "genisAile": 11.1,
+   "cocukBagimlilik": 22.4,
+   "yasliBagimlilik": 30.5,
+   "dogurganlik": 1.14,
+   "yerliOrani": 87,
+   "yogunluk": 65,
+   "yabanci": 5111,
+   "ilceler": {
+    "Alucra": {
+     "nufus": 8473,
+     "erkek": 4284,
+     "kadin": 4189,
+     "pay": 1.86
+    },
+    "Bulancak": {
+     "nufus": 70397,
+     "erkek": 35102,
+     "kadin": 35295,
+     "pay": 15.47
+    },
+    "Çamoluk": {
+     "nufus": 5709,
+     "erkek": 3016,
+     "kadin": 2693,
+     "pay": 1.25
+    },
+    "Çanakçı": {
+     "nufus": 5783,
+     "erkek": 2972,
+     "kadin": 2811,
+     "pay": 1.27
+    },
+    "Dereli": {
+     "nufus": 20100,
+     "erkek": 10467,
+     "kadin": 9633,
+     "pay": 4.42
+    },
+    "Doğankent": {
+     "nufus": 7327,
+     "erkek": 3787,
+     "kadin": 3540,
+     "pay": 1.61
+    },
+    "Espiye": {
+     "nufus": 39182,
+     "erkek": 21033,
+     "kadin": 18149,
+     "pay": 8.61
+    },
+    "Eynesil": {
+     "nufus": 12548,
+     "erkek": 6048,
+     "kadin": 6500,
+     "pay": 2.76
+    },
+    "Görele": {
+     "nufus": 31536,
+     "erkek": 15758,
+     "kadin": 15778,
+     "pay": 6.93
+    },
+    "Güce": {
+     "nufus": 8194,
+     "erkek": 4182,
+     "kadin": 4012,
+     "pay": 1.8
+    },
+    "Keşap": {
+     "nufus": 20859,
+     "erkek": 10264,
+     "kadin": 10595,
+     "pay": 4.58
+    },
+    "Merkez": {
+     "nufus": 143915,
+     "erkek": 69933,
+     "kadin": 73982,
+     "pay": 31.62
+    },
+    "Piraziz": {
+     "nufus": 15109,
+     "erkek": 7495,
+     "kadin": 7614,
+     "pay": 3.32
+    },
+    "Şebinkarahisar": {
+     "nufus": 19130,
+     "erkek": 9686,
+     "kadin": 9444,
+     "pay": 4.2
+    },
+    "Tirebolu": {
+     "nufus": 32124,
+     "erkek": 15959,
+     "kadin": 16165,
+     "pay": 7.06
+    },
+    "Yağlıdere": {
+     "nufus": 14688,
+     "erkek": 7452,
+     "kadin": 7236,
+     "pay": 3.23
+    }
+   }
+  },
+  "29": {
+   "ortancaYas": 37.3,
+   "yas0_14": 15.8,
+   "yas15_64": 68,
+   "yas65": 16.2,
+   "hicEvlenmemis": 31.9,
+   "evli": 58.4,
+   "bosanmis": 2.8,
+   "esiOlmus": 6.9,
+   "haneBuyuklugu": 2.67,
+   "haneSayisi": 47872,
+   "tekKisilik": 32.7,
+   "cekirdekAile": 51.5,
+   "genisAile": 11.6,
+   "cocukBagimlilik": 23.2,
+   "yasliBagimlilik": 23.7,
+   "dogurganlik": 1.14,
+   "yerliOrani": 80,
+   "yogunluk": 21,
+   "yabanci": 2636,
+   "ilceler": {
+    "Kelkit": {
+     "nufus": 38520,
+     "erkek": 19484,
+     "kadin": 19036,
+     "pay": 27.75
+    },
+    "Köse": {
+     "nufus": 6107,
+     "erkek": 3097,
+     "kadin": 3010,
+     "pay": 4.4
+    },
+    "Kürtün": {
+     "nufus": 11327,
+     "erkek": 5852,
+     "kadin": 5475,
+     "pay": 8.16
+    },
+    "Merkez": {
+     "nufus": 54697,
+     "erkek": 26996,
+     "kadin": 27701,
+     "pay": 39.41
+    },
+    "Şiran": {
+     "nufus": 18377,
+     "erkek": 9247,
+     "kadin": 9130,
+     "pay": 13.24
+    },
+    "Torul": {
+     "nufus": 9779,
+     "erkek": 4923,
+     "kadin": 4856,
+     "pay": 7.05
+    }
+   }
+  },
+  "30": {
+   "ortancaYas": 26.8,
+   "yas0_14": 25.8,
+   "yas15_64": 69.5,
+   "yas65": 4.7,
+   "hicEvlenmemis": 44.4,
+   "evli": 51.9,
+   "bosanmis": 0.8,
+   "esiOlmus": 2.9,
+   "haneBuyuklugu": 4.31,
+   "haneSayisi": 60868,
+   "tekKisilik": 13.6,
+   "cekirdekAile": 61.3,
+   "genisAile": 21.2,
+   "cocukBagimlilik": 37.2,
+   "yasliBagimlilik": 6.7,
+   "dogurganlik": 1.71,
+   "yerliOrani": 87.9,
+   "yogunluk": 39,
+   "yabanci": 420,
+   "ilceler": {
+    "Çukurca": {
+     "nufus": 14299,
+     "erkek": 8902,
+     "kadin": 5397,
+     "pay": 5.11
+    },
+    "Derecik": {
+     "nufus": 24869,
+     "erkek": 13367,
+     "kadin": 11502,
+     "pay": 8.89
+    },
+    "Merkez": {
+     "nufus": 76165,
+     "erkek": 39477,
+     "kadin": 36688,
+     "pay": 27.23
+    },
+    "Şemdinli": {
+     "nufus": 43034,
+     "erkek": 22319,
+     "kadin": 20715,
+     "pay": 15.39
+    },
+    "Yüksekova": {
+     "nufus": 121314,
+     "erkek": 62176,
+     "kadin": 59138,
+     "pay": 43.38
+    }
+   }
+  },
+  "31": {
+   "ortancaYas": 32.2,
+   "yas0_14": 24.4,
+   "yas15_64": 66.2,
+   "yas65": 9.5,
+   "hicEvlenmemis": 29.1,
+   "evli": 61.3,
+   "bosanmis": 4.2,
+   "esiOlmus": 5.3,
+   "haneBuyuklugu": 3.32,
+   "haneSayisi": 464572,
+   "tekKisilik": 19.6,
+   "cekirdekAile": 63.8,
+   "genisAile": 14.3,
+   "cocukBagimlilik": 36.8,
+   "yasliBagimlilik": 14.3,
+   "dogurganlik": 1.81,
+   "yerliOrani": 85.6,
+   "yogunluk": 284,
+   "yabanci": 5127,
+   "ilceler": {
+    "Altınözü": {
+     "nufus": 69834,
+     "erkek": 35557,
+     "kadin": 34277,
+     "pay": 4.43
+    },
+    "Antakya": {
+     "nufus": 301855,
+     "erkek": 153264,
+     "kadin": 148591,
+     "pay": 19.13
+    },
+    "Arsuz": {
+     "nufus": 115077,
+     "erkek": 58334,
+     "kadin": 56743,
+     "pay": 7.29
+    },
+    "Belen": {
+     "nufus": 37876,
+     "erkek": 19181,
+     "kadin": 18695,
+     "pay": 2.4
+    },
+    "Defne": {
+     "nufus": 139605,
+     "erkek": 69933,
+     "kadin": 69672,
+     "pay": 8.85
+    },
+    "Dörtyol": {
+     "nufus": 132987,
+     "erkek": 66964,
+     "kadin": 66023,
+     "pay": 8.43
+    },
+    "Erzin": {
+     "nufus": 43103,
+     "erkek": 21710,
+     "kadin": 21393,
+     "pay": 2.73
+    },
+    "Hassa": {
+     "nufus": 57457,
+     "erkek": 29391,
+     "kadin": 28066,
+     "pay": 3.64
+    },
+    "İskenderun": {
+     "nufus": 228149,
+     "erkek": 114565,
+     "kadin": 113584,
+     "pay": 14.46
+    },
+    "Kırıkhan": {
+     "nufus": 108200,
+     "erkek": 54826,
+     "kadin": 53374,
+     "pay": 6.86
+    },
+    "Kumlu": {
+     "nufus": 16242,
+     "erkek": 8580,
+     "kadin": 7662,
+     "pay": 1.03
+    },
+    "Payas": {
+     "nufus": 44530,
+     "erkek": 22553,
+     "kadin": 21977,
+     "pay": 2.82
+    },
+    "Reyhanlı": {
+     "nufus": 117645,
+     "erkek": 59394,
+     "kadin": 58251,
+     "pay": 7.46
+    },
+    "Samandağ": {
+     "nufus": 122952,
+     "erkek": 61130,
+     "kadin": 61822,
+     "pay": 7.79
+    },
+    "Yayladağı": {
+     "nufus": 42019,
+     "erkek": 22003,
+     "kadin": 20016,
+     "pay": 2.66
+    }
+   }
+  },
+  "32": {
+   "ortancaYas": 38.9,
+   "yas0_14": 16.6,
+   "yas15_64": 67.7,
+   "yas65": 15.7,
+   "hicEvlenmemis": 26.4,
+   "evli": 61.9,
+   "bosanmis": 4.7,
+   "esiOlmus": 7,
+   "haneBuyuklugu": 2.71,
+   "haneSayisi": 155534,
+   "tekKisilik": 24.5,
+   "cekirdekAile": 61.7,
+   "genisAile": 11.2,
+   "cocukBagimlilik": 24.5,
+   "yasliBagimlilik": 23.2,
+   "dogurganlik": 1.22,
+   "yerliOrani": 73.8,
+   "yogunluk": 55,
+   "yabanci": 7300,
+   "ilceler": {
+    "Aksu": {
+     "nufus": 4073,
+     "erkek": 2088,
+     "kadin": 1985,
+     "pay": 0.91
+    },
+    "Atabey": {
+     "nufus": 6204,
+     "erkek": 3047,
+     "kadin": 3157,
+     "pay": 1.39
+    },
+    "Eğirdir": {
+     "nufus": 29200,
+     "erkek": 14580,
+     "kadin": 14620,
+     "pay": 6.56
+    },
+    "Gelendost": {
+     "nufus": 13985,
+     "erkek": 6913,
+     "kadin": 7072,
+     "pay": 3.14
+    },
+    "Gönen": {
+     "nufus": 7065,
+     "erkek": 3543,
+     "kadin": 3522,
+     "pay": 1.59
+    },
+    "Keçiborlu": {
+     "nufus": 14033,
+     "erkek": 7194,
+     "kadin": 6839,
+     "pay": 3.15
+    },
+    "Merkez": {
+     "nufus": 273638,
+     "erkek": 134133,
+     "kadin": 139505,
+     "pay": 61.45
+    },
+    "Senirkent": {
+     "nufus": 10331,
+     "erkek": 5060,
+     "kadin": 5271,
+     "pay": 2.32
+    },
+    "Sütçüler": {
+     "nufus": 9228,
+     "erkek": 4679,
+     "kadin": 4549,
+     "pay": 2.07
+    },
+    "Şarkikaraağaç": {
+     "nufus": 24310,
+     "erkek": 11825,
+     "kadin": 12485,
+     "pay": 5.46
+    },
+    "Uluborlu": {
+     "nufus": 6287,
+     "erkek": 3191,
+     "kadin": 3096,
+     "pay": 1.41
+    },
+    "Yalvaç": {
+     "nufus": 44596,
+     "erkek": 22272,
+     "kadin": 22324,
+     "pay": 10.01
+    },
+    "Yenişarbademli": {
+     "nufus": 2353,
+     "erkek": 1199,
+     "kadin": 1154,
+     "pay": 0.53
+    }
+   }
+  },
+  "33": {
+   "ortancaYas": 35.9,
+   "yas0_14": 20.6,
+   "yas15_64": 67.9,
+   "yas65": 11.5,
+   "hicEvlenmemis": 28.2,
+   "evli": 59.8,
+   "bosanmis": 6.4,
+   "esiOlmus": 5.6,
+   "haneBuyuklugu": 3.05,
+   "haneSayisi": 619651,
+   "tekKisilik": 20.1,
+   "cekirdekAile": 63.1,
+   "genisAile": 13.4,
+   "cocukBagimlilik": 30.4,
+   "yasliBagimlilik": 16.9,
+   "dogurganlik": 1.42,
+   "yerliOrani": 53.9,
+   "yogunluk": 122,
+   "yabanci": 43315,
+   "ilceler": {
+    "Akdeniz": {
+     "nufus": 254292,
+     "erkek": 130304,
+     "kadin": 123988,
+     "pay": 13
+    },
+    "Anamur": {
+     "nufus": 66952,
+     "erkek": 33790,
+     "kadin": 33162,
+     "pay": 3.42
+    },
+    "Aydıncık": {
+     "nufus": 11271,
+     "erkek": 5754,
+     "kadin": 5517,
+     "pay": 0.58
+    },
+    "Bozyazı": {
+     "nufus": 26832,
+     "erkek": 13480,
+     "kadin": 13352,
+     "pay": 1.37
+    },
+    "Çamlıyayla": {
+     "nufus": 8383,
+     "erkek": 4448,
+     "kadin": 3935,
+     "pay": 0.43
+    },
+    "Erdemli": {
+     "nufus": 157566,
+     "erkek": 78768,
+     "kadin": 78798,
+     "pay": 8.05
+    },
+    "Gülnar": {
+     "nufus": 32785,
+     "erkek": 19954,
+     "kadin": 12831,
+     "pay": 1.68
+    },
+    "Mezitli": {
+     "nufus": 233140,
+     "erkek": 112407,
+     "kadin": 120733,
+     "pay": 11.92
+    },
+    "Mut": {
+     "nufus": 62758,
+     "erkek": 31543,
+     "kadin": 31215,
+     "pay": 3.21
+    },
+    "Silifke": {
+     "nufus": 139610,
+     "erkek": 70965,
+     "kadin": 68645,
+     "pay": 7.14
+    },
+    "Tarsus": {
+     "nufus": 358510,
+     "erkek": 179795,
+     "kadin": 178715,
+     "pay": 18.32
+    },
+    "Toroslar": {
+     "nufus": 322971,
+     "erkek": 161803,
+     "kadin": 161168,
+     "pay": 16.51
+    },
+    "Yenişehir": {
+     "nufus": 281358,
+     "erkek": 134081,
+     "kadin": 147277,
+     "pay": 14.38
+    }
+   }
+  },
+  "34": {
+   "ortancaYas": 35,
+   "yas0_14": 18.7,
+   "yas15_64": 72.6,
+   "yas65": 8.7,
+   "hicEvlenmemis": 32.4,
+   "evli": 57.2,
+   "bosanmis": 6,
+   "esiOlmus": 4.5,
+   "haneBuyuklugu": 3.09,
+   "haneSayisi": 4917759,
+   "tekKisilik": 20,
+   "cekirdekAile": 60.6,
+   "genisAile": 13.9,
+   "cocukBagimlilik": 25.8,
+   "yasliBagimlilik": 12,
+   "dogurganlik": 1.14,
+   "yerliOrani": 14,
+   "yogunluk": 2943,
+   "yabanci": 607276,
+   "ilceler": {
+    "Adalar": {
+     "nufus": 17489,
+     "erkek": 8962,
+     "kadin": 8527,
+     "pay": 0.11
+    },
+    "Arnavutköy": {
+     "nufus": 358469,
+     "erkek": 185054,
+     "kadin": 173415,
+     "pay": 2.28
+    },
+    "Ataşehir": {
+     "nufus": 412125,
+     "erkek": 200837,
+     "kadin": 211288,
+     "pay": 2.62
+    },
+    "Avcılar": {
+     "nufus": 440663,
+     "erkek": 220680,
+     "kadin": 219983,
+     "pay": 2.8
+    },
+    "Bağcılar": {
+     "nufus": 707635,
+     "erkek": 358360,
+     "kadin": 349275,
+     "pay": 4.49
+    },
+    "Bahçelievler": {
+     "nufus": 539035,
+     "erkek": 267888,
+     "kadin": 271147,
+     "pay": 3.42
+    },
+    "Bakırköy": {
+     "nufus": 218204,
+     "erkek": 101484,
+     "kadin": 116720,
+     "pay": 1.39
+    },
+    "Başakşehir": {
+     "nufus": 536797,
+     "erkek": 267284,
+     "kadin": 269513,
+     "pay": 3.41
+    },
+    "Bayrampaşa": {
+     "nufus": 272978,
+     "erkek": 138544,
+     "kadin": 134434,
+     "pay": 1.73
+    },
+    "Beşiktaş": {
+     "nufus": 165895,
+     "erkek": 73690,
+     "kadin": 92205,
+     "pay": 1.05
+    },
+    "Beykoz": {
+     "nufus": 246833,
+     "erkek": 121727,
+     "kadin": 125106,
+     "pay": 1.57
+    },
+    "Beylikdüzü": {
+     "nufus": 422988,
+     "erkek": 205541,
+     "kadin": 217447,
+     "pay": 2.68
+    },
+    "Beyoğlu": {
+     "nufus": 215991,
+     "erkek": 111254,
+     "kadin": 104737,
+     "pay": 1.37
+    },
+    "Büyükçekmece": {
+     "nufus": 283239,
+     "erkek": 139094,
+     "kadin": 144145,
+     "pay": 1.8
+    },
+    "Çatalca": {
+     "nufus": 81143,
+     "erkek": 41538,
+     "kadin": 39605,
+     "pay": 0.52
+    },
+    "Çekmeköy": {
+     "nufus": 315959,
+     "erkek": 156858,
+     "kadin": 159101,
+     "pay": 2.01
+    },
+    "Esenler": {
+     "nufus": 419878,
+     "erkek": 214611,
+     "kadin": 205267,
+     "pay": 2.67
+    },
+    "Esenyurt": {
+     "nufus": 1003905,
+     "erkek": 510615,
+     "kadin": 493290,
+     "pay": 6.37
+    },
+    "Eyüpsultan": {
+     "nufus": 425216,
+     "erkek": 211553,
+     "kadin": 213663,
+     "pay": 2.7
+    },
+    "Fatih": {
+     "nufus": 351786,
+     "erkek": 175623,
+     "kadin": 176163,
+     "pay": 2.23
+    },
+    "Gaziosmanpaşa": {
+     "nufus": 478395,
+     "erkek": 240927,
+     "kadin": 237468,
+     "pay": 3.04
+    },
+    "Güngören": {
+     "nufus": 251242,
+     "erkek": 126408,
+     "kadin": 124834,
+     "pay": 1.59
+    },
+    "Kadıköy": {
+     "nufus": 458573,
+     "erkek": 205934,
+     "kadin": 252639,
+     "pay": 2.91
+    },
+    "Kağıthane": {
+     "nufus": 446420,
+     "erkek": 224442,
+     "kadin": 221978,
+     "pay": 2.83
+    },
+    "Kartal": {
+     "nufus": 475630,
+     "erkek": 233101,
+     "kadin": 242529,
+     "pay": 3.02
+    },
+    "Küçükçekmece": {
+     "nufus": 785270,
+     "erkek": 390065,
+     "kadin": 395205,
+     "pay": 4.98
+    },
+    "Maltepe": {
+     "nufus": 525044,
+     "erkek": 262763,
+     "kadin": 262281,
+     "pay": 3.33
+    },
+    "Pendik": {
+     "nufus": 752033,
+     "erkek": 377519,
+     "kadin": 374514,
+     "pay": 4.77
+    },
+    "Sancaktepe": {
+     "nufus": 507500,
+     "erkek": 256134,
+     "kadin": 251366,
+     "pay": 3.22
+    },
+    "Sarıyer": {
+     "nufus": 344883,
+     "erkek": 169406,
+     "kadin": 175477,
+     "pay": 2.19
+    },
+    "Silivri": {
+     "nufus": 240029,
+     "erkek": 135456,
+     "kadin": 104573,
+     "pay": 1.52
+    },
+    "Sultanbeyli": {
+     "nufus": 378908,
+     "erkek": 192802,
+     "kadin": 186106,
+     "pay": 2.41
+    },
+    "Sultangazi": {
+     "nufus": 529306,
+     "erkek": 267882,
+     "kadin": 261424,
+     "pay": 3.36
+    },
+    "Şile": {
+     "nufus": 50090,
+     "erkek": 25579,
+     "kadin": 24511,
+     "pay": 0.32
+    },
+    "Şişli": {
+     "nufus": 261959,
+     "erkek": 126056,
+     "kadin": 135903,
+     "pay": 1.66
+    },
+    "Tuzla": {
+     "nufus": 313865,
+     "erkek": 157743,
+     "kadin": 156122,
+     "pay": 1.99
+    },
+    "Ümraniye": {
+     "nufus": 728913,
+     "erkek": 363243,
+     "kadin": 365670,
+     "pay": 4.63
+    },
+    "Üsküdar": {
+     "nufus": 514294,
+     "erkek": 249762,
+     "kadin": 264532,
+     "pay": 3.26
+    },
+    "Zeytinburnu": {
+     "nufus": 275471,
+     "erkek": 134925,
+     "kadin": 140546,
+     "pay": 1.75
+    }
+   }
+  },
+  "35": {
+   "ortancaYas": 39.5,
+   "yas0_14": 16.4,
+   "yas15_64": 69.7,
+   "yas65": 13.9,
+   "hicEvlenmemis": 26.5,
+   "evli": 58.7,
+   "bosanmis": 8.4,
+   "esiOlmus": 6.4,
+   "haneBuyuklugu": 2.75,
+   "haneSayisi": 1585873,
+   "tekKisilik": 23.7,
+   "cekirdekAile": 60,
+   "genisAile": 13.1,
+   "cocukBagimlilik": 23.6,
+   "yasliBagimlilik": 19.9,
+   "dogurganlik": 1.1,
+   "yerliOrani": 37.1,
+   "yogunluk": 376,
+   "yabanci": 42962,
+   "ilceler": {
+    "Aliağa": {
+     "nufus": 110892,
+     "erkek": 60541,
+     "kadin": 50351,
+     "pay": 2.46
+    },
+    "Balçova": {
+     "nufus": 75743,
+     "erkek": 36731,
+     "kadin": 39012,
+     "pay": 1.68
+    },
+    "Bayındır": {
+     "nufus": 39971,
+     "erkek": 19939,
+     "kadin": 20032,
+     "pay": 0.89
+    },
+    "Bayraklı": {
+     "nufus": 296481,
+     "erkek": 145915,
+     "kadin": 150566,
+     "pay": 6.58
+    },
+    "Bergama": {
+     "nufus": 107549,
+     "erkek": 53894,
+     "kadin": 53655,
+     "pay": 2.39
+    },
+    "Beydağ": {
+     "nufus": 11904,
+     "erkek": 5964,
+     "kadin": 5940,
+     "pay": 0.26
+    },
+    "Bornova": {
+     "nufus": 452479,
+     "erkek": 222442,
+     "kadin": 230037,
+     "pay": 10.05
+    },
+    "Buca": {
+     "nufus": 520941,
+     "erkek": 257974,
+     "kadin": 262967,
+     "pay": 11.57
+    },
+    "Çeşme": {
+     "nufus": 51902,
+     "erkek": 26110,
+     "kadin": 25792,
+     "pay": 1.15
+    },
+    "Çiğli": {
+     "nufus": 216430,
+     "erkek": 106957,
+     "kadin": 109473,
+     "pay": 4.81
+    },
+    "Dikili": {
+     "nufus": 49138,
+     "erkek": 24394,
+     "kadin": 24744,
+     "pay": 1.09
+    },
+    "Foça": {
+     "nufus": 37711,
+     "erkek": 20718,
+     "kadin": 16993,
+     "pay": 0.84
+    },
+    "Gaziemir": {
+     "nufus": 137220,
+     "erkek": 68495,
+     "kadin": 68725,
+     "pay": 3.05
+    },
+    "Güzelbahçe": {
+     "nufus": 39474,
+     "erkek": 18894,
+     "kadin": 20580,
+     "pay": 0.88
+    },
+    "Karabağlar": {
+     "nufus": 467572,
+     "erkek": 229510,
+     "kadin": 238062,
+     "pay": 10.38
+    },
+    "Karaburun": {
+     "nufus": 13725,
+     "erkek": 7039,
+     "kadin": 6686,
+     "pay": 0.3
+    },
+    "Karşıyaka": {
+     "nufus": 339624,
+     "erkek": 157706,
+     "kadin": 181918,
+     "pay": 7.54
+    },
+    "Kemalpaşa": {
+     "nufus": 122840,
+     "erkek": 62487,
+     "kadin": 60353,
+     "pay": 2.73
+    },
+    "Kınık": {
+     "nufus": 28604,
+     "erkek": 14308,
+     "kadin": 14296,
+     "pay": 0.64
+    },
+    "Kiraz": {
+     "nufus": 43340,
+     "erkek": 21968,
+     "kadin": 21372,
+     "pay": 0.96
+    },
+    "Konak": {
+     "nufus": 317399,
+     "erkek": 154319,
+     "kadin": 163080,
+     "pay": 7.05
+    },
+    "Menderes": {
+     "nufus": 112853,
+     "erkek": 56571,
+     "kadin": 56282,
+     "pay": 2.51
+    },
+    "Menemen": {
+     "nufus": 220510,
+     "erkek": 111820,
+     "kadin": 108690,
+     "pay": 4.9
+    },
+    "Narlıdere": {
+     "nufus": 61320,
+     "erkek": 29740,
+     "kadin": 31580,
+     "pay": 1.36
+    },
+    "Ödemiş": {
+     "nufus": 132548,
+     "erkek": 66326,
+     "kadin": 66222,
+     "pay": 2.94
+    },
+    "Seferihisar": {
+     "nufus": 63712,
+     "erkek": 31531,
+     "kadin": 32181,
+     "pay": 1.41
+    },
+    "Selçuk": {
+     "nufus": 38578,
+     "erkek": 19221,
+     "kadin": 19357,
+     "pay": 0.86
+    },
+    "Tire": {
+     "nufus": 87571,
+     "erkek": 43091,
+     "kadin": 44480,
+     "pay": 1.94
+    },
+    "Torbalı": {
+     "nufus": 224133,
+     "erkek": 112575,
+     "kadin": 111558,
+     "pay": 4.98
+    },
+    "Urla": {
+     "nufus": 82021,
+     "erkek": 40558,
+     "kadin": 41463,
+     "pay": 1.82
+    }
+   }
+  },
+  "36": {
+   "ortancaYas": 30.4,
+   "yas0_14": 23,
+   "yas15_64": 66.9,
+   "yas65": 10.1,
+   "hicEvlenmemis": 33.4,
+   "evli": 58.8,
+   "bosanmis": 2.2,
+   "esiOlmus": 5.6,
+   "haneBuyuklugu": 3.49,
+   "haneSayisi": 73026,
+   "tekKisilik": 18.7,
+   "cekirdekAile": 64.1,
+   "genisAile": 15,
+   "cocukBagimlilik": 34.4,
+   "yasliBagimlilik": 15.1,
+   "dogurganlik": 1.59,
+   "yerliOrani": 86.5,
+   "yogunluk": 26,
+   "yabanci": 1361,
+   "ilceler": {
+    "Akyaka": {
+     "nufus": 9382,
+     "erkek": 5124,
+     "kadin": 4258,
+     "pay": 3.49
+    },
+    "Arpaçay": {
+     "nufus": 13770,
+     "erkek": 7224,
+     "kadin": 6546,
+     "pay": 5.12
+    },
+    "Digor": {
+     "nufus": 17557,
+     "erkek": 9228,
+     "kadin": 8329,
+     "pay": 6.53
+    },
+    "Kağızman": {
+     "nufus": 42717,
+     "erkek": 21717,
+     "kadin": 21000,
+     "pay": 15.88
+    },
+    "Merkez": {
+     "nufus": 121154,
+     "erkek": 61520,
+     "kadin": 59634,
+     "pay": 45.04
+    },
+    "Sarıkamış": {
+     "nufus": 35518,
+     "erkek": 18494,
+     "kadin": 17024,
+     "pay": 13.2
+    },
+    "Selim": {
+     "nufus": 20476,
+     "erkek": 10596,
+     "kadin": 9880,
+     "pay": 7.61
+    },
+    "Susuz": {
+     "nufus": 8417,
+     "erkek": 4379,
+     "kadin": 4038,
+     "pay": 3.13
+    }
+   }
+  },
+  "37": {
+   "ortancaYas": 43.3,
+   "yas0_14": 14.4,
+   "yas15_64": 64.5,
+   "yas65": 21.1,
+   "hicEvlenmemis": 22.9,
+   "evli": 63.6,
+   "bosanmis": 4.2,
+   "esiOlmus": 9.4,
+   "haneBuyuklugu": 2.63,
+   "haneSayisi": 138302,
+   "tekKisilik": 27.2,
+   "cekirdekAile": 55.2,
+   "genisAile": 15.1,
+   "cocukBagimlilik": 22.3,
+   "yasliBagimlilik": 32.7,
+   "dogurganlik": 1.28,
+   "yerliOrani": 83.4,
+   "yogunluk": 29,
+   "yabanci": 2639,
+   "ilceler": {
+    "Abana": {
+     "nufus": 4474,
+     "erkek": 2332,
+     "kadin": 2142,
+     "pay": 1.18
+    },
+    "Ağlı": {
+     "nufus": 3176,
+     "erkek": 1626,
+     "kadin": 1550,
+     "pay": 0.84
+    },
+    "Araç": {
+     "nufus": 18121,
+     "erkek": 9292,
+     "kadin": 8829,
+     "pay": 4.77
+    },
+    "Azdavay": {
+     "nufus": 7266,
+     "erkek": 3715,
+     "kadin": 3551,
+     "pay": 1.91
+    },
+    "Bozkurt": {
+     "nufus": 9250,
+     "erkek": 4652,
+     "kadin": 4598,
+     "pay": 2.43
+    },
+    "Cide": {
+     "nufus": 22496,
+     "erkek": 11339,
+     "kadin": 11157,
+     "pay": 5.92
+    },
+    "Çatalzeytin": {
+     "nufus": 7185,
+     "erkek": 3546,
+     "kadin": 3639,
+     "pay": 1.89
+    },
+    "Daday": {
+     "nufus": 7736,
+     "erkek": 3919,
+     "kadin": 3817,
+     "pay": 2.04
+    },
+    "Devrekani": {
+     "nufus": 12033,
+     "erkek": 6152,
+     "kadin": 5881,
+     "pay": 3.17
+    },
+    "Doğanyurt": {
+     "nufus": 5057,
+     "erkek": 2620,
+     "kadin": 2437,
+     "pay": 1.33
+    },
+    "Hanönü": {
+     "nufus": 4286,
+     "erkek": 2203,
+     "kadin": 2083,
+     "pay": 1.13
+    },
+    "İhsangazi": {
+     "nufus": 4976,
+     "erkek": 2439,
+     "kadin": 2537,
+     "pay": 1.31
+    },
+    "İnebolu": {
+     "nufus": 19678,
+     "erkek": 9738,
+     "kadin": 9940,
+     "pay": 5.18
+    },
+    "Küre": {
+     "nufus": 5108,
+     "erkek": 2690,
+     "kadin": 2418,
+     "pay": 1.34
+    },
+    "Merkez": {
+     "nufus": 158953,
+     "erkek": 77505,
+     "kadin": 81448,
+     "pay": 41.84
+    },
+    "Pınarbaşı": {
+     "nufus": 5782,
+     "erkek": 3032,
+     "kadin": 2750,
+     "pay": 1.52
+    },
+    "Seydiler": {
+     "nufus": 4639,
+     "erkek": 2335,
+     "kadin": 2304,
+     "pay": 1.22
+    },
+    "Şenpazar": {
+     "nufus": 4083,
+     "erkek": 2119,
+     "kadin": 1964,
+     "pay": 1.07
+    },
+    "Taşköprü": {
+     "nufus": 36544,
+     "erkek": 18145,
+     "kadin": 18399,
+     "pay": 9.62
+    },
+    "Tosya": {
+     "nufus": 39091,
+     "erkek": 18991,
+     "kadin": 20100,
+     "pay": 10.29
+    }
+   }
+  },
+  "38": {
+   "ortancaYas": 34.9,
+   "yas0_14": 20.7,
+   "yas15_64": 68.3,
+   "yas65": 11,
+   "hicEvlenmemis": 27,
+   "evli": 62.5,
+   "bosanmis": 4.8,
+   "esiOlmus": 5.7,
+   "haneBuyuklugu": 3.11,
+   "haneSayisi": 456415,
+   "tekKisilik": 17.4,
+   "cekirdekAile": 69.3,
+   "genisAile": 11.3,
+   "cocukBagimlilik": 30.3,
+   "yasliBagimlilik": 16.1,
+   "dogurganlik": 1.38,
+   "yerliOrani": 68.5,
+   "yogunluk": 85,
+   "yabanci": 16408,
+   "ilceler": {
+    "Akkışla": {
+     "nufus": 5440,
+     "erkek": 2798,
+     "kadin": 2642,
+     "pay": 0.37
+    },
+    "Bünyan": {
+     "nufus": 30362,
+     "erkek": 17853,
+     "kadin": 12509,
+     "pay": 2.08
+    },
+    "Develi": {
+     "nufus": 67818,
+     "erkek": 33892,
+     "kadin": 33926,
+     "pay": 4.65
+    },
+    "Felahiye": {
+     "nufus": 5529,
+     "erkek": 2824,
+     "kadin": 2705,
+     "pay": 0.38
+    },
+    "Hacılar": {
+     "nufus": 13701,
+     "erkek": 6985,
+     "kadin": 6716,
+     "pay": 0.94
+    },
+    "İncesu": {
+     "nufus": 29780,
+     "erkek": 15245,
+     "kadin": 14535,
+     "pay": 2.04
+    },
+    "Kocasinan": {
+     "nufus": 421472,
+     "erkek": 209809,
+     "kadin": 211663,
+     "pay": 28.89
+    },
+    "Melikgazi": {
+     "nufus": 593262,
+     "erkek": 294030,
+     "kadin": 299232,
+     "pay": 40.66
+    },
+    "Özvatan": {
+     "nufus": 3877,
+     "erkek": 2010,
+     "kadin": 1867,
+     "pay": 0.27
+    },
+    "Pınarbaşı": {
+     "nufus": 20598,
+     "erkek": 11037,
+     "kadin": 9561,
+     "pay": 1.41
+    },
+    "Sarıoğlan": {
+     "nufus": 13510,
+     "erkek": 6866,
+     "kadin": 6644,
+     "pay": 0.93
+    },
+    "Sarız": {
+     "nufus": 9213,
+     "erkek": 4776,
+     "kadin": 4437,
+     "pay": 0.63
+    },
+    "Talas": {
+     "nufus": 173657,
+     "erkek": 84865,
+     "kadin": 88792,
+     "pay": 11.9
+    },
+    "Tomarza": {
+     "nufus": 20156,
+     "erkek": 10230,
+     "kadin": 9926,
+     "pay": 1.38
+    },
+    "Yahyalı": {
+     "nufus": 35207,
+     "erkek": 17813,
+     "kadin": 17394,
+     "pay": 2.41
+    },
+    "Yeşilhisar": {
+     "nufus": 15409,
+     "erkek": 7803,
+     "kadin": 7606,
+     "pay": 1.06
+    }
+   }
+  },
+  "39": {
+   "ortancaYas": 41.6,
+   "yas0_14": 14.6,
+   "yas15_64": 68.4,
+   "yas65": 17,
+   "hicEvlenmemis": 24.6,
+   "evli": 61.6,
+   "bosanmis": 5.7,
+   "esiOlmus": 8.1,
+   "haneBuyuklugu": 2.65,
+   "haneSayisi": 136789,
+   "tekKisilik": 23.7,
+   "cekirdekAile": 61,
+   "genisAile": 12.7,
+   "cocukBagimlilik": 21.3,
+   "yasliBagimlilik": 24.9,
+   "dogurganlik": 1.15,
+   "yerliOrani": 62.4,
+   "yogunluk": 59,
+   "yabanci": 4718,
+   "ilceler": {
+    "Babaeski": {
+     "nufus": 46355,
+     "erkek": 23321,
+     "kadin": 23034,
+     "pay": 12.21
+    },
+    "Demirköy": {
+     "nufus": 9364,
+     "erkek": 5249,
+     "kadin": 4115,
+     "pay": 2.47
+    },
+    "Kofçaz": {
+     "nufus": 2291,
+     "erkek": 1320,
+     "kadin": 971,
+     "pay": 0.6
+    },
+    "Lüleburgaz": {
+     "nufus": 157136,
+     "erkek": 78705,
+     "kadin": 78431,
+     "pay": 41.4
+    },
+    "Merkez": {
+     "nufus": 114710,
+     "erkek": 57560,
+     "kadin": 57150,
+     "pay": 30.22
+    },
+    "Pehlivanköy": {
+     "nufus": 3276,
+     "erkek": 1678,
+     "kadin": 1598,
+     "pay": 0.86
+    },
+    "Pınarhisar": {
+     "nufus": 17694,
+     "erkek": 9191,
+     "kadin": 8503,
+     "pay": 4.66
+    },
+    "Vize": {
+     "nufus": 28769,
+     "erkek": 14854,
+     "kadin": 13915,
+     "pay": 7.58
+    }
+   }
+  },
+  "40": {
+   "ortancaYas": 38.6,
+   "yas0_14": 17,
+   "yas15_64": 67.8,
+   "yas65": 15.1,
+   "hicEvlenmemis": 26.4,
+   "evli": 61.4,
+   "bosanmis": 5,
+   "esiOlmus": 7.2,
+   "haneBuyuklugu": 2.81,
+   "haneSayisi": 80749,
+   "tekKisilik": 21.9,
+   "cekirdekAile": 61.1,
+   "genisAile": 13.6,
+   "cocukBagimlilik": 25.1,
+   "yasliBagimlilik": 22.3,
+   "dogurganlik": 1.22,
+   "yerliOrani": 72.5,
+   "yogunluk": 38,
+   "yabanci": 7389,
+   "ilceler": {
+    "Akçakent": {
+     "nufus": 3301,
+     "erkek": 1668,
+     "kadin": 1633,
+     "pay": 1.36
+    },
+    "Akpınar": {
+     "nufus": 6435,
+     "erkek": 3272,
+     "kadin": 3163,
+     "pay": 2.65
+    },
+    "Boztepe": {
+     "nufus": 5049,
+     "erkek": 2633,
+     "kadin": 2416,
+     "pay": 2.08
+    },
+    "Çiçekdağı": {
+     "nufus": 13350,
+     "erkek": 6532,
+     "kadin": 6818,
+     "pay": 5.5
+    },
+    "Kaman": {
+     "nufus": 33354,
+     "erkek": 16768,
+     "kadin": 16586,
+     "pay": 13.74
+    },
+    "Merkez": {
+     "nufus": 163368,
+     "erkek": 80996,
+     "kadin": 82372,
+     "pay": 67.29
+    },
+    "Mucur": {
+     "nufus": 17920,
+     "erkek": 9007,
+     "kadin": 8913,
+     "pay": 7.38
+    }
+   }
+  },
+  "41": {
+   "ortancaYas": 34.4,
+   "yas0_14": 20.9,
+   "yas15_64": 70,
+   "yas65": 9,
+   "hicEvlenmemis": 27.5,
+   "evli": 62.6,
+   "bosanmis": 5,
+   "esiOlmus": 4.9,
+   "haneBuyuklugu": 3.16,
+   "haneSayisi": 666725,
+   "tekKisilik": 16.9,
+   "cekirdekAile": 66.7,
+   "genisAile": 14,
+   "cocukBagimlilik": 29.9,
+   "yasliBagimlilik": 12.9,
+   "dogurganlik": 1.39,
+   "yerliOrani": 26,
+   "yogunluk": 633,
+   "yabanci": 20020,
+   "ilceler": {
+    "Başiskele": {
+     "nufus": 131387,
+     "erkek": 65746,
+     "kadin": 65641,
+     "pay": 6.08
+    },
+    "Çayırova": {
+     "nufus": 162262,
+     "erkek": 82430,
+     "kadin": 79832,
+     "pay": 7.51
+    },
+    "Darıca": {
+     "nufus": 235632,
+     "erkek": 118726,
+     "kadin": 116906,
+     "pay": 10.9
+    },
+    "Derince": {
+     "nufus": 147892,
+     "erkek": 73952,
+     "kadin": 73940,
+     "pay": 6.84
+    },
+    "Dilovası": {
+     "nufus": 55355,
+     "erkek": 28567,
+     "kadin": 26788,
+     "pay": 2.56
+    },
+    "Gebze": {
+     "nufus": 414960,
+     "erkek": 209814,
+     "kadin": 205146,
+     "pay": 19.2
+    },
+    "Gölcük": {
+     "nufus": 181227,
+     "erkek": 91030,
+     "kadin": 90197,
+     "pay": 8.39
+    },
+    "İzmit": {
+     "nufus": 381254,
+     "erkek": 188033,
+     "kadin": 193221,
+     "pay": 17.64
+    },
+    "Kandıra": {
+     "nufus": 54260,
+     "erkek": 30741,
+     "kadin": 23519,
+     "pay": 2.51
+    },
+    "Karamürsel": {
+     "nufus": 59488,
+     "erkek": 29634,
+     "kadin": 29854,
+     "pay": 2.75
+    },
+    "Kartepe": {
+     "nufus": 154377,
+     "erkek": 78261,
+     "kadin": 76116,
+     "pay": 7.14
+    },
+    "Körfez": {
+     "nufus": 183077,
+     "erkek": 91819,
+     "kadin": 91258,
+     "pay": 8.47
+    }
+   }
+  },
+  "42": {
+   "ortancaYas": 33.8,
+   "yas0_14": 21.4,
+   "yas15_64": 67.4,
+   "yas65": 11.3,
+   "hicEvlenmemis": 26.5,
+   "evli": 63.4,
+   "bosanmis": 4.4,
+   "esiOlmus": 5.7,
+   "haneBuyuklugu": 3.17,
+   "haneSayisi": 712862,
+   "tekKisilik": 17.4,
+   "cekirdekAile": 66.8,
+   "genisAile": 13.7,
+   "cocukBagimlilik": 31.7,
+   "yasliBagimlilik": 16.7,
+   "dogurganlik": 1.53,
+   "yerliOrani": 81.5,
+   "yogunluk": 59,
+   "yabanci": 28435,
+   "ilceler": {
+    "Ahırlı": {
+     "nufus": 4536,
+     "erkek": 2279,
+     "kadin": 2257,
+     "pay": 0.19
+    },
+    "Akören": {
+     "nufus": 5744,
+     "erkek": 2882,
+     "kadin": 2862,
+     "pay": 0.25
+    },
+    "Akşehir": {
+     "nufus": 93613,
+     "erkek": 45717,
+     "kadin": 47896,
+     "pay": 3.99
+    },
+    "Altınekin": {
+     "nufus": 14374,
+     "erkek": 7402,
+     "kadin": 6972,
+     "pay": 0.61
+    },
+    "Beyşehir": {
+     "nufus": 80353,
+     "erkek": 39743,
+     "kadin": 40610,
+     "pay": 3.43
+    },
+    "Bozkır": {
+     "nufus": 24704,
+     "erkek": 12126,
+     "kadin": 12578,
+     "pay": 1.05
+    },
+    "Cihanbeyli": {
+     "nufus": 49126,
+     "erkek": 24805,
+     "kadin": 24321,
+     "pay": 2.1
+    },
+    "Çeltik": {
+     "nufus": 9482,
+     "erkek": 4864,
+     "kadin": 4618,
+     "pay": 0.4
+    },
+    "Çumra": {
+     "nufus": 68803,
+     "erkek": 34606,
+     "kadin": 34197,
+     "pay": 2.94
+    },
+    "Derbent": {
+     "nufus": 3954,
+     "erkek": 1910,
+     "kadin": 2044,
+     "pay": 0.17
+    },
+    "Derebucak": {
+     "nufus": 5353,
+     "erkek": 2685,
+     "kadin": 2668,
+     "pay": 0.23
+    },
+    "Doğanhisar": {
+     "nufus": 14097,
+     "erkek": 6786,
+     "kadin": 7311,
+     "pay": 0.6
+    },
+    "Emirgazi": {
+     "nufus": 7647,
+     "erkek": 3997,
+     "kadin": 3650,
+     "pay": 0.33
+    },
+    "Ereğli": {
+     "nufus": 158010,
+     "erkek": 81571,
+     "kadin": 76439,
+     "pay": 6.74
+    },
+    "Güneysınır": {
+     "nufus": 9237,
+     "erkek": 4615,
+     "kadin": 4622,
+     "pay": 0.39
+    },
+    "Hadim": {
+     "nufus": 10621,
+     "erkek": 5323,
+     "kadin": 5298,
+     "pay": 0.45
+    },
+    "Halkapınar": {
+     "nufus": 3947,
+     "erkek": 1979,
+     "kadin": 1968,
+     "pay": 0.17
+    },
+    "Hüyük": {
+     "nufus": 14878,
+     "erkek": 7277,
+     "kadin": 7601,
+     "pay": 0.63
+    },
+    "Ilgın": {
+     "nufus": 53167,
+     "erkek": 26427,
+     "kadin": 26740,
+     "pay": 2.27
+    },
+    "Kadınhanı": {
+     "nufus": 31478,
+     "erkek": 16033,
+     "kadin": 15445,
+     "pay": 1.34
+    },
+    "Karapınar": {
+     "nufus": 51756,
+     "erkek": 26489,
+     "kadin": 25267,
+     "pay": 2.21
+    },
+    "Karatay": {
+     "nufus": 395499,
+     "erkek": 197936,
+     "kadin": 197563,
+     "pay": 16.88
+    },
+    "Kulu": {
+     "nufus": 51732,
+     "erkek": 25715,
+     "kadin": 26017,
+     "pay": 2.21
+    },
+    "Meram": {
+     "nufus": 349685,
+     "erkek": 172911,
+     "kadin": 176774,
+     "pay": 14.92
+    },
+    "Sarayönü": {
+     "nufus": 28401,
+     "erkek": 14372,
+     "kadin": 14029,
+     "pay": 1.21
+    },
+    "Selçuklu": {
+     "nufus": 703449,
+     "erkek": 343284,
+     "kadin": 360165,
+     "pay": 30.02
+    },
+    "Seydişehir": {
+     "nufus": 66079,
+     "erkek": 33135,
+     "kadin": 32944,
+     "pay": 2.82
+    },
+    "Taşkent": {
+     "nufus": 5669,
+     "erkek": 2784,
+     "kadin": 2885,
+     "pay": 0.24
+    },
+    "Tuzlukçu": {
+     "nufus": 6052,
+     "erkek": 2999,
+     "kadin": 3053,
+     "pay": 0.26
+    },
+    "Yalıhüyük": {
+     "nufus": 1704,
+     "erkek": 847,
+     "kadin": 857,
+     "pay": 0.07
+    },
+    "Yunak": {
+     "nufus": 20259,
+     "erkek": 10351,
+     "kadin": 9908,
+     "pay": 0.86
+    }
+   }
+  },
+  "43": {
+   "ortancaYas": 40.3,
+   "yas0_14": 15.5,
+   "yas15_64": 68.6,
+   "yas65": 15.9,
+   "hicEvlenmemis": 23.9,
+   "evli": 63.7,
+   "bosanmis": 4.3,
+   "esiOlmus": 8.1,
+   "haneBuyuklugu": 2.71,
+   "haneSayisi": 199423,
+   "tekKisilik": 23.8,
+   "cekirdekAile": 60.7,
+   "genisAile": 13.2,
+   "cocukBagimlilik": 22.6,
+   "yasliBagimlilik": 23.1,
+   "dogurganlik": 1.13,
+   "yerliOrani": 83.2,
+   "yogunluk": 49,
+   "yabanci": 9676,
+   "ilceler": {
+    "Altıntaş": {
+     "nufus": 14739,
+     "erkek": 7419,
+     "kadin": 7320,
+     "pay": 2.58
+    },
+    "Aslanapa": {
+     "nufus": 7813,
+     "erkek": 3961,
+     "kadin": 3852,
+     "pay": 1.37
+    },
+    "Çavdarhisar": {
+     "nufus": 5503,
+     "erkek": 2675,
+     "kadin": 2828,
+     "pay": 0.96
+    },
+    "Domaniç": {
+     "nufus": 13900,
+     "erkek": 6946,
+     "kadin": 6954,
+     "pay": 2.44
+    },
+    "Dumlupınar": {
+     "nufus": 2812,
+     "erkek": 1423,
+     "kadin": 1389,
+     "pay": 0.49
+    },
+    "Emet": {
+     "nufus": 17352,
+     "erkek": 8360,
+     "kadin": 8992,
+     "pay": 3.04
+    },
+    "Gediz": {
+     "nufus": 48539,
+     "erkek": 23505,
+     "kadin": 25034,
+     "pay": 8.51
+    },
+    "Hisarcık": {
+     "nufus": 10799,
+     "erkek": 5255,
+     "kadin": 5544,
+     "pay": 1.89
+    },
+    "Merkez": {
+     "nufus": 277000,
+     "erkek": 137222,
+     "kadin": 139778,
+     "pay": 48.56
+    },
+    "Pazarlar": {
+     "nufus": 4713,
+     "erkek": 2297,
+     "kadin": 2416,
+     "pay": 0.83
+    },
+    "Simav": {
+     "nufus": 60886,
+     "erkek": 29537,
+     "kadin": 31349,
+     "pay": 10.67
+    },
+    "Şaphane": {
+     "nufus": 5540,
+     "erkek": 2612,
+     "kadin": 2928,
+     "pay": 0.97
+    },
+    "Tavşanlı": {
+     "nufus": 100882,
+     "erkek": 50163,
+     "kadin": 50719,
+     "pay": 17.68
+    }
+   }
+  },
+  "44": {
+   "ortancaYas": 36,
+   "yas0_14": 19.6,
+   "yas15_64": 67.9,
+   "yas65": 12.5,
+   "hicEvlenmemis": 29.9,
+   "evli": 60.4,
+   "bosanmis": 3.7,
+   "esiOlmus": 6,
+   "haneBuyuklugu": 3.09,
+   "haneSayisi": 236048,
+   "tekKisilik": 21.9,
+   "cekirdekAile": 60.7,
+   "genisAile": 14.7,
+   "cocukBagimlilik": 28.8,
+   "yasliBagimlilik": 18.4,
+   "dogurganlik": 1.4,
+   "yerliOrani": 78.1,
+   "yogunluk": 63,
+   "yabanci": 3711,
+   "ilceler": {
+    "Akçadağ": {
+     "nufus": 31479,
+     "erkek": 18075,
+     "kadin": 13404,
+     "pay": 4.16
+    },
+    "Arapgir": {
+     "nufus": 9917,
+     "erkek": 5142,
+     "kadin": 4775,
+     "pay": 1.31
+    },
+    "Arguvan": {
+     "nufus": 6859,
+     "erkek": 3540,
+     "kadin": 3319,
+     "pay": 0.91
+    },
+    "Battalgazi": {
+     "nufus": 274563,
+     "erkek": 134954,
+     "kadin": 139609,
+     "pay": 36.32
+    },
+    "Darende": {
+     "nufus": 24806,
+     "erkek": 12609,
+     "kadin": 12197,
+     "pay": 3.28
+    },
+    "Doğanşehir": {
+     "nufus": 36037,
+     "erkek": 18640,
+     "kadin": 17397,
+     "pay": 4.77
+    },
+    "Doğanyol": {
+     "nufus": 4002,
+     "erkek": 2044,
+     "kadin": 1958,
+     "pay": 0.53
+    },
+    "Hekimhan": {
+     "nufus": 17116,
+     "erkek": 8869,
+     "kadin": 8247,
+     "pay": 2.26
+    },
+    "Kale": {
+     "nufus": 7462,
+     "erkek": 3684,
+     "kadin": 3778,
+     "pay": 0.99
+    },
+    "Kuluncak": {
+     "nufus": 7414,
+     "erkek": 3819,
+     "kadin": 3595,
+     "pay": 0.98
+    },
+    "Pütürge": {
+     "nufus": 12372,
+     "erkek": 6265,
+     "kadin": 6107,
+     "pay": 1.64
+    },
+    "Yazıhan": {
+     "nufus": 13937,
+     "erkek": 7295,
+     "kadin": 6642,
+     "pay": 1.84
+    },
+    "Yeşilyurt": {
+     "nufus": 309890,
+     "erkek": 153750,
+     "kadin": 156140,
+     "pay": 41
+    }
+   }
+  },
+  "45": {
+   "ortancaYas": 38.3,
+   "yas0_14": 18.6,
+   "yas15_64": 67.7,
+   "yas65": 13.7,
+   "hicEvlenmemis": 23.4,
+   "evli": 64.2,
+   "bosanmis": 5.2,
+   "esiOlmus": 7.2,
+   "haneBuyuklugu": 2.91,
+   "haneSayisi": 494634,
+   "tekKisilik": 20,
+   "cekirdekAile": 64.7,
+   "genisAile": 13.4,
+   "cocukBagimlilik": 27.4,
+   "yasliBagimlilik": 20.3,
+   "dogurganlik": 1.41,
+   "yerliOrani": 68.1,
+   "yogunluk": 111,
+   "yabanci": 7978,
+   "ilceler": {
+    "Ahmetli": {
+     "nufus": 17612,
+     "erkek": 8770,
+     "kadin": 8842,
+     "pay": 1.19
+    },
+    "Akhisar": {
+     "nufus": 181472,
+     "erkek": 91022,
+     "kadin": 90450,
+     "pay": 12.28
+    },
+    "Alaşehir": {
+     "nufus": 104565,
+     "erkek": 52909,
+     "kadin": 51656,
+     "pay": 7.08
+    },
+    "Demirci": {
+     "nufus": 35629,
+     "erkek": 17975,
+     "kadin": 17654,
+     "pay": 2.41
+    },
+    "Gölmarmara": {
+     "nufus": 15140,
+     "erkek": 7564,
+     "kadin": 7576,
+     "pay": 1.02
+    },
+    "Gördes": {
+     "nufus": 25456,
+     "erkek": 12487,
+     "kadin": 12969,
+     "pay": 1.72
+    },
+    "Kırkağaç": {
+     "nufus": 37363,
+     "erkek": 18721,
+     "kadin": 18642,
+     "pay": 2.53
+    },
+    "Köprübaşı": {
+     "nufus": 12217,
+     "erkek": 6011,
+     "kadin": 6206,
+     "pay": 0.83
+    },
+    "Kula": {
+     "nufus": 43015,
+     "erkek": 21150,
+     "kadin": 21865,
+     "pay": 2.91
+    },
+    "Salihli": {
+     "nufus": 165007,
+     "erkek": 81653,
+     "kadin": 83354,
+     "pay": 11.17
+    },
+    "Sarıgöl": {
+     "nufus": 34786,
+     "erkek": 17130,
+     "kadin": 17656,
+     "pay": 2.35
+    },
+    "Saruhanlı": {
+     "nufus": 58475,
+     "erkek": 29427,
+     "kadin": 29048,
+     "pay": 3.96
+    },
+    "Selendi": {
+     "nufus": 18568,
+     "erkek": 9320,
+     "kadin": 9248,
+     "pay": 1.26
+    },
+    "Soma": {
+     "nufus": 110188,
+     "erkek": 54972,
+     "kadin": 55216,
+     "pay": 7.46
+    },
+    "Şehzadeler": {
+     "nufus": 168582,
+     "erkek": 87494,
+     "kadin": 81088,
+     "pay": 11.41
+    },
+    "Turgutlu": {
+     "nufus": 179326,
+     "erkek": 90101,
+     "kadin": 89225,
+     "pay": 12.14
+    },
+    "Yunusemre": {
+     "nufus": 270355,
+     "erkek": 134487,
+     "kadin": 135868,
+     "pay": 18.29
+    }
+   }
+  },
+  "46": {
+   "ortancaYas": 31.9,
+   "yas0_14": 23.8,
+   "yas15_64": 66.3,
+   "yas65": 10,
+   "hicEvlenmemis": 27.9,
+   "evli": 63.5,
+   "bosanmis": 3.7,
+   "esiOlmus": 4.9,
+   "haneBuyuklugu": 3.36,
+   "haneSayisi": 333855,
+   "tekKisilik": 17.1,
+   "cekirdekAile": 66.7,
+   "genisAile": 14.3,
+   "cocukBagimlilik": 35.8,
+   "yasliBagimlilik": 15.1,
+   "dogurganlik": 1.7,
+   "yerliOrani": 91.7,
+   "yogunluk": 81,
+   "yabanci": 4021,
+   "ilceler": {
+    "Afşin": {
+     "nufus": 80124,
+     "erkek": 40843,
+     "kadin": 39281,
+     "pay": 6.99
+    },
+    "Andırın": {
+     "nufus": 31609,
+     "erkek": 16251,
+     "kadin": 15358,
+     "pay": 2.76
+    },
+    "Çağlayancerit": {
+     "nufus": 22440,
+     "erkek": 11531,
+     "kadin": 10909,
+     "pay": 1.96
+    },
+    "Dulkadiroğlu": {
+     "nufus": 213930,
+     "erkek": 109645,
+     "kadin": 104285,
+     "pay": 18.66
+    },
+    "Ekinözü": {
+     "nufus": 9896,
+     "erkek": 5256,
+     "kadin": 4640,
+     "pay": 0.86
+    },
+    "Elbistan": {
+     "nufus": 132036,
+     "erkek": 67288,
+     "kadin": 64748,
+     "pay": 11.52
+    },
+    "Göksun": {
+     "nufus": 49145,
+     "erkek": 24969,
+     "kadin": 24176,
+     "pay": 4.29
+    },
+    "Nurhak": {
+     "nufus": 11675,
+     "erkek": 6112,
+     "kadin": 5563,
+     "pay": 1.02
+    },
+    "Onikişubat": {
+     "nufus": 447591,
+     "erkek": 224307,
+     "kadin": 223284,
+     "pay": 39.05
+    },
+    "Pazarcık": {
+     "nufus": 66777,
+     "erkek": 33776,
+     "kadin": 33001,
+     "pay": 5.83
+    },
+    "Türkoğlu": {
+     "nufus": 81055,
+     "erkek": 44096,
+     "kadin": 36959,
+     "pay": 7.07
+    }
+   }
+  },
+  "47": {
+   "ortancaYas": 25.9,
+   "yas0_14": 30.8,
+   "yas15_64": 63,
+   "yas65": 6.2,
+   "hicEvlenmemis": 37.3,
+   "evli": 57.4,
+   "bosanmis": 1.6,
+   "esiOlmus": 3.7,
+   "haneBuyuklugu": 4.25,
+   "haneSayisi": 205695,
+   "tekKisilik": 13.6,
+   "cekirdekAile": 66.4,
+   "genisAile": 17.5,
+   "cocukBagimlilik": 49,
+   "yasliBagimlilik": 9.8,
+   "dogurganlik": 2.23,
+   "yerliOrani": 88,
+   "yogunluk": 103,
+   "yabanci": 3094,
+   "ilceler": {
+    "Artuklu": {
+     "nufus": 198718,
+     "erkek": 99554,
+     "kadin": 99164,
+     "pay": 21.99
+    },
+    "Dargeçit": {
+     "nufus": 26675,
+     "erkek": 13271,
+     "kadin": 13404,
+     "pay": 2.95
+    },
+    "Derik": {
+     "nufus": 61553,
+     "erkek": 30916,
+     "kadin": 30637,
+     "pay": 6.81
+    },
+    "Kızıltepe": {
+     "nufus": 275217,
+     "erkek": 138776,
+     "kadin": 136441,
+     "pay": 30.46
+    },
+    "Mazıdağı": {
+     "nufus": 37381,
+     "erkek": 19073,
+     "kadin": 18308,
+     "pay": 4.14
+    },
+    "Midyat": {
+     "nufus": 125791,
+     "erkek": 62906,
+     "kadin": 62885,
+     "pay": 13.92
+    },
+    "Nusaybin": {
+     "nufus": 119559,
+     "erkek": 59516,
+     "kadin": 60043,
+     "pay": 13.23
+    },
+    "Ömerli": {
+     "nufus": 14112,
+     "erkek": 7338,
+     "kadin": 6774,
+     "pay": 1.56
+    },
+    "Savur": {
+     "nufus": 23404,
+     "erkek": 11719,
+     "kadin": 11685,
+     "pay": 2.59
+    },
+    "Yeşilli": {
+     "nufus": 21166,
+     "erkek": 10708,
+     "kadin": 10458,
+     "pay": 2.34
+    }
+   }
+  },
+  "48": {
+   "ortancaYas": 40.6,
+   "yas0_14": 16,
+   "yas15_64": 69.3,
+   "yas65": 14.7,
+   "hicEvlenmemis": 25.2,
+   "evli": 60.7,
+   "bosanmis": 8.4,
+   "esiOlmus": 5.7,
+   "haneBuyuklugu": 2.7,
+   "haneSayisi": 391532,
+   "tekKisilik": 26.1,
+   "cekirdekAile": 55.4,
+   "genisAile": 14.1,
+   "cocukBagimlilik": 23.1,
+   "yasliBagimlilik": 21.1,
+   "dogurganlik": 1.21,
+   "yerliOrani": 51.2,
+   "yogunluk": 89,
+   "yabanci": 26653,
+   "ilceler": {
+    "Bodrum": {
+     "nufus": 207196,
+     "erkek": 106238,
+     "kadin": 100958,
+     "pay": 18.84
+    },
+    "Dalaman": {
+     "nufus": 53327,
+     "erkek": 28022,
+     "kadin": 25305,
+     "pay": 4.85
+    },
+    "Datça": {
+     "nufus": 26067,
+     "erkek": 13101,
+     "kadin": 12966,
+     "pay": 2.37
+    },
+    "Fethiye": {
+     "nufus": 187332,
+     "erkek": 93083,
+     "kadin": 94249,
+     "pay": 17.04
+    },
+    "Kavaklıdere": {
+     "nufus": 10854,
+     "erkek": 5526,
+     "kadin": 5328,
+     "pay": 0.99
+    },
+    "Köyceğiz": {
+     "nufus": 41810,
+     "erkek": 21016,
+     "kadin": 20794,
+     "pay": 3.8
+    },
+    "Marmaris": {
+     "nufus": 97373,
+     "erkek": 50728,
+     "kadin": 46645,
+     "pay": 8.86
+    },
+    "Menteşe": {
+     "nufus": 126288,
+     "erkek": 63382,
+     "kadin": 62906,
+     "pay": 11.49
+    },
+    "Milas": {
+     "nufus": 152275,
+     "erkek": 77172,
+     "kadin": 75103,
+     "pay": 13.85
+    },
+    "Ortaca": {
+     "nufus": 58704,
+     "erkek": 29212,
+     "kadin": 29492,
+     "pay": 5.34
+    },
+    "Seydikemer": {
+     "nufus": 65648,
+     "erkek": 34401,
+     "kadin": 31247,
+     "pay": 5.97
+    },
+    "Ula": {
+     "nufus": 27649,
+     "erkek": 14023,
+     "kadin": 13626,
+     "pay": 2.51
+    },
+    "Yatağan": {
+     "nufus": 45024,
+     "erkek": 22724,
+     "kadin": 22300,
+     "pay": 4.09
+    }
+   }
+  },
+  "49": {
+   "ortancaYas": 25.3,
+   "yas0_14": 30.2,
+   "yas15_64": 63.3,
+   "yas65": 6.5,
+   "hicEvlenmemis": 36.7,
+   "evli": 58.2,
+   "bosanmis": 1.1,
+   "esiOlmus": 4,
+   "haneBuyuklugu": 4.11,
+   "haneSayisi": 92139,
+   "tekKisilik": 15.9,
+   "cekirdekAile": 66.4,
+   "genisAile": 15.5,
+   "cocukBagimlilik": 47.6,
+   "yasliBagimlilik": 10.3,
+   "dogurganlik": 2.01,
+   "yerliOrani": 88.7,
+   "yogunluk": 45,
+   "yabanci": 562,
+   "ilceler": {
+    "Bulanık": {
+     "nufus": 68983,
+     "erkek": 35081,
+     "kadin": 33902,
+     "pay": 17.73
+    },
+    "Hasköy": {
+     "nufus": 27684,
+     "erkek": 14320,
+     "kadin": 13364,
+     "pay": 7.11
+    },
+    "Korkut": {
+     "nufus": 19251,
+     "erkek": 9813,
+     "kadin": 9438,
+     "pay": 4.95
+    },
+    "Malazgirt": {
+     "nufus": 40595,
+     "erkek": 20794,
+     "kadin": 19801,
+     "pay": 10.43
+    },
+    "Merkez": {
+     "nufus": 203810,
+     "erkek": 103224,
+     "kadin": 100586,
+     "pay": 52.38
+    },
+    "Varto": {
+     "nufus": 28804,
+     "erkek": 14378,
+     "kadin": 14426,
+     "pay": 7.4
+    }
+   }
+  },
+  "50": {
+   "ortancaYas": 36.6,
+   "yas0_14": 18.4,
+   "yas15_64": 67.9,
+   "yas65": 13.6,
+   "hicEvlenmemis": 25.7,
+   "evli": 62.4,
+   "bosanmis": 5.1,
+   "esiOlmus": 6.7,
+   "haneBuyuklugu": 2.94,
+   "haneSayisi": 103769,
+   "tekKisilik": 21.7,
+   "cekirdekAile": 61.3,
+   "genisAile": 14.1,
+   "cocukBagimlilik": 27.1,
+   "yasliBagimlilik": 20.1,
+   "dogurganlik": 1.32,
+   "yerliOrani": 78.3,
+   "yogunluk": 58,
+   "yabanci": 7755,
+   "ilceler": {
+    "Acıgöl": {
+     "nufus": 19430,
+     "erkek": 10004,
+     "kadin": 9426,
+     "pay": 6.07
+    },
+    "Avanos": {
+     "nufus": 32093,
+     "erkek": 15968,
+     "kadin": 16125,
+     "pay": 10.02
+    },
+    "Derinkuyu": {
+     "nufus": 21107,
+     "erkek": 10705,
+     "kadin": 10402,
+     "pay": 6.59
+    },
+    "Gülşehir": {
+     "nufus": 21173,
+     "erkek": 10426,
+     "kadin": 10747,
+     "pay": 6.61
+    },
+    "Hacıbektaş": {
+     "nufus": 10564,
+     "erkek": 5222,
+     "kadin": 5342,
+     "pay": 3.3
+    },
+    "Kozaklı": {
+     "nufus": 12678,
+     "erkek": 6242,
+     "kadin": 6436,
+     "pay": 3.96
+    },
+    "Merkez": {
+     "nufus": 163126,
+     "erkek": 79811,
+     "kadin": 83315,
+     "pay": 50.95
+    },
+    "Ürgüp": {
+     "nufus": 39979,
+     "erkek": 19437,
+     "kadin": 20542,
+     "pay": 12.49
+    }
+   }
+  },
+  "51": {
+   "ortancaYas": 34.5,
+   "yas0_14": 20.5,
+   "yas15_64": 67.7,
+   "yas65": 11.9,
+   "hicEvlenmemis": 27.5,
+   "evli": 61.7,
+   "bosanmis": 4.4,
+   "esiOlmus": 6.4,
+   "haneBuyuklugu": 3.01,
+   "haneSayisi": 119423,
+   "tekKisilik": 22.1,
+   "cekirdekAile": 64.2,
+   "genisAile": 11.6,
+   "cocukBagimlilik": 30.3,
+   "yasliBagimlilik": 17.5,
+   "dogurganlik": 1.47,
+   "yerliOrani": 82.8,
+   "yogunluk": 52,
+   "yabanci": 3813,
+   "ilceler": {
+    "Altunhisar": {
+     "nufus": 12004,
+     "erkek": 6265,
+     "kadin": 5739,
+     "pay": 3.21
+    },
+    "Bor": {
+     "nufus": 62594,
+     "erkek": 31064,
+     "kadin": 31530,
+     "pay": 16.71
+    },
+    "Çamardı": {
+     "nufus": 11631,
+     "erkek": 5710,
+     "kadin": 5921,
+     "pay": 3.11
+    },
+    "Çiftlik": {
+     "nufus": 25157,
+     "erkek": 13059,
+     "kadin": 12098,
+     "pay": 6.72
+    },
+    "Merkez": {
+     "nufus": 244326,
+     "erkek": 121778,
+     "kadin": 122548,
+     "pay": 65.24
+    },
+    "Ulukışla": {
+     "nufus": 18780,
+     "erkek": 9626,
+     "kadin": 9154,
+     "pay": 5.01
+    }
+   }
+  },
+  "52": {
+   "ortancaYas": 41.6,
+   "yas0_14": 16.6,
+   "yas15_64": 66.2,
+   "yas65": 17.2,
+   "hicEvlenmemis": 22.9,
+   "evli": 65,
+   "bosanmis": 4.1,
+   "esiOlmus": 8,
+   "haneBuyuklugu": 2.68,
+   "haneSayisi": 280629,
+   "tekKisilik": 25.1,
+   "cekirdekAile": 60.8,
+   "genisAile": 12,
+   "cocukBagimlilik": 25.1,
+   "yasliBagimlilik": 26,
+   "dogurganlik": 1.25,
+   "yerliOrani": 89.4,
+   "yogunluk": 130,
+   "yabanci": 5290,
+   "ilceler": {
+    "Akkuş": {
+     "nufus": 20465,
+     "erkek": 10769,
+     "kadin": 9696,
+     "pay": 2.66
+    },
+    "Altınordu": {
+     "nufus": 239714,
+     "erkek": 115942,
+     "kadin": 123772,
+     "pay": 31.21
+    },
+    "Aybastı": {
+     "nufus": 19784,
+     "erkek": 9836,
+     "kadin": 9948,
+     "pay": 2.58
+    },
+    "Çamaş": {
+     "nufus": 8407,
+     "erkek": 4339,
+     "kadin": 4068,
+     "pay": 1.09
+    },
+    "Çatalpınar": {
+     "nufus": 12888,
+     "erkek": 6537,
+     "kadin": 6351,
+     "pay": 1.68
+    },
+    "Çaybaşı": {
+     "nufus": 11656,
+     "erkek": 5965,
+     "kadin": 5691,
+     "pay": 1.52
+    },
+    "Fatsa": {
+     "nufus": 129844,
+     "erkek": 64302,
+     "kadin": 65542,
+     "pay": 16.9
+    },
+    "Gölköy": {
+     "nufus": 24780,
+     "erkek": 12634,
+     "kadin": 12146,
+     "pay": 3.23
+    },
+    "Gülyalı": {
+     "nufus": 8881,
+     "erkek": 4557,
+     "kadin": 4324,
+     "pay": 1.16
+    },
+    "Gürgentepe": {
+     "nufus": 12499,
+     "erkek": 6390,
+     "kadin": 6109,
+     "pay": 1.63
+    },
+    "İkizce": {
+     "nufus": 12537,
+     "erkek": 6523,
+     "kadin": 6014,
+     "pay": 1.63
+    },
+    "Kabadüz": {
+     "nufus": 6794,
+     "erkek": 3836,
+     "kadin": 2958,
+     "pay": 0.88
+    },
+    "Kabataş": {
+     "nufus": 9949,
+     "erkek": 5008,
+     "kadin": 4941,
+     "pay": 1.3
+    },
+    "Korgan": {
+     "nufus": 26428,
+     "erkek": 13430,
+     "kadin": 12998,
+     "pay": 3.44
+    },
+    "Kumru": {
+     "nufus": 27638,
+     "erkek": 13916,
+     "kadin": 13722,
+     "pay": 3.6
+    },
+    "Mesudiye": {
+     "nufus": 11829,
+     "erkek": 6133,
+     "kadin": 5696,
+     "pay": 1.54
+    },
+    "Perşembe": {
+     "nufus": 30053,
+     "erkek": 15682,
+     "kadin": 14371,
+     "pay": 3.91
+    },
+    "Ulubey": {
+     "nufus": 18027,
+     "erkek": 9441,
+     "kadin": 8586,
+     "pay": 2.35
+    },
+    "Ünye": {
+     "nufus": 135914,
+     "erkek": 67536,
+     "kadin": 68378,
+     "pay": 17.7
+    }
+   }
+  },
+  "53": {
+   "ortancaYas": 40.1,
+   "yas0_14": 16.5,
+   "yas15_64": 67.8,
+   "yas65": 15.8,
+   "hicEvlenmemis": 28.6,
+   "evli": 59.9,
+   "bosanmis": 3.4,
+   "esiOlmus": 8.1,
+   "haneBuyuklugu": 2.81,
+   "haneSayisi": 118889,
+   "tekKisilik": 25.5,
+   "cekirdekAile": 57.6,
+   "genisAile": 14,
+   "cocukBagimlilik": 24.3,
+   "yasliBagimlilik": 23.2,
+   "dogurganlik": 1.28,
+   "yerliOrani": 82.7,
+   "yogunluk": 88,
+   "yabanci": 1844,
+   "ilceler": {
+    "Ardeşen": {
+     "nufus": 43519,
+     "erkek": 21653,
+     "kadin": 21866,
+     "pay": 12.54
+    },
+    "Çamlıhemşin": {
+     "nufus": 7051,
+     "erkek": 3642,
+     "kadin": 3409,
+     "pay": 2.03
+    },
+    "Çayeli": {
+     "nufus": 42032,
+     "erkek": 21120,
+     "kadin": 20912,
+     "pay": 12.11
+    },
+    "Derepazarı": {
+     "nufus": 6772,
+     "erkek": 3598,
+     "kadin": 3174,
+     "pay": 1.95
+    },
+    "Fındıklı": {
+     "nufus": 16388,
+     "erkek": 8242,
+     "kadin": 8146,
+     "pay": 4.72
+    },
+    "Güneysu": {
+     "nufus": 15013,
+     "erkek": 7505,
+     "kadin": 7508,
+     "pay": 4.33
+    },
+    "Hemşin": {
+     "nufus": 2299,
+     "erkek": 1194,
+     "kadin": 1105,
+     "pay": 0.66
+    },
+    "İkizdere": {
+     "nufus": 6287,
+     "erkek": 3465,
+     "kadin": 2822,
+     "pay": 1.81
+    },
+    "İyidere": {
+     "nufus": 8495,
+     "erkek": 4457,
+     "kadin": 4038,
+     "pay": 2.45
+    },
+    "Kalkandere": {
+     "nufus": 13350,
+     "erkek": 8080,
+     "kadin": 5270,
+     "pay": 3.85
+    },
+    "Merkez": {
+     "nufus": 153597,
+     "erkek": 74544,
+     "kadin": 79053,
+     "pay": 44.27
+    },
+    "Pazar": {
+     "nufus": 32144,
+     "erkek": 16049,
+     "kadin": 16095,
+     "pay": 9.26
+    }
+   }
+  },
+  "54": {
+   "ortancaYas": 36,
+   "yas0_14": 19.3,
+   "yas15_64": 68.8,
+   "yas65": 11.9,
+   "hicEvlenmemis": 27.3,
+   "evli": 61.6,
+   "bosanmis": 4.9,
+   "esiOlmus": 6.2,
+   "haneBuyuklugu": 3.14,
+   "haneSayisi": 344455,
+   "tekKisilik": 19,
+   "cekirdekAile": 61.5,
+   "genisAile": 16.5,
+   "cocukBagimlilik": 28,
+   "yasliBagimlilik": 17.4,
+   "dogurganlik": 1.41,
+   "yerliOrani": 65.9,
+   "yogunluk": 234,
+   "yabanci": 24194,
+   "ilceler": {
+    "Adapazarı": {
+     "nufus": 284006,
+     "erkek": 141202,
+     "kadin": 142804,
+     "pay": 25.27
+    },
+    "Akyazı": {
+     "nufus": 99561,
+     "erkek": 49724,
+     "kadin": 49837,
+     "pay": 8.86
+    },
+    "Arifiye": {
+     "nufus": 55589,
+     "erkek": 29322,
+     "kadin": 26267,
+     "pay": 4.95
+    },
+    "Erenler": {
+     "nufus": 92549,
+     "erkek": 46145,
+     "kadin": 46404,
+     "pay": 8.24
+    },
+    "Ferizli": {
+     "nufus": 36015,
+     "erkek": 21688,
+     "kadin": 14327,
+     "pay": 3.21
+    },
+    "Geyve": {
+     "nufus": 51708,
+     "erkek": 26132,
+     "kadin": 25576,
+     "pay": 4.6
+    },
+    "Hendek": {
+     "nufus": 93990,
+     "erkek": 46080,
+     "kadin": 47910,
+     "pay": 8.36
+    },
+    "Karapürçek": {
+     "nufus": 13734,
+     "erkek": 6971,
+     "kadin": 6763,
+     "pay": 1.22
+    },
+    "Karasu": {
+     "nufus": 75887,
+     "erkek": 37937,
+     "kadin": 37950,
+     "pay": 6.75
+    },
+    "Kaynarca": {
+     "nufus": 25440,
+     "erkek": 13117,
+     "kadin": 12323,
+     "pay": 2.26
+    },
+    "Kocaali": {
+     "nufus": 24966,
+     "erkek": 12683,
+     "kadin": 12283,
+     "pay": 2.22
+    },
+    "Pamukova": {
+     "nufus": 31536,
+     "erkek": 15750,
+     "kadin": 15786,
+     "pay": 2.81
+    },
+    "Sapanca": {
+     "nufus": 47505,
+     "erkek": 23101,
+     "kadin": 24404,
+     "pay": 4.23
+    },
+    "Serdivan": {
+     "nufus": 168855,
+     "erkek": 82336,
+     "kadin": 86519,
+     "pay": 15.03
+    },
+    "Söğütlü": {
+     "nufus": 15288,
+     "erkek": 7806,
+     "kadin": 7482,
+     "pay": 1.36
+    },
+    "Taraklı": {
+     "nufus": 7064,
+     "erkek": 3592,
+     "kadin": 3472,
+     "pay": 0.63
+    }
+   }
+  },
+  "55": {
+   "ortancaYas": 38.8,
+   "yas0_14": 17.6,
+   "yas15_64": 68.1,
+   "yas65": 14.3,
+   "hicEvlenmemis": 25.9,
+   "evli": 62.4,
+   "bosanmis": 4.8,
+   "esiOlmus": 6.9,
+   "haneBuyuklugu": 2.94,
+   "haneSayisi": 458108,
+   "tekKisilik": 21,
+   "cekirdekAile": 61.1,
+   "genisAile": 15.2,
+   "cocukBagimlilik": 25.8,
+   "yasliBagimlilik": 21,
+   "dogurganlik": 1.24,
+   "yerliOrani": 78.5,
+   "yogunluk": 146,
+   "yabanci": 17566,
+   "ilceler": {
+    "19 Mayıs": {
+     "nufus": 28658,
+     "erkek": 14618,
+     "kadin": 14040,
+     "pay": 2.06
+    },
+    "Alaçam": {
+     "nufus": 24560,
+     "erkek": 12276,
+     "kadin": 12284,
+     "pay": 1.76
+    },
+    "Asarcık": {
+     "nufus": 15673,
+     "erkek": 7917,
+     "kadin": 7756,
+     "pay": 1.13
+    },
+    "Atakum": {
+     "nufus": 261809,
+     "erkek": 125727,
+     "kadin": 136082,
+     "pay": 18.8
+    },
+    "Ayvacık": {
+     "nufus": 18557,
+     "erkek": 9818,
+     "kadin": 8739,
+     "pay": 1.33
+    },
+    "Bafra": {
+     "nufus": 143387,
+     "erkek": 71603,
+     "kadin": 71784,
+     "pay": 10.3
+    },
+    "Canik": {
+     "nufus": 100247,
+     "erkek": 49950,
+     "kadin": 50297,
+     "pay": 7.2
+    },
+    "Çarşamba": {
+     "nufus": 143206,
+     "erkek": 71510,
+     "kadin": 71696,
+     "pay": 10.28
+    },
+    "Havza": {
+     "nufus": 38103,
+     "erkek": 18837,
+     "kadin": 19266,
+     "pay": 2.74
+    },
+    "İlkadım": {
+     "nufus": 330290,
+     "erkek": 161602,
+     "kadin": 168688,
+     "pay": 23.72
+    },
+    "Kavak": {
+     "nufus": 25370,
+     "erkek": 13705,
+     "kadin": 11665,
+     "pay": 1.82
+    },
+    "Ladik": {
+     "nufus": 15942,
+     "erkek": 7871,
+     "kadin": 8071,
+     "pay": 1.14
+    },
+    "Salıpazarı": {
+     "nufus": 19406,
+     "erkek": 10114,
+     "kadin": 9292,
+     "pay": 1.39
+    },
+    "Tekkeköy": {
+     "nufus": 59356,
+     "erkek": 29944,
+     "kadin": 29412,
+     "pay": 4.26
+    },
+    "Terme": {
+     "nufus": 71348,
+     "erkek": 35559,
+     "kadin": 35789,
+     "pay": 5.12
+    },
+    "Vezirköprü": {
+     "nufus": 87575,
+     "erkek": 43802,
+     "kadin": 43773,
+     "pay": 6.29
+    },
+    "Yakakent": {
+     "nufus": 8916,
+     "erkek": 4430,
+     "kadin": 4486,
+     "pay": 0.64
+    }
+   }
+  },
+  "56": {
+   "ortancaYas": 25,
+   "yas0_14": 30.1,
+   "yas15_64": 63.8,
+   "yas65": 6,
+   "hicEvlenmemis": 39,
+   "evli": 56.1,
+   "bosanmis": 1.2,
+   "esiOlmus": 3.7,
+   "haneBuyuklugu": 4.29,
+   "haneSayisi": 74691,
+   "tekKisilik": 13.6,
+   "cekirdekAile": 67.6,
+   "genisAile": 16.6,
+   "cocukBagimlilik": 47.2,
+   "yasliBagimlilik": 9.4,
+   "dogurganlik": 2.11,
+   "yerliOrani": 85.5,
+   "yogunluk": 59,
+   "yabanci": 515,
+   "ilceler": {
+    "Baykan": {
+     "nufus": 23219,
+     "erkek": 12007,
+     "kadin": 11212,
+     "pay": 6.99
+    },
+    "Eruh": {
+     "nufus": 18339,
+     "erkek": 9500,
+     "kadin": 8839,
+     "pay": 5.52
+    },
+    "Kurtalan": {
+     "nufus": 60674,
+     "erkek": 31081,
+     "kadin": 29593,
+     "pay": 18.26
+    },
+    "Merkez": {
+     "nufus": 180837,
+     "erkek": 91061,
+     "kadin": 89776,
+     "pay": 54.41
+    },
+    "Pervari": {
+     "nufus": 26437,
+     "erkek": 13460,
+     "kadin": 12977,
+     "pay": 7.95
+    },
+    "Şirvan": {
+     "nufus": 18773,
+     "erkek": 9759,
+     "kadin": 9014,
+     "pay": 5.65
+    },
+    "Tillo": {
+     "nufus": 4090,
+     "erkek": 2180,
+     "kadin": 1910,
+     "pay": 1.23
+    }
+   }
+  },
+  "57": {
+   "ortancaYas": 44,
+   "yas0_14": 14.7,
+   "yas15_64": 63.7,
+   "yas65": 21.7,
+   "hicEvlenmemis": 22.9,
+   "evli": 63,
+   "bosanmis": 4.8,
+   "esiOlmus": 9.3,
+   "haneBuyuklugu": 2.57,
+   "haneSayisi": 84054,
+   "tekKisilik": 27.4,
+   "cekirdekAile": 57.3,
+   "genisAile": 12.6,
+   "cocukBagimlilik": 23,
+   "yasliBagimlilik": 34,
+   "dogurganlik": 1.25,
+   "yerliOrani": 82.8,
+   "yogunluk": 40,
+   "yabanci": 1963,
+   "ilceler": {
+    "Ayancık": {
+     "nufus": 23818,
+     "erkek": 11968,
+     "kadin": 11850,
+     "pay": 10.55
+    },
+    "Boyabat": {
+     "nufus": 44901,
+     "erkek": 22226,
+     "kadin": 22675,
+     "pay": 19.88
+    },
+    "Dikmen": {
+     "nufus": 4810,
+     "erkek": 2527,
+     "kadin": 2283,
+     "pay": 2.13
+    },
+    "Durağan": {
+     "nufus": 16788,
+     "erkek": 8517,
+     "kadin": 8271,
+     "pay": 7.43
+    },
+    "Erfelek": {
+     "nufus": 12565,
+     "erkek": 6378,
+     "kadin": 6187,
+     "pay": 5.56
+    },
+    "Gerze": {
+     "nufus": 30701,
+     "erkek": 15201,
+     "kadin": 15500,
+     "pay": 13.59
+    },
+    "Merkez": {
+     "nufus": 70311,
+     "erkek": 34402,
+     "kadin": 35909,
+     "pay": 31.13
+    },
+    "Saraydüzü": {
+     "nufus": 5656,
+     "erkek": 2912,
+     "kadin": 2744,
+     "pay": 2.5
+    },
+    "Türkeli": {
+     "nufus": 16298,
+     "erkek": 8095,
+     "kadin": 8203,
+     "pay": 7.22
+    }
+   }
+  },
+  "58": {
+   "ortancaYas": 36.9,
+   "yas0_14": 18,
+   "yas15_64": 66.9,
+   "yas65": 15.1,
+   "hicEvlenmemis": 28.4,
+   "evli": 60.7,
+   "bosanmis": 3.7,
+   "esiOlmus": 7.2,
+   "haneBuyuklugu": 3,
+   "haneSayisi": 200550,
+   "tekKisilik": 21.1,
+   "cekirdekAile": 63.4,
+   "genisAile": 13.1,
+   "cocukBagimlilik": 26.9,
+   "yasliBagimlilik": 22.6,
+   "dogurganlik": 1.24,
+   "yerliOrani": 88.2,
+   "yogunluk": 22,
+   "yabanci": 6801,
+   "ilceler": {
+    "Akıncılar": {
+     "nufus": 4641,
+     "erkek": 2371,
+     "kadin": 2270,
+     "pay": 0.74
+    },
+    "Altınyayla": {
+     "nufus": 8245,
+     "erkek": 4274,
+     "kadin": 3971,
+     "pay": 1.31
+    },
+    "Divriği": {
+     "nufus": 15657,
+     "erkek": 8189,
+     "kadin": 7468,
+     "pay": 2.48
+    },
+    "Doğanşar": {
+     "nufus": 2770,
+     "erkek": 1384,
+     "kadin": 1386,
+     "pay": 0.44
+    },
+    "Gemerek": {
+     "nufus": 21342,
+     "erkek": 10696,
+     "kadin": 10646,
+     "pay": 3.38
+    },
+    "Gölova": {
+     "nufus": 2998,
+     "erkek": 1564,
+     "kadin": 1434,
+     "pay": 0.47
+    },
+    "Gürün": {
+     "nufus": 17062,
+     "erkek": 8681,
+     "kadin": 8381,
+     "pay": 2.7
+    },
+    "Hafik": {
+     "nufus": 8950,
+     "erkek": 4402,
+     "kadin": 4548,
+     "pay": 1.42
+    },
+    "İmranlı": {
+     "nufus": 6788,
+     "erkek": 3612,
+     "kadin": 3176,
+     "pay": 1.08
+    },
+    "Kangal": {
+     "nufus": 19406,
+     "erkek": 10280,
+     "kadin": 9126,
+     "pay": 3.07
+    },
+    "Koyulhisar": {
+     "nufus": 11782,
+     "erkek": 5955,
+     "kadin": 5827,
+     "pay": 1.87
+    },
+    "Merkez": {
+     "nufus": 393912,
+     "erkek": 194259,
+     "kadin": 199653,
+     "pay": 62.39
+    },
+    "Suşehri": {
+     "nufus": 25056,
+     "erkek": 12243,
+     "kadin": 12813,
+     "pay": 3.97
+    },
+    "Şarkışla": {
+     "nufus": 37282,
+     "erkek": 18537,
+     "kadin": 18745,
+     "pay": 5.9
+    },
+    "Ulaş": {
+     "nufus": 7603,
+     "erkek": 4087,
+     "kadin": 3516,
+     "pay": 1.2
+    },
+    "Yıldızeli": {
+     "nufus": 26567,
+     "erkek": 13760,
+     "kadin": 12807,
+     "pay": 4.21
+    },
+    "Zara": {
+     "nufus": 21340,
+     "erkek": 10974,
+     "kadin": 10366,
+     "pay": 3.38
+    }
+   }
+  },
+  "59": {
+   "ortancaYas": 36,
+   "yas0_14": 19.5,
+   "yas15_64": 69.7,
+   "yas65": 10.7,
+   "hicEvlenmemis": 25.1,
+   "evli": 63.6,
+   "bosanmis": 5.6,
+   "esiOlmus": 5.7,
+   "haneBuyuklugu": 2.99,
+   "haneSayisi": 392280,
+   "tekKisilik": 19.4,
+   "cekirdekAile": 64.4,
+   "genisAile": 13.7,
+   "cocukBagimlilik": 28,
+   "yasliBagimlilik": 15.4,
+   "dogurganlik": 1.37,
+   "yerliOrani": 31.9,
+   "yogunluk": 194,
+   "yabanci": 10372,
+   "ilceler": {
+    "Çerkezköy": {
+     "nufus": 223975,
+     "erkek": 114961,
+     "kadin": 109014,
+     "pay": 18.53
+    },
+    "Çorlu": {
+     "nufus": 306939,
+     "erkek": 156533,
+     "kadin": 150406,
+     "pay": 25.4
+    },
+    "Ergene": {
+     "nufus": 68648,
+     "erkek": 35692,
+     "kadin": 32956,
+     "pay": 5.68
+    },
+    "Hayrabolu": {
+     "nufus": 29706,
+     "erkek": 15241,
+     "kadin": 14465,
+     "pay": 2.46
+    },
+    "Kapaklı": {
+     "nufus": 152509,
+     "erkek": 78345,
+     "kadin": 74164,
+     "pay": 12.62
+    },
+    "Malkara": {
+     "nufus": 50123,
+     "erkek": 25486,
+     "kadin": 24637,
+     "pay": 4.15
+    },
+    "Marmaraereğlisi": {
+     "nufus": 33623,
+     "erkek": 17200,
+     "kadin": 16423,
+     "pay": 2.78
+    },
+    "Muratlı": {
+     "nufus": 30410,
+     "erkek": 15394,
+     "kadin": 15016,
+     "pay": 2.52
+    },
+    "Saray": {
+     "nufus": 51468,
+     "erkek": 26032,
+     "kadin": 25436,
+     "pay": 4.26
+    },
+    "Süleymanpaşa": {
+     "nufus": 226582,
+     "erkek": 113785,
+     "kadin": 112797,
+     "pay": 18.75
+    },
+    "Şarköy": {
+     "nufus": 34458,
+     "erkek": 17137,
+     "kadin": 17321,
+     "pay": 2.85
+    }
+   }
+  },
+  "60": {
+   "ortancaYas": 39.9,
+   "yas0_14": 17,
+   "yas15_64": 66.4,
+   "yas65": 16.6,
+   "hicEvlenmemis": 25,
+   "evli": 63.2,
+   "bosanmis": 3.8,
+   "esiOlmus": 8,
+   "haneBuyuklugu": 2.94,
+   "haneSayisi": 202266,
+   "tekKisilik": 23.6,
+   "cekirdekAile": 59.5,
+   "genisAile": 14.6,
+   "cocukBagimlilik": 25.6,
+   "yasliBagimlilik": 25,
+   "dogurganlik": 1.22,
+   "yerliOrani": 86.2,
+   "yogunluk": 61,
+   "yabanci": 6205,
+   "ilceler": {
+    "Almus": {
+     "nufus": 28135,
+     "erkek": 14602,
+     "kadin": 13533,
+     "pay": 4.58
+    },
+    "Artova": {
+     "nufus": 7589,
+     "erkek": 3781,
+     "kadin": 3808,
+     "pay": 1.24
+    },
+    "Başçiftlik": {
+     "nufus": 8445,
+     "erkek": 4357,
+     "kadin": 4088,
+     "pay": 1.38
+    },
+    "Erbaa": {
+     "nufus": 103409,
+     "erkek": 51420,
+     "kadin": 51989,
+     "pay": 16.84
+    },
+    "Merkez": {
+     "nufus": 201969,
+     "erkek": 99841,
+     "kadin": 102128,
+     "pay": 32.89
+    },
+    "Niksar": {
+     "nufus": 63594,
+     "erkek": 31646,
+     "kadin": 31948,
+     "pay": 10.35
+    },
+    "Pazar": {
+     "nufus": 12875,
+     "erkek": 6439,
+     "kadin": 6436,
+     "pay": 2.1
+    },
+    "Reşadiye": {
+     "nufus": 43108,
+     "erkek": 22121,
+     "kadin": 20987,
+     "pay": 7.02
+    },
+    "Sulusaray": {
+     "nufus": 6536,
+     "erkek": 3315,
+     "kadin": 3221,
+     "pay": 1.06
+    },
+    "Turhal": {
+     "nufus": 77707,
+     "erkek": 37992,
+     "kadin": 39715,
+     "pay": 12.65
+    },
+    "Yeşilyurt": {
+     "nufus": 8045,
+     "erkek": 4053,
+     "kadin": 3992,
+     "pay": 1.31
+    },
+    "Zile": {
+     "nufus": 52729,
+     "erkek": 26408,
+     "kadin": 26321,
+     "pay": 8.59
+    }
+   }
+  },
+  "61": {
+   "ortancaYas": 39.2,
+   "yas0_14": 17.5,
+   "yas15_64": 67,
+   "yas65": 15.5,
+   "hicEvlenmemis": 28.5,
+   "evli": 61.3,
+   "bosanmis": 3.3,
+   "esiOlmus": 6.9,
+   "haneBuyuklugu": 2.83,
+   "haneSayisi": 281008,
+   "tekKisilik": 24.3,
+   "cekirdekAile": 61.1,
+   "genisAile": 11.7,
+   "cocukBagimlilik": 26.1,
+   "yasliBagimlilik": 23.2,
+   "dogurganlik": 1.28,
+   "yerliOrani": 86.3,
+   "yogunluk": 176,
+   "yabanci": 11820,
+   "ilceler": {
+    "Akçaabat": {
+     "nufus": 131162,
+     "erkek": 64988,
+     "kadin": 66174,
+     "pay": 15.93
+    },
+    "Araklı": {
+     "nufus": 49230,
+     "erkek": 24891,
+     "kadin": 24339,
+     "pay": 5.98
+    },
+    "Arsin": {
+     "nufus": 31493,
+     "erkek": 15991,
+     "kadin": 15502,
+     "pay": 3.83
+    },
+    "Beşikdüzü": {
+     "nufus": 23246,
+     "erkek": 12062,
+     "kadin": 11184,
+     "pay": 2.82
+    },
+    "Çarşıbaşı": {
+     "nufus": 15004,
+     "erkek": 7718,
+     "kadin": 7286,
+     "pay": 1.82
+    },
+    "Çaykara": {
+     "nufus": 12921,
+     "erkek": 6500,
+     "kadin": 6421,
+     "pay": 1.57
+    },
+    "Dernekpazarı": {
+     "nufus": 3717,
+     "erkek": 1871,
+     "kadin": 1846,
+     "pay": 0.45
+    },
+    "Düzköy": {
+     "nufus": 13105,
+     "erkek": 6539,
+     "kadin": 6566,
+     "pay": 1.59
+    },
+    "Hayrat": {
+     "nufus": 7410,
+     "erkek": 3898,
+     "kadin": 3512,
+     "pay": 0.9
+    },
+    "Köprübaşı": {
+     "nufus": 4271,
+     "erkek": 2247,
+     "kadin": 2024,
+     "pay": 0.52
+    },
+    "Maçka": {
+     "nufus": 24931,
+     "erkek": 12777,
+     "kadin": 12154,
+     "pay": 3.03
+    },
+    "Of": {
+     "nufus": 43591,
+     "erkek": 21762,
+     "kadin": 21829,
+     "pay": 5.29
+    },
+    "Ortahisar": {
+     "nufus": 335116,
+     "erkek": 163366,
+     "kadin": 171750,
+     "pay": 40.7
+    },
+    "Sürmene": {
+     "nufus": 25281,
+     "erkek": 12709,
+     "kadin": 12572,
+     "pay": 3.07
+    },
+    "Şalpazarı": {
+     "nufus": 10575,
+     "erkek": 5295,
+     "kadin": 5280,
+     "pay": 1.28
+    },
+    "Tonya": {
+     "nufus": 13332,
+     "erkek": 6544,
+     "kadin": 6788,
+     "pay": 1.62
+    },
+    "Vakfıkebir": {
+     "nufus": 27278,
+     "erkek": 13387,
+     "kadin": 13891,
+     "pay": 3.31
+    },
+    "Yomra": {
+     "nufus": 51660,
+     "erkek": 25697,
+     "kadin": 25963,
+     "pay": 6.27
+    }
+   }
+  },
+  "62": {
+   "ortancaYas": 40.7,
+   "yas0_14": 13.5,
+   "yas15_64": 68.7,
+   "yas65": 17.8,
+   "hicEvlenmemis": 30.6,
+   "evli": 56.1,
+   "bosanmis": 6.4,
+   "esiOlmus": 6.9,
+   "haneBuyuklugu": 2.49,
+   "haneSayisi": 31055,
+   "tekKisilik": 30.8,
+   "cekirdekAile": 49.9,
+   "genisAile": 13.5,
+   "cocukBagimlilik": 19.7,
+   "yasliBagimlilik": 25.8,
+   "dogurganlik": 1.23,
+   "yerliOrani": 70.4,
+   "yogunluk": 11,
+   "yabanci": 573,
+   "ilceler": {
+    "Çemişgezek": {
+     "nufus": 7505,
+     "erkek": 3892,
+     "kadin": 3613,
+     "pay": 8.82
+    },
+    "Hozat": {
+     "nufus": 5332,
+     "erkek": 2960,
+     "kadin": 2372,
+     "pay": 6.27
+    },
+    "Mazgirt": {
+     "nufus": 7257,
+     "erkek": 3930,
+     "kadin": 3327,
+     "pay": 8.53
+    },
+    "Merkez": {
+     "nufus": 41045,
+     "erkek": 20553,
+     "kadin": 20492,
+     "pay": 48.24
+    },
+    "Nazımiye": {
+     "nufus": 3095,
+     "erkek": 1775,
+     "kadin": 1320,
+     "pay": 3.64
+    },
+    "Ovacık": {
+     "nufus": 6700,
+     "erkek": 3700,
+     "kadin": 3000,
+     "pay": 7.87
+    },
+    "Pertek": {
+     "nufus": 10569,
+     "erkek": 5526,
+     "kadin": 5043,
+     "pay": 12.42
+    },
+    "Pülümür": {
+     "nufus": 3580,
+     "erkek": 2084,
+     "kadin": 1496,
+     "pay": 4.21
+    }
+   }
+  },
+  "63": {
+   "ortancaYas": 21.8,
+   "yas0_14": 36.8,
+   "yas15_64": 58.7,
+   "yas65": 4.5,
+   "hicEvlenmemis": 35.6,
+   "evli": 59.4,
+   "bosanmis": 1.8,
+   "esiOlmus": 3.3,
+   "haneBuyuklugu": 4.63,
+   "haneSayisi": 480594,
+   "tekKisilik": 12.5,
+   "cekirdekAile": 69.6,
+   "genisAile": 16.2,
+   "cocukBagimlilik": 62.7,
+   "yasliBagimlilik": 7.7,
+   "dogurganlik": 3.15,
+   "yerliOrani": 93.7,
+   "yogunluk": 118,
+   "yabanci": 5397,
+   "ilceler": {
+    "Akçakale": {
+     "nufus": 131351,
+     "erkek": 67248,
+     "kadin": 64103,
+     "pay": 5.8
+    },
+    "Birecik": {
+     "nufus": 91837,
+     "erkek": 46118,
+     "kadin": 45719,
+     "pay": 4.05
+    },
+    "Bozova": {
+     "nufus": 50534,
+     "erkek": 25594,
+     "kadin": 24940,
+     "pay": 2.23
+    },
+    "Ceylanpınar": {
+     "nufus": 93105,
+     "erkek": 47141,
+     "kadin": 45964,
+     "pay": 4.11
+    },
+    "Eyyübiye": {
+     "nufus": 414516,
+     "erkek": 209283,
+     "kadin": 205233,
+     "pay": 18.29
+    },
+    "Halfeti": {
+     "nufus": 41624,
+     "erkek": 20362,
+     "kadin": 21262,
+     "pay": 1.84
+    },
+    "Haliliye": {
+     "nufus": 395975,
+     "erkek": 198002,
+     "kadin": 197973,
+     "pay": 17.48
+    },
+    "Harran": {
+     "nufus": 101710,
+     "erkek": 51284,
+     "kadin": 50426,
+     "pay": 4.49
+    },
+    "Hilvan": {
+     "nufus": 41969,
+     "erkek": 21524,
+     "kadin": 20445,
+     "pay": 1.85
+    },
+    "Karaköprü": {
+     "nufus": 312031,
+     "erkek": 157383,
+     "kadin": 154648,
+     "pay": 13.77
+    },
+    "Siverek": {
+     "nufus": 277399,
+     "erkek": 141330,
+     "kadin": 136069,
+     "pay": 12.24
+    },
+    "Suruç": {
+     "nufus": 98022,
+     "erkek": 50265,
+     "kadin": 47757,
+     "pay": 4.33
+    },
+    "Viranşehir": {
+     "nufus": 215727,
+     "erkek": 107249,
+     "kadin": 108478,
+     "pay": 9.52
+    }
+   }
+  },
+  "64": {
+   "ortancaYas": 39.6,
+   "yas0_14": 16.7,
+   "yas15_64": 68.4,
+   "yas65": 15,
+   "hicEvlenmemis": 23.3,
+   "evli": 63.5,
+   "bosanmis": 6.3,
+   "esiOlmus": 6.9,
+   "haneBuyuklugu": 2.75,
+   "haneSayisi": 130797,
+   "tekKisilik": 22.2,
+   "cekirdekAile": 63,
+   "genisAile": 12.6,
+   "cocukBagimlilik": 24.4,
+   "yasliBagimlilik": 21.9,
+   "dogurganlik": 1.17,
+   "yerliOrani": 75.1,
+   "yogunluk": 67,
+   "yabanci": 6070,
+   "ilceler": {
+    "Banaz": {
+     "nufus": 34624,
+     "erkek": 17246,
+     "kadin": 17378,
+     "pay": 9.25
+    },
+    "Eşme": {
+     "nufus": 34444,
+     "erkek": 17202,
+     "kadin": 17242,
+     "pay": 9.2
+    },
+    "Karahallı": {
+     "nufus": 9408,
+     "erkek": 4717,
+     "kadin": 4691,
+     "pay": 2.51
+    },
+    "Merkez": {
+     "nufus": 265371,
+     "erkek": 131021,
+     "kadin": 134350,
+     "pay": 70.88
+    },
+    "Sivaslı": {
+     "nufus": 19193,
+     "erkek": 9636,
+     "kadin": 9557,
+     "pay": 5.13
+    },
+    "Ulubey": {
+     "nufus": 11365,
+     "erkek": 5665,
+     "kadin": 5700,
+     "pay": 3.04
+    }
+   }
+  },
+  "65": {
+   "ortancaYas": 26.1,
+   "yas0_14": 29.1,
+   "yas15_64": 65.6,
+   "yas65": 5.4,
+   "hicEvlenmemis": 36.9,
+   "evli": 58.1,
+   "bosanmis": 1.3,
+   "esiOlmus": 3.6,
+   "haneBuyuklugu": 4.18,
+   "haneSayisi": 259251,
+   "tekKisilik": 12.4,
+   "cekirdekAile": 68.6,
+   "genisAile": 16.6,
+   "cocukBagimlilik": 44.3,
+   "yasliBagimlilik": 8.2,
+   "dogurganlik": 1.87,
+   "yerliOrani": 83.4,
+   "yogunluk": 60,
+   "yabanci": 3703,
+   "ilceler": {
+    "Bahçesaray": {
+     "nufus": 11438,
+     "erkek": 5761,
+     "kadin": 5677,
+     "pay": 1.03
+    },
+    "Başkale": {
+     "nufus": 37568,
+     "erkek": 20532,
+     "kadin": 17036,
+     "pay": 3.38
+    },
+    "Çaldıran": {
+     "nufus": 50170,
+     "erkek": 26234,
+     "kadin": 23936,
+     "pay": 4.51
+    },
+    "Çatak": {
+     "nufus": 16361,
+     "erkek": 8812,
+     "kadin": 7549,
+     "pay": 1.47
+    },
+    "Edremit": {
+     "nufus": 132309,
+     "erkek": 66041,
+     "kadin": 66268,
+     "pay": 11.9
+    },
+    "Erciş": {
+     "nufus": 169040,
+     "erkek": 87053,
+     "kadin": 81987,
+     "pay": 15.2
+    },
+    "Gevaş": {
+     "nufus": 26253,
+     "erkek": 13305,
+     "kadin": 12948,
+     "pay": 2.36
+    },
+    "Gürpınar": {
+     "nufus": 28505,
+     "erkek": 15194,
+     "kadin": 13311,
+     "pay": 2.56
+    },
+    "İpekyolu": {
+     "nufus": 362816,
+     "erkek": 179994,
+     "kadin": 182822,
+     "pay": 32.63
+    },
+    "Muradiye": {
+     "nufus": 41402,
+     "erkek": 21389,
+     "kadin": 20013,
+     "pay": 3.72
+    },
+    "Özalp": {
+     "nufus": 51357,
+     "erkek": 26847,
+     "kadin": 24510,
+     "pay": 4.62
+    },
+    "Saray": {
+     "nufus": 17036,
+     "erkek": 9127,
+     "kadin": 7909,
+     "pay": 1.53
+    },
+    "Tuşba": {
+     "nufus": 167758,
+     "erkek": 86255,
+     "kadin": 81503,
+     "pay": 15.09
+    }
+   }
+  },
+  "66": {
+   "ortancaYas": 38.4,
+   "yas0_14": 17.3,
+   "yas15_64": 66.7,
+   "yas65": 16,
+   "hicEvlenmemis": 25.9,
+   "evli": 62.6,
+   "bosanmis": 3.9,
+   "esiOlmus": 7.5,
+   "haneBuyuklugu": 2.83,
+   "haneSayisi": 138742,
+   "tekKisilik": 24.1,
+   "cekirdekAile": 60.6,
+   "genisAile": 12.6,
+   "cocukBagimlilik": 25.9,
+   "yasliBagimlilik": 24,
+   "dogurganlik": 1.23,
+   "yerliOrani": 86.6,
+   "yogunluk": 31,
+   "yabanci": 8471,
+   "ilceler": {
+    "Akdağmadeni": {
+     "nufus": 39642,
+     "erkek": 20153,
+     "kadin": 19489,
+     "pay": 9.59
+    },
+    "Aydıncık": {
+     "nufus": 9317,
+     "erkek": 4702,
+     "kadin": 4615,
+     "pay": 2.25
+    },
+    "Boğazlıyan": {
+     "nufus": 35316,
+     "erkek": 18298,
+     "kadin": 17018,
+     "pay": 8.55
+    },
+    "Çandır": {
+     "nufus": 4360,
+     "erkek": 2154,
+     "kadin": 2206,
+     "pay": 1.06
+    },
+    "Çayıralan": {
+     "nufus": 11777,
+     "erkek": 5879,
+     "kadin": 5898,
+     "pay": 2.85
+    },
+    "Çekerek": {
+     "nufus": 18426,
+     "erkek": 8964,
+     "kadin": 9462,
+     "pay": 4.46
+    },
+    "Kadışehri": {
+     "nufus": 9854,
+     "erkek": 4933,
+     "kadin": 4921,
+     "pay": 2.38
+    },
+    "Merkez": {
+     "nufus": 109042,
+     "erkek": 55925,
+     "kadin": 53117,
+     "pay": 26.39
+    },
+    "Saraykent": {
+     "nufus": 12605,
+     "erkek": 6400,
+     "kadin": 6205,
+     "pay": 3.05
+    },
+    "Sarıkaya": {
+     "nufus": 30785,
+     "erkek": 15373,
+     "kadin": 15412,
+     "pay": 7.45
+    },
+    "Sorgun": {
+     "nufus": 80068,
+     "erkek": 40028,
+     "kadin": 40040,
+     "pay": 19.38
+    },
+    "Şefaatli": {
+     "nufus": 14008,
+     "erkek": 7009,
+     "kadin": 6999,
+     "pay": 3.39
+    },
+    "Yenifakılı": {
+     "nufus": 5008,
+     "erkek": 2543,
+     "kadin": 2465,
+     "pay": 1.21
+    },
+    "Yerköy": {
+     "nufus": 33000,
+     "erkek": 16130,
+     "kadin": 16870,
+     "pay": 7.99
+    }
+   }
+  },
+  "67": {
+   "ortancaYas": 42.3,
+   "yas0_14": 14.6,
+   "yas15_64": 68.6,
+   "yas65": 16.8,
+   "hicEvlenmemis": 25.3,
+   "evli": 61.6,
+   "bosanmis": 5.4,
+   "esiOlmus": 7.6,
+   "haneBuyuklugu": 2.71,
+   "haneSayisi": 208888,
+   "tekKisilik": 23.2,
+   "cekirdekAile": 60.8,
+   "genisAile": 13.6,
+   "cocukBagimlilik": 21.2,
+   "yasliBagimlilik": 24.5,
+   "dogurganlik": 1.11,
+   "yerliOrani": 74.3,
+   "yogunluk": 173,
+   "yabanci": 4046,
+   "ilceler": {
+    "Alaplı": {
+     "nufus": 43217,
+     "erkek": 21672,
+     "kadin": 21545,
+     "pay": 7.38
+    },
+    "Çaycuma": {
+     "nufus": 91796,
+     "erkek": 45691,
+     "kadin": 46105,
+     "pay": 15.69
+    },
+    "Devrek": {
+     "nufus": 56900,
+     "erkek": 28569,
+     "kadin": 28331,
+     "pay": 9.72
+    },
+    "Ereğli": {
+     "nufus": 173884,
+     "erkek": 86573,
+     "kadin": 87311,
+     "pay": 29.71
+    },
+    "Gökçebey": {
+     "nufus": 21070,
+     "erkek": 10596,
+     "kadin": 10474,
+     "pay": 3.6
+    },
+    "Kilimli": {
+     "nufus": 32441,
+     "erkek": 16321,
+     "kadin": 16120,
+     "pay": 5.54
+    },
+    "Kozlu": {
+     "nufus": 50616,
+     "erkek": 24360,
+     "kadin": 26256,
+     "pay": 8.65
+    },
+    "Merkez": {
+     "nufus": 115279,
+     "erkek": 56464,
+     "kadin": 58815,
+     "pay": 19.7
+    }
+   }
+  },
+  "68": {
+   "ortancaYas": 33.6,
+   "yas0_14": 22,
+   "yas15_64": 67.1,
+   "yas65": 11,
+   "hicEvlenmemis": 26.3,
+   "evli": 63.2,
+   "bosanmis": 5,
+   "esiOlmus": 5.6,
+   "haneBuyuklugu": 3.2,
+   "haneSayisi": 133457,
+   "tekKisilik": 18.7,
+   "cekirdekAile": 61.8,
+   "genisAile": 16,
+   "cocukBagimlilik": 32.7,
+   "yasliBagimlilik": 16.4,
+   "dogurganlik": 1.49,
+   "yerliOrani": 82.7,
+   "yogunluk": 61,
+   "yabanci": 14958,
+   "ilceler": {
+    "Ağaçören": {
+     "nufus": 7480,
+     "erkek": 3779,
+     "kadin": 3701,
+     "pay": 1.7
+    },
+    "Eskil": {
+     "nufus": 27946,
+     "erkek": 14300,
+     "kadin": 13646,
+     "pay": 6.34
+    },
+    "Gülağaç": {
+     "nufus": 19099,
+     "erkek": 9696,
+     "kadin": 9403,
+     "pay": 4.33
+    },
+    "Güzelyurt": {
+     "nufus": 10419,
+     "erkek": 5277,
+     "kadin": 5142,
+     "pay": 2.36
+    },
+    "Merkez": {
+     "nufus": 327575,
+     "erkek": 163049,
+     "kadin": 164526,
+     "pay": 74.26
+    },
+    "Ortaköy": {
+     "nufus": 31089,
+     "erkek": 15311,
+     "kadin": 15778,
+     "pay": 7.05
+    },
+    "Sarıyahşi": {
+     "nufus": 4717,
+     "erkek": 2380,
+     "kadin": 2337,
+     "pay": 1.07
+    },
+    "Sultanhanı": {
+     "nufus": 12811,
+     "erkek": 6649,
+     "kadin": 6162,
+     "pay": 2.9
+    }
+   }
+  },
+  "69": {
+   "ortancaYas": 33.4,
+   "yas0_14": 17.7,
+   "yas15_64": 69,
+   "yas65": 13.3,
+   "hicEvlenmemis": 34.2,
+   "evli": 57.3,
+   "bosanmis": 2.3,
+   "esiOlmus": 6.2,
+   "haneBuyuklugu": 2.98,
+   "haneSayisi": 25343,
+   "tekKisilik": 24.2,
+   "cekirdekAile": 58.9,
+   "genisAile": 13.5,
+   "cocukBagimlilik": 25.7,
+   "yasliBagimlilik": 19.3,
+   "dogurganlik": 1.19,
+   "yerliOrani": 77.3,
+   "yogunluk": 22,
+   "yabanci": 960,
+   "ilceler": {
+    "Aydıntepe": {
+     "nufus": 5982,
+     "erkek": 3010,
+     "kadin": 2972,
+     "pay": 7.22
+    },
+    "Demirözü": {
+     "nufus": 8139,
+     "erkek": 4167,
+     "kadin": 3972,
+     "pay": 9.83
+    },
+    "Merkez": {
+     "nufus": 68715,
+     "erkek": 34821,
+     "kadin": 33894,
+     "pay": 82.95
+    }
+   }
+  },
+  "70": {
+   "ortancaYas": 35.6,
+   "yas0_14": 19.5,
+   "yas15_64": 67.9,
+   "yas65": 12.7,
+   "hicEvlenmemis": 27,
+   "evli": 61.4,
+   "bosanmis": 5.4,
+   "esiOlmus": 6.2,
+   "haneBuyuklugu": 2.88,
+   "haneSayisi": 86385,
+   "tekKisilik": 21.8,
+   "cekirdekAile": 64.6,
+   "genisAile": 11.5,
+   "cocukBagimlilik": 28.7,
+   "yasliBagimlilik": 18.7,
+   "dogurganlik": 1.33,
+   "yerliOrani": 76.5,
+   "yogunluk": 30,
+   "yabanci": 2327,
+   "ilceler": {
+    "Ayrancı": {
+     "nufus": 7127,
+     "erkek": 3724,
+     "kadin": 3403,
+     "pay": 2.72
+    },
+    "Başyayla": {
+     "nufus": 3353,
+     "erkek": 1772,
+     "kadin": 1581,
+     "pay": 1.28
+    },
+    "Ermenek": {
+     "nufus": 27629,
+     "erkek": 14104,
+     "kadin": 13525,
+     "pay": 10.53
+    },
+    "Kazımkarabekir": {
+     "nufus": 4679,
+     "erkek": 2327,
+     "kadin": 2352,
+     "pay": 1.78
+    },
+    "Merkez": {
+     "nufus": 207973,
+     "erkek": 102936,
+     "kadin": 105037,
+     "pay": 79.27
+    },
+    "Sarıveliler": {
+     "nufus": 11594,
+     "erkek": 6042,
+     "kadin": 5552,
+     "pay": 4.42
+    }
+   }
+  },
+  "71": {
+   "ortancaYas": 38.4,
+   "yas0_14": 16.3,
+   "yas15_64": 69.1,
+   "yas65": 14.6,
+   "hicEvlenmemis": 27.1,
+   "evli": 60.1,
+   "bosanmis": 5.7,
+   "esiOlmus": 7.2,
+   "haneBuyuklugu": 2.75,
+   "haneSayisi": 96122,
+   "tekKisilik": 22.8,
+   "cekirdekAile": 62.9,
+   "genisAile": 11.2,
+   "cocukBagimlilik": 23.6,
+   "yasliBagimlilik": 21.1,
+   "dogurganlik": 1.14,
+   "yerliOrani": 67.9,
+   "yogunluk": 60,
+   "yabanci": 6536,
+   "ilceler": {
+    "Bahşılı": {
+     "nufus": 7353,
+     "erkek": 3686,
+     "kadin": 3667,
+     "pay": 2.6
+    },
+    "Balışeyh": {
+     "nufus": 5888,
+     "erkek": 3225,
+     "kadin": 2663,
+     "pay": 2.08
+    },
+    "Çelebi": {
+     "nufus": 2587,
+     "erkek": 1376,
+     "kadin": 1211,
+     "pay": 0.91
+    },
+    "Delice": {
+     "nufus": 10577,
+     "erkek": 6328,
+     "kadin": 4249,
+     "pay": 3.74
+    },
+    "Karakeçili": {
+     "nufus": 3062,
+     "erkek": 1591,
+     "kadin": 1471,
+     "pay": 1.08
+    },
+    "Keskin": {
+     "nufus": 15841,
+     "erkek": 9265,
+     "kadin": 6576,
+     "pay": 5.6
+    },
+    "Merkez": {
+     "nufus": 192821,
+     "erkek": 94624,
+     "kadin": 98197,
+     "pay": 68.18
+    },
+    "Sulakyurt": {
+     "nufus": 5564,
+     "erkek": 2876,
+     "kadin": 2688,
+     "pay": 1.97
+    },
+    "Yahşihan": {
+     "nufus": 39137,
+     "erkek": 19133,
+     "kadin": 20004,
+     "pay": 13.84
+    }
+   }
+  },
+  "72": {
+   "ortancaYas": 25.9,
+   "yas0_14": 29.9,
+   "yas15_64": 64.9,
+   "yas65": 5.2,
+   "hicEvlenmemis": 39.1,
+   "evli": 56.1,
+   "bosanmis": 1.5,
+   "esiOlmus": 3.3,
+   "haneBuyuklugu": 4.43,
+   "haneSayisi": 145910,
+   "tekKisilik": 11.5,
+   "cekirdekAile": 66.9,
+   "genisAile": 19.2,
+   "cocukBagimlilik": 46,
+   "yasliBagimlilik": 8,
+   "dogurganlik": 2,
+   "yerliOrani": 77.7,
+   "yogunluk": 148,
+   "yabanci": 1048,
+   "ilceler": {
+    "Beşiri": {
+     "nufus": 31864,
+     "erkek": 17654,
+     "kadin": 14210,
+     "pay": 4.81
+    },
+    "Gercüş": {
+     "nufus": 18894,
+     "erkek": 9719,
+     "kadin": 9175,
+     "pay": 2.85
+    },
+    "Hasankeyf": {
+     "nufus": 7152,
+     "erkek": 3671,
+     "kadin": 3481,
+     "pay": 1.08
+    },
+    "Kozluk": {
+     "nufus": 58781,
+     "erkek": 29755,
+     "kadin": 29026,
+     "pay": 8.87
+    },
+    "Merkez": {
+     "nufus": 517785,
+     "erkek": 259906,
+     "kadin": 257879,
+     "pay": 78.14
+    },
+    "Sason": {
+     "nufus": 28150,
+     "erkek": 14677,
+     "kadin": 13473,
+     "pay": 4.25
+    }
+   }
+  },
+  "73": {
+   "ortancaYas": 23.3,
+   "yas0_14": 32.9,
+   "yas15_64": 63.3,
+   "yas65": 3.8,
+   "hicEvlenmemis": 43.6,
+   "evli": 52.6,
+   "bosanmis": 1,
+   "esiOlmus": 2.8,
+   "haneBuyuklugu": 4.84,
+   "haneSayisi": 113270,
+   "tekKisilik": 14.1,
+   "cekirdekAile": 64.7,
+   "genisAile": 18.6,
+   "cocukBagimlilik": 52,
+   "yasliBagimlilik": 6,
+   "dogurganlik": 2.53,
+   "yerliOrani": 88.5,
+   "yogunluk": 80,
+   "yabanci": 1177,
+   "ilceler": {
+    "Beytüşşebap": {
+     "nufus": 13971,
+     "erkek": 7735,
+     "kadin": 6236,
+     "pay": 2.44
+    },
+    "Cizre": {
+     "nufus": 166290,
+     "erkek": 84116,
+     "kadin": 82174,
+     "pay": 28.99
+    },
+    "Güçlükonak": {
+     "nufus": 12562,
+     "erkek": 6594,
+     "kadin": 5968,
+     "pay": 2.19
+    },
+    "İdil": {
+     "nufus": 76548,
+     "erkek": 38533,
+     "kadin": 38015,
+     "pay": 13.34
+    },
+    "Merkez": {
+     "nufus": 105697,
+     "erkek": 56275,
+     "kadin": 49422,
+     "pay": 18.42
+    },
+    "Silopi": {
+     "nufus": 152610,
+     "erkek": 77894,
+     "kadin": 74716,
+     "pay": 26.6
+    },
+    "Uludere": {
+     "nufus": 45988,
+     "erkek": 25839,
+     "kadin": 20149,
+     "pay": 8.02
+    }
+   }
+  },
+  "74": {
+   "ortancaYas": 41.9,
+   "yas0_14": 14.3,
+   "yas15_64": 68.3,
+   "yas65": 17.4,
+   "hicEvlenmemis": 24.7,
+   "evli": 62.7,
+   "bosanmis": 4.7,
+   "esiOlmus": 7.8,
+   "haneBuyuklugu": 2.73,
+   "haneSayisi": 72093,
+   "tekKisilik": 24.5,
+   "cekirdekAile": 55,
+   "genisAile": 17.6,
+   "cocukBagimlilik": 20.9,
+   "yasliBagimlilik": 25.5,
+   "dogurganlik": 1.09,
+   "yerliOrani": 80.8,
+   "yogunluk": 91,
+   "yabanci": 2173,
+   "ilceler": {
+    "Amasra": {
+     "nufus": 13705,
+     "erkek": 6976,
+     "kadin": 6729,
+     "pay": 6.63
+    },
+    "Kurucaşile": {
+     "nufus": 6316,
+     "erkek": 3260,
+     "kadin": 3056,
+     "pay": 3.06
+    },
+    "Merkez": {
+     "nufus": 163766,
+     "erkek": 80466,
+     "kadin": 83300,
+     "pay": 79.24
+    },
+    "Ulus": {
+     "nufus": 22876,
+     "erkek": 11692,
+     "kadin": 11184,
+     "pay": 11.07
+    }
+   }
+  },
+  "75": {
+   "ortancaYas": 36.5,
+   "yas0_14": 18,
+   "yas15_64": 66.8,
+   "yas65": 15.2,
+   "hicEvlenmemis": 29.1,
+   "evli": 60.5,
+   "bosanmis": 2.7,
+   "esiOlmus": 7.6,
+   "haneBuyuklugu": 2.96,
+   "haneSayisi": 28783,
+   "tekKisilik": 24.9,
+   "cekirdekAile": 55.6,
+   "genisAile": 16.8,
+   "cocukBagimlilik": 26.9,
+   "yasliBagimlilik": 22.8,
+   "dogurganlik": 1.39,
+   "yerliOrani": 84.4,
+   "yogunluk": 19,
+   "yabanci": 328,
+   "ilceler": {
+    "Çıldır": {
+     "nufus": 8048,
+     "erkek": 4226,
+     "kadin": 3822,
+     "pay": 8.9
+    },
+    "Damal": {
+     "nufus": 4526,
+     "erkek": 2420,
+     "kadin": 2106,
+     "pay": 5.01
+    },
+    "Göle": {
+     "nufus": 22038,
+     "erkek": 11539,
+     "kadin": 10499,
+     "pay": 24.38
+    },
+    "Hanak": {
+     "nufus": 7668,
+     "erkek": 4041,
+     "kadin": 3627,
+     "pay": 8.48
+    },
+    "Merkez": {
+     "nufus": 42136,
+     "erkek": 21701,
+     "kadin": 20435,
+     "pay": 46.61
+    },
+    "Posof": {
+     "nufus": 5976,
+     "erkek": 3132,
+     "kadin": 2844,
+     "pay": 6.61
+    }
+   }
+  },
+  "76": {
+   "ortancaYas": 28.7,
+   "yas0_14": 25.7,
+   "yas15_64": 65.9,
+   "yas65": 8.5,
+   "hicEvlenmemis": 34.9,
+   "evli": 57,
+   "bosanmis": 3.3,
+   "esiOlmus": 4.7,
+   "haneBuyuklugu": 3.71,
+   "haneSayisi": 51761,
+   "tekKisilik": 16.4,
+   "cekirdekAile": 63.4,
+   "genisAile": 17.6,
+   "cocukBagimlilik": 39,
+   "yasliBagimlilik": 12.9,
+   "dogurganlik": 1.61,
+   "yerliOrani": 81.9,
+   "yogunluk": 57,
+   "yabanci": 1195,
+   "ilceler": {
+    "Aralık": {
+     "nufus": 18477,
+     "erkek": 9954,
+     "kadin": 8523,
+     "pay": 9.01
+    },
+    "Karakoyunlu": {
+     "nufus": 12614,
+     "erkek": 6538,
+     "kadin": 6076,
+     "pay": 6.15
+    },
+    "Merkez": {
+     "nufus": 152455,
+     "erkek": 78093,
+     "kadin": 74362,
+     "pay": 74.34
+    },
+    "Tuzluca": {
+     "nufus": 21525,
+     "erkek": 11322,
+     "kadin": 10203,
+     "pay": 10.5
+    }
+   }
+  },
+  "77": {
+   "ortancaYas": 37.5,
+   "yas0_14": 18.3,
+   "yas15_64": 67.7,
+   "yas65": 14,
+   "hicEvlenmemis": 27.8,
+   "evli": 59.4,
+   "bosanmis": 6.7,
+   "esiOlmus": 6.1,
+   "haneBuyuklugu": 2.87,
+   "haneSayisi": 104124,
+   "tekKisilik": 24,
+   "cekirdekAile": 55.1,
+   "genisAile": 14.4,
+   "cocukBagimlilik": 27,
+   "yasliBagimlilik": 20.8,
+   "dogurganlik": 1.36,
+   "yerliOrani": 28.9,
+   "yogunluk": 395,
+   "yabanci": 18426,
+   "ilceler": {
+    "Altınova": {
+     "nufus": 35490,
+     "erkek": 19090,
+     "kadin": 16400,
+     "pay": 11.39
+    },
+    "Armutlu": {
+     "nufus": 11984,
+     "erkek": 6053,
+     "kadin": 5931,
+     "pay": 3.85
+    },
+    "Çınarcık": {
+     "nufus": 40174,
+     "erkek": 19671,
+     "kadin": 20503,
+     "pay": 12.89
+    },
+    "Çiftlikköy": {
+     "nufus": 58589,
+     "erkek": 29398,
+     "kadin": 29191,
+     "pay": 18.8
+    },
+    "Merkez": {
+     "nufus": 157901,
+     "erkek": 77043,
+     "kadin": 80858,
+     "pay": 50.67
+    },
+    "Termal": {
+     "nufus": 7497,
+     "erkek": 4338,
+     "kadin": 3159,
+     "pay": 2.41
+    }
+   }
+  },
+  "78": {
+   "ortancaYas": 39.5,
+   "yas0_14": 14.5,
+   "yas15_64": 69.5,
+   "yas65": 16,
+   "hicEvlenmemis": 29.7,
+   "evli": 58.2,
+   "bosanmis": 4.7,
+   "esiOlmus": 7.4,
+   "haneBuyuklugu": 2.57,
+   "haneSayisi": 89780,
+   "tekKisilik": 26.8,
+   "cekirdekAile": 57.4,
+   "genisAile": 11.4,
+   "cocukBagimlilik": 20.9,
+   "yasliBagimlilik": 23,
+   "dogurganlik": 1.14,
+   "yerliOrani": 65.1,
+   "yogunluk": 62,
+   "yabanci": 10849,
+   "ilceler": {
+    "Eflani": {
+     "nufus": 8663,
+     "erkek": 4434,
+     "kadin": 4229,
+     "pay": 3.47
+    },
+    "Eskipazar": {
+     "nufus": 12570,
+     "erkek": 6626,
+     "kadin": 5944,
+     "pay": 5.04
+    },
+    "Merkez": {
+     "nufus": 135819,
+     "erkek": 67958,
+     "kadin": 67861,
+     "pay": 54.41
+    },
+    "Ovacık": {
+     "nufus": 3986,
+     "erkek": 2123,
+     "kadin": 1863,
+     "pay": 1.6
+    },
+    "Safranbolu": {
+     "nufus": 69592,
+     "erkek": 35237,
+     "kadin": 34355,
+     "pay": 27.88
+    },
+    "Yenice": {
+     "nufus": 18984,
+     "erkek": 9643,
+     "kadin": 9341,
+     "pay": 7.61
+    }
+   }
+  },
+  "79": {
+   "ortancaYas": 28.4,
+   "yas0_14": 26.1,
+   "yas15_64": 65.6,
+   "yas65": 8.3,
+   "hicEvlenmemis": 30.9,
+   "evli": 60.3,
+   "bosanmis": 3.4,
+   "esiOlmus": 5.5,
+   "haneBuyuklugu": 3.26,
+   "haneSayisi": 44925,
+   "tekKisilik": 21.1,
+   "cekirdekAile": 64.2,
+   "genisAile": 12.3,
+   "cocukBagimlilik": 39.8,
+   "yasliBagimlilik": 12.7,
+   "dogurganlik": 1.84,
+   "yerliOrani": 77.8,
+   "yogunluk": 112,
+   "yabanci": 810,
+   "ilceler": {
+    "Elbeyli": {
+     "nufus": 5273,
+     "erkek": 2921,
+     "kadin": 2352,
+     "pay": 3.35
+    },
+    "Merkez": {
+     "nufus": 135430,
+     "erkek": 68123,
+     "kadin": 67307,
+     "pay": 86.06
+    },
+    "Musabeyli": {
+     "nufus": 11692,
+     "erkek": 6095,
+     "kadin": 5597,
+     "pay": 7.43
+    },
+    "Polateli": {
+     "nufus": 4968,
+     "erkek": 2588,
+     "kadin": 2380,
+     "pay": 3.16
+    }
+   }
+  },
+  "80": {
+   "ortancaYas": 33.3,
+   "yas0_14": 23.1,
+   "yas15_64": 66.4,
+   "yas65": 10.5,
+   "hicEvlenmemis": 28.3,
+   "evli": 62.3,
+   "bosanmis": 3.9,
+   "esiOlmus": 5.4,
+   "haneBuyuklugu": 3.22,
+   "haneSayisi": 170132,
+   "tekKisilik": 17.6,
+   "cekirdekAile": 67.7,
+   "genisAile": 12.9,
+   "cocukBagimlilik": 34.8,
+   "yasliBagimlilik": 15.8,
+   "dogurganlik": 1.71,
+   "yerliOrani": 71.7,
+   "yogunluk": 170,
+   "yabanci": 985,
+   "ilceler": {
+    "Bahçe": {
+     "nufus": 22989,
+     "erkek": 11567,
+     "kadin": 11422,
+     "pay": 4.08
+    },
+    "Düziçi": {
+     "nufus": 88274,
+     "erkek": 44339,
+     "kadin": 43935,
+     "pay": 15.65
+    },
+    "Hasanbeyli": {
+     "nufus": 4914,
+     "erkek": 2541,
+     "kadin": 2373,
+     "pay": 0.87
+    },
+    "Kadirli": {
+     "nufus": 127644,
+     "erkek": 63761,
+     "kadin": 63883,
+     "pay": 22.63
+    },
+    "Merkez": {
+     "nufus": 284895,
+     "erkek": 141693,
+     "kadin": 143202,
+     "pay": 50.5
+    },
+    "Sumbas": {
+     "nufus": 13049,
+     "erkek": 6758,
+     "kadin": 6291,
+     "pay": 2.31
+    },
+    "Toprakkale": {
+     "nufus": 22358,
+     "erkek": 13323,
+     "kadin": 9035,
+     "pay": 3.96
+    }
+   }
+  },
+  "81": {
+   "ortancaYas": 36.8,
+   "yas0_14": 18.7,
+   "yas15_64": 68.7,
+   "yas65": 12.6,
+   "hicEvlenmemis": 26.5,
+   "evli": 61.9,
+   "bosanmis": 5,
+   "esiOlmus": 6.6,
+   "haneBuyuklugu": 3.02,
+   "haneSayisi": 132122,
+   "tekKisilik": 21.3,
+   "cekirdekAile": 58.7,
+   "genisAile": 17.2,
+   "cocukBagimlilik": 27.3,
+   "yasliBagimlilik": 18.3,
+   "dogurganlik": 1.36,
+   "yerliOrani": 72.5,
+   "yogunluk": 168,
+   "yabanci": 5820,
+   "ilceler": {
+    "Akçakoca": {
+     "nufus": 41134,
+     "erkek": 20239,
+     "kadin": 20895,
+     "pay": 9.9
+    },
+    "Cumayeri": {
+     "nufus": 16162,
+     "erkek": 8158,
+     "kadin": 8004,
+     "pay": 3.89
+    },
+    "Çilimli": {
+     "nufus": 19022,
+     "erkek": 10864,
+     "kadin": 8158,
+     "pay": 4.58
+    },
+    "Gölyaka": {
+     "nufus": 20840,
+     "erkek": 10650,
+     "kadin": 10190,
+     "pay": 5.01
+    },
+    "Gümüşova": {
+     "nufus": 17344,
+     "erkek": 8795,
+     "kadin": 8549,
+     "pay": 4.17
+    },
+    "Kaynaşlı": {
+     "nufus": 20379,
+     "erkek": 10409,
+     "kadin": 9970,
+     "pay": 4.9
+    },
+    "Merkez": {
+     "nufus": 267249,
+     "erkek": 131399,
+     "kadin": 135850,
+     "pay": 64.3
+    },
+    "Yığılca": {
+     "nufus": 13492,
+     "erkek": 7161,
+     "kadin": 6331,
+     "pay": 3.25
+    }
+   }
+  },
+  "01": {
+   "ortancaYas": 34.5,
+   "yas0_14": 22,
+   "yas15_64": 67.4,
+   "yas65": 10.6,
+   "hicEvlenmemis": 29.3,
+   "evli": 59,
+   "bosanmis": 6.1,
+   "esiOlmus": 5.7,
+   "haneBuyuklugu": 3.25,
+   "haneSayisi": 683637,
+   "tekKisilik": 18.5,
+   "cekirdekAile": 63.1,
+   "genisAile": 15.8,
+   "cocukBagimlilik": 32.6,
+   "yasliBagimlilik": 15.7,
+   "dogurganlik": 1.55,
+   "yerliOrani": 57.6,
+   "yogunluk": 170,
+   "yabanci": 12103,
+   "ilceler": {
+    "Aladağ": {
+     "nufus": 15839,
+     "erkek": 8321,
+     "kadin": 7518,
+     "pay": 0.69
+    },
+    "Ceyhan": {
+     "nufus": 156081,
+     "erkek": 78366,
+     "kadin": 77715,
+     "pay": 6.83
+    },
+    "Çukurova": {
+     "nufus": 380653,
+     "erkek": 182261,
+     "kadin": 198392,
+     "pay": 16.67
+    },
+    "Feke": {
+     "nufus": 15586,
+     "erkek": 8290,
+     "kadin": 7296,
+     "pay": 0.68
+    },
+    "İmamoğlu": {
+     "nufus": 27196,
+     "erkek": 13758,
+     "kadin": 13438,
+     "pay": 1.19
+    },
+    "Karaisalı": {
+     "nufus": 22872,
+     "erkek": 11828,
+     "kadin": 11044,
+     "pay": 1
+    },
+    "Karataş": {
+     "nufus": 24005,
+     "erkek": 12239,
+     "kadin": 11766,
+     "pay": 1.05
+    },
+    "Kozan": {
+     "nufus": 132572,
+     "erkek": 66636,
+     "kadin": 65936,
+     "pay": 5.81
+    },
+    "Pozantı": {
+     "nufus": 19983,
+     "erkek": 10398,
+     "kadin": 9585,
+     "pay": 0.88
+    },
+    "Saimbeyli": {
+     "nufus": 13133,
+     "erkek": 6939,
+     "kadin": 6194,
+     "pay": 0.58
+    },
+    "Sarıçam": {
+     "nufus": 263080,
+     "erkek": 137418,
+     "kadin": 125662,
+     "pay": 11.52
+    },
+    "Seyhan": {
+     "nufus": 782204,
+     "erkek": 388700,
+     "kadin": 393504,
+     "pay": 34.25
+    },
+    "Tufanbeyli": {
+     "nufus": 16027,
+     "erkek": 8288,
+     "kadin": 7739,
+     "pay": 0.7
+    },
+    "Yumurtalık": {
+     "nufus": 17806,
+     "erkek": 9222,
+     "kadin": 8584,
+     "pay": 0.78
+    },
+    "Yüreğir": {
+     "nufus": 396572,
+     "erkek": 198950,
+     "kadin": 197622,
+     "pay": 17.37
+    }
+   }
+  },
+  "02": {
+   "ortancaYas": 30.4,
+   "yas0_14": 26.1,
+   "yas15_64": 64.7,
+   "yas65": 9.2,
+   "hicEvlenmemis": 30.7,
+   "evli": 62,
+   "bosanmis": 2.4,
+   "esiOlmus": 4.8,
+   "haneBuyuklugu": 3.59,
+   "haneSayisi": 168721,
+   "tekKisilik": 15.7,
+   "cekirdekAile": 68.5,
+   "genisAile": 13.9,
+   "cocukBagimlilik": 40.3,
+   "yasliBagimlilik": 14.2,
+   "dogurganlik": 1.91,
+   "yerliOrani": 92.9,
+   "yogunluk": 83,
+   "yabanci": 1710,
+   "ilceler": {
+    "Besni": {
+     "nufus": 75398,
+     "erkek": 38140,
+     "kadin": 37258,
+     "pay": 12.2
+    },
+    "Çelikhan": {
+     "nufus": 14530,
+     "erkek": 7467,
+     "kadin": 7063,
+     "pay": 2.35
+    },
+    "Gerger": {
+     "nufus": 14497,
+     "erkek": 7398,
+     "kadin": 7099,
+     "pay": 2.35
+    },
+    "Gölbaşı": {
+     "nufus": 47917,
+     "erkek": 24190,
+     "kadin": 23727,
+     "pay": 7.76
+    },
+    "Kahta": {
+     "nufus": 136769,
+     "erkek": 69579,
+     "kadin": 67190,
+     "pay": 22.14
+    },
+    "Merkez": {
+     "nufus": 296876,
+     "erkek": 149745,
+     "kadin": 147131,
+     "pay": 48.05
+    },
+    "Samsat": {
+     "nufus": 6834,
+     "erkek": 3540,
+     "kadin": 3294,
+     "pay": 1.11
+    },
+    "Sincik": {
+     "nufus": 15801,
+     "erkek": 8058,
+     "kadin": 7743,
+     "pay": 2.56
+    },
+    "Tut": {
+     "nufus": 9199,
+     "erkek": 4764,
+     "kadin": 4435,
+     "pay": 1.49
+    }
+   }
+  },
+  "03": {
+   "ortancaYas": 36.4,
+   "yas0_14": 19.3,
+   "yas15_64": 67.4,
+   "yas65": 13.2,
+   "hicEvlenmemis": 24.6,
+   "evli": 64,
+   "bosanmis": 4.4,
+   "esiOlmus": 7.1,
+   "haneBuyuklugu": 3.12,
+   "haneSayisi": 231049,
+   "tekKisilik": 21.2,
+   "cekirdekAile": 59.3,
+   "genisAile": 17.3,
+   "cocukBagimlilik": 28.7,
+   "yasliBagimlilik": 19.6,
+   "dogurganlik": 1.43,
+   "yerliOrani": 86.9,
+   "yogunluk": 55,
+   "yabanci": 9374,
+   "ilceler": {
+    "Başmakçı": {
+     "nufus": 9089,
+     "erkek": 4551,
+     "kadin": 4538,
+     "pay": 1.21
+    },
+    "Bayat": {
+     "nufus": 7580,
+     "erkek": 3774,
+     "kadin": 3806,
+     "pay": 1.01
+    },
+    "Bolvadin": {
+     "nufus": 45906,
+     "erkek": 24198,
+     "kadin": 21708,
+     "pay": 6.11
+    },
+    "Çay": {
+     "nufus": 29140,
+     "erkek": 14339,
+     "kadin": 14801,
+     "pay": 3.88
+    },
+    "Çobanlar": {
+     "nufus": 14457,
+     "erkek": 7295,
+     "kadin": 7162,
+     "pay": 1.92
+    },
+    "Dazkırı": {
+     "nufus": 11723,
+     "erkek": 5909,
+     "kadin": 5814,
+     "pay": 1.56
+    },
+    "Dinar": {
+     "nufus": 46878,
+     "erkek": 23505,
+     "kadin": 23373,
+     "pay": 6.24
+    },
+    "Emirdağ": {
+     "nufus": 43350,
+     "erkek": 22140,
+     "kadin": 21210,
+     "pay": 5.77
+    },
+    "Evciler": {
+     "nufus": 7038,
+     "erkek": 3540,
+     "kadin": 3498,
+     "pay": 0.94
+    },
+    "Hocalar": {
+     "nufus": 8220,
+     "erkek": 4099,
+     "kadin": 4121,
+     "pay": 1.09
+    },
+    "İhsaniye": {
+     "nufus": 27636,
+     "erkek": 14002,
+     "kadin": 13634,
+     "pay": 3.68
+    },
+    "İscehisar": {
+     "nufus": 25220,
+     "erkek": 12823,
+     "kadin": 12397,
+     "pay": 3.35
+    },
+    "Kızılören": {
+     "nufus": 1977,
+     "erkek": 945,
+     "kadin": 1032,
+     "pay": 0.26
+    },
+    "Merkez": {
+     "nufus": 331982,
+     "erkek": 165935,
+     "kadin": 166047,
+     "pay": 44.16
+    },
+    "Sandıklı": {
+     "nufus": 54376,
+     "erkek": 26449,
+     "kadin": 27927,
+     "pay": 7.23
+    },
+    "Sinanpaşa": {
+     "nufus": 38292,
+     "erkek": 19162,
+     "kadin": 19130,
+     "pay": 5.09
+    },
+    "Sultandağı": {
+     "nufus": 13641,
+     "erkek": 6585,
+     "kadin": 7056,
+     "pay": 1.81
+    },
+    "Şuhut": {
+     "nufus": 35303,
+     "erkek": 17551,
+     "kadin": 17752,
+     "pay": 4.7
+    }
+   }
+  },
+  "04": {
+   "ortancaYas": 25.1,
+   "yas0_14": 30.3,
+   "yas15_64": 63.5,
+   "yas65": 6.1,
+   "hicEvlenmemis": 36.2,
+   "evli": 58.2,
+   "bosanmis": 1.5,
+   "esiOlmus": 4.2,
+   "haneBuyuklugu": 4.23,
+   "haneSayisi": 111883,
+   "tekKisilik": 14.1,
+   "cekirdekAile": 66.9,
+   "genisAile": 17,
+   "cocukBagimlilik": 47.8,
+   "yasliBagimlilik": 9.6,
+   "dogurganlik": 2.05,
+   "yerliOrani": 90.5,
+   "yogunluk": 44,
+   "yabanci": 1508,
+   "ilceler": {
+    "Diyadin": {
+     "nufus": 35439,
+     "erkek": 18444,
+     "kadin": 16995,
+     "pay": 7.21
+    },
+    "Doğubayazıt": {
+     "nufus": 113699,
+     "erkek": 59355,
+     "kadin": 54344,
+     "pay": 23.13
+    },
+    "Eleşkirt": {
+     "nufus": 28661,
+     "erkek": 14510,
+     "kadin": 14151,
+     "pay": 5.83
+    },
+    "Hamur": {
+     "nufus": 14336,
+     "erkek": 7502,
+     "kadin": 6834,
+     "pay": 2.92
+    },
+    "Merkez": {
+     "nufus": 150035,
+     "erkek": 75817,
+     "kadin": 74218,
+     "pay": 30.53
+    },
+    "Patnos": {
+     "nufus": 105968,
+     "erkek": 56233,
+     "kadin": 49735,
+     "pay": 21.56
+    },
+    "Taşlıçay": {
+     "nufus": 17431,
+     "erkek": 8994,
+     "kadin": 8437,
+     "pay": 3.55
+    },
+    "Tutak": {
+     "nufus": 25920,
+     "erkek": 13368,
+     "kadin": 12552,
+     "pay": 5.27
+    }
+   }
+  },
+  "05": {
+   "ortancaYas": 40.5,
+   "yas0_14": 16.1,
+   "yas15_64": 66.7,
+   "yas65": 17.2,
+   "hicEvlenmemis": 24.4,
+   "evli": 63.3,
+   "bosanmis": 4.2,
+   "esiOlmus": 8.1,
+   "haneBuyuklugu": 2.79,
+   "haneSayisi": 116181,
+   "tekKisilik": 21.9,
+   "cekirdekAile": 62.6,
+   "genisAile": 13.4,
+   "cocukBagimlilik": 24.1,
+   "yasliBagimlilik": 25.7,
+   "dogurganlik": 1.26,
+   "yerliOrani": 77.3,
+   "yogunluk": 61,
+   "yabanci": 2749,
+   "ilceler": {
+    "Göynücek": {
+     "nufus": 10823,
+     "erkek": 5528,
+     "kadin": 5295,
+     "pay": 3.16
+    },
+    "Gümüşhacıköy": {
+     "nufus": 22319,
+     "erkek": 11406,
+     "kadin": 10913,
+     "pay": 6.52
+    },
+    "Hamamözü": {
+     "nufus": 3628,
+     "erkek": 1749,
+     "kadin": 1879,
+     "pay": 1.06
+    },
+    "Merkez": {
+     "nufus": 151433,
+     "erkek": 77218,
+     "kadin": 74215,
+     "pay": 44.25
+    },
+    "Merzifon": {
+     "nufus": 77077,
+     "erkek": 38099,
+     "kadin": 38978,
+     "pay": 22.52
+    },
+    "Suluova": {
+     "nufus": 46928,
+     "erkek": 23299,
+     "kadin": 23629,
+     "pay": 13.71
+    },
+    "Taşova": {
+     "nufus": 30034,
+     "erkek": 14803,
+     "kadin": 15231,
+     "pay": 8.78
+    }
+   }
+  },
+  "06": {
+   "ortancaYas": 36.4,
+   "yas0_14": 17.8,
+   "yas15_64": 71.2,
+   "yas65": 11,
+   "hicEvlenmemis": 28.9,
+   "evli": 59.6,
+   "bosanmis": 6.4,
+   "esiOlmus": 5.1,
+   "haneBuyuklugu": 2.86,
+   "haneSayisi": 1987216,
+   "tekKisilik": 20.2,
+   "cekirdekAile": 66,
+   "genisAile": 10.3,
+   "cocukBagimlilik": 25.1,
+   "yasliBagimlilik": 15.4,
+   "dogurganlik": 1.11,
+   "yerliOrani": 28.2,
+   "yogunluk": 238,
+   "yabanci": 128633,
+   "ilceler": {
+    "Akyurt": {
+     "nufus": 46956,
+     "erkek": 23287,
+     "kadin": 23669,
+     "pay": 0.79
+    },
+    "Altındağ": {
+     "nufus": 418072,
+     "erkek": 209138,
+     "kadin": 208934,
+     "pay": 7.07
+    },
+    "Ayaş": {
+     "nufus": 13136,
+     "erkek": 6993,
+     "kadin": 6143,
+     "pay": 0.22
+    },
+    "Bala": {
+     "nufus": 20109,
+     "erkek": 11083,
+     "kadin": 9026,
+     "pay": 0.34
+    },
+    "Beypazarı": {
+     "nufus": 48359,
+     "erkek": 24071,
+     "kadin": 24288,
+     "pay": 0.82
+    },
+    "Çamlıdere": {
+     "nufus": 10203,
+     "erkek": 5536,
+     "kadin": 4667,
+     "pay": 0.17
+    },
+    "Çankaya": {
+     "nufus": 952198,
+     "erkek": 454348,
+     "kadin": 497850,
+     "pay": 16.11
+    },
+    "Çubuk": {
+     "nufus": 101437,
+     "erkek": 49585,
+     "kadin": 51852,
+     "pay": 1.72
+    },
+    "Elmadağ": {
+     "nufus": 45644,
+     "erkek": 22913,
+     "kadin": 22731,
+     "pay": 0.77
+    },
+    "Etimesgut": {
+     "nufus": 632458,
+     "erkek": 311010,
+     "kadin": 321448,
+     "pay": 10.7
+    },
+    "Evren": {
+     "nufus": 2927,
+     "erkek": 1472,
+     "kadin": 1455,
+     "pay": 0.05
+    },
+    "Gölbaşı": {
+     "nufus": 172810,
+     "erkek": 87854,
+     "kadin": 84956,
+     "pay": 2.92
+    },
+    "Güdül": {
+     "nufus": 8028,
+     "erkek": 4108,
+     "kadin": 3920,
+     "pay": 0.14
+    },
+    "Haymana": {
+     "nufus": 25798,
+     "erkek": 13602,
+     "kadin": 12196,
+     "pay": 0.44
+    },
+    "Kahramankazan": {
+     "nufus": 63143,
+     "erkek": 32478,
+     "kadin": 30665,
+     "pay": 1.07
+    },
+    "Kalecik": {
+     "nufus": 12564,
+     "erkek": 6769,
+     "kadin": 5795,
+     "pay": 0.21
+    },
+    "Keçiören": {
+     "nufus": 931722,
+     "erkek": 453877,
+     "kadin": 477845,
+     "pay": 15.76
+    },
+    "Kızılcahamam": {
+     "nufus": 27841,
+     "erkek": 14234,
+     "kadin": 13607,
+     "pay": 0.47
+    },
+    "Mamak": {
+     "nufus": 690329,
+     "erkek": 340882,
+     "kadin": 349447,
+     "pay": 11.68
+    },
+    "Nallıhan": {
+     "nufus": 26083,
+     "erkek": 13016,
+     "kadin": 13067,
+     "pay": 0.44
+    },
+    "Polatlı": {
+     "nufus": 131894,
+     "erkek": 65902,
+     "kadin": 65992,
+     "pay": 2.23
+    },
+    "Pursaklar": {
+     "nufus": 168881,
+     "erkek": 83688,
+     "kadin": 85193,
+     "pay": 2.86
+    },
+    "Sincan": {
+     "nufus": 605366,
+     "erkek": 311371,
+     "kadin": 293995,
+     "pay": 10.24
+    },
+    "Şereflikoçhisar": {
+     "nufus": 32831,
+     "erkek": 16437,
+     "kadin": 16394,
+     "pay": 0.56
+    },
+    "Yenimahalle": {
+     "nufus": 721531,
+     "erkek": 348199,
+     "kadin": 373332,
+     "pay": 12.21
+    }
+   }
+  },
+  "07": {
+   "ortancaYas": 36.8,
+   "yas0_14": 18.7,
+   "yas15_64": 70.7,
+   "yas65": 10.6,
+   "hicEvlenmemis": 28.2,
+   "evli": 59.5,
+   "bosanmis": 7.7,
+   "esiOlmus": 4.6,
+   "haneBuyuklugu": 2.9,
+   "haneSayisi": 918985,
+   "tekKisilik": 22.5,
+   "cekirdekAile": 58.7,
+   "genisAile": 13.5,
+   "cocukBagimlilik": 26.4,
+   "yasliBagimlilik": 14.9,
+   "dogurganlik": 1.2,
+   "yerliOrani": 41.8,
+   "yogunluk": 135,
+   "yabanci": 132302,
+   "ilceler": {
+    "Akseki": {
+     "nufus": 10609,
+     "erkek": 5570,
+     "kadin": 5039,
+     "pay": 0.38
+    },
+    "Aksu": {
+     "nufus": 87070,
+     "erkek": 44515,
+     "kadin": 42555,
+     "pay": 3.13
+    },
+    "Alanya": {
+     "nufus": 371547,
+     "erkek": 187937,
+     "kadin": 183610,
+     "pay": 13.38
+    },
+    "Demre": {
+     "nufus": 28075,
+     "erkek": 14401,
+     "kadin": 13674,
+     "pay": 1.01
+    },
+    "Döşemealtı": {
+     "nufus": 97121,
+     "erkek": 51506,
+     "kadin": 45615,
+     "pay": 3.5
+    },
+    "Elmalı": {
+     "nufus": 41550,
+     "erkek": 21993,
+     "kadin": 19557,
+     "pay": 1.5
+    },
+    "Finike": {
+     "nufus": 52436,
+     "erkek": 26287,
+     "kadin": 26149,
+     "pay": 1.89
+    },
+    "Gazipaşa": {
+     "nufus": 55850,
+     "erkek": 28161,
+     "kadin": 27689,
+     "pay": 2.01
+    },
+    "Gündoğmuş": {
+     "nufus": 6953,
+     "erkek": 3473,
+     "kadin": 3480,
+     "pay": 0.25
+    },
+    "İbradı": {
+     "nufus": 3256,
+     "erkek": 1701,
+     "kadin": 1555,
+     "pay": 0.12
+    },
+    "Kaş": {
+     "nufus": 63957,
+     "erkek": 33024,
+     "kadin": 30933,
+     "pay": 2.3
+    },
+    "Kemer": {
+     "nufus": 52339,
+     "erkek": 26978,
+     "kadin": 25361,
+     "pay": 1.88
+    },
+    "Kepez": {
+     "nufus": 649102,
+     "erkek": 328855,
+     "kadin": 320247,
+     "pay": 23.37
+    },
+    "Konyaaltı": {
+     "nufus": 199414,
+     "erkek": 94717,
+     "kadin": 104697,
+     "pay": 7.18
+    },
+    "Korkuteli": {
+     "nufus": 58381,
+     "erkek": 29384,
+     "kadin": 28997,
+     "pay": 2.1
+    },
+    "Kumluca": {
+     "nufus": 75588,
+     "erkek": 38154,
+     "kadin": 37434,
+     "pay": 2.72
+    },
+    "Manavgat": {
+     "nufus": 266480,
+     "erkek": 137240,
+     "kadin": 129240,
+     "pay": 9.59
+    },
+    "Muratpaşa": {
+     "nufus": 510887,
+     "erkek": 248323,
+     "kadin": 262564,
+     "pay": 18.39
+    },
+    "Serik": {
+     "nufus": 147062,
+     "erkek": 74795,
+     "kadin": 72267,
+     "pay": 5.29
+    }
+   }
+  },
+  "08": {
+   "ortancaYas": 42.5,
+   "yas0_14": 14.7,
+   "yas15_64": 66.1,
+   "yas65": 19.2,
+   "hicEvlenmemis": 26.4,
+   "evli": 61.4,
+   "bosanmis": 3.4,
+   "esiOlmus": 8.7,
+   "haneBuyuklugu": 2.64,
+   "haneSayisi": 60551,
+   "tekKisilik": 28.5,
+   "cekirdekAile": 53.4,
+   "genisAile": 14.8,
+   "cocukBagimlilik": 22.2,
+   "yasliBagimlilik": 29.1,
+   "dogurganlik": 1.23,
+   "yerliOrani": 84.2,
+   "yogunluk": 23,
+   "yabanci": 539,
+   "ilceler": {
+    "Ardanuç": {
+     "nufus": 10889,
+     "erkek": 5713,
+     "kadin": 5176,
+     "pay": 6.5
+    },
+    "Arhavi": {
+     "nufus": 22025,
+     "erkek": 10869,
+     "kadin": 11156,
+     "pay": 13.15
+    },
+    "Borçka": {
+     "nufus": 21628,
+     "erkek": 11046,
+     "kadin": 10582,
+     "pay": 12.91
+    },
+    "Hopa": {
+     "nufus": 27844,
+     "erkek": 13877,
+     "kadin": 13967,
+     "pay": 16.62
+    },
+    "Kemalpaşa": {
+     "nufus": 9263,
+     "erkek": 4744,
+     "kadin": 4519,
+     "pay": 5.53
+    },
+    "Merkez": {
+     "nufus": 35710,
+     "erkek": 17366,
+     "kadin": 18344,
+     "pay": 21.32
+    },
+    "Murgul": {
+     "nufus": 6457,
+     "erkek": 3374,
+     "kadin": 3083,
+     "pay": 3.85
+    },
+    "Şavşat": {
+     "nufus": 16151,
+     "erkek": 8094,
+     "kadin": 8057,
+     "pay": 9.64
+    },
+    "Yusufeli": {
+     "nufus": 17564,
+     "erkek": 8823,
+     "kadin": 8741,
+     "pay": 10.48
+    }
+   }
+  },
+  "09": {
+   "ortancaYas": 40.4,
+   "yas0_14": 17.2,
+   "yas15_64": 66.5,
+   "yas65": 16.3,
+   "hicEvlenmemis": 24.1,
+   "evli": 61.4,
+   "bosanmis": 7.1,
+   "esiOlmus": 7.4,
+   "haneBuyuklugu": 2.72,
+   "haneSayisi": 417606,
+   "tekKisilik": 25.2,
+   "cekirdekAile": 59.9,
+   "genisAile": 12.3,
+   "cocukBagimlilik": 25.9,
+   "yasliBagimlilik": 24.5,
+   "dogurganlik": 1.31,
+   "yerliOrani": 59.4,
+   "yogunluk": 146,
+   "yabanci": 14619,
+   "ilceler": {
+    "Bozdoğan": {
+     "nufus": 31624,
+     "erkek": 15845,
+     "kadin": 15779,
+     "pay": 2.7
+    },
+    "Buharkent": {
+     "nufus": 13137,
+     "erkek": 6460,
+     "kadin": 6677,
+     "pay": 1.12
+    },
+    "Çine": {
+     "nufus": 47906,
+     "erkek": 23789,
+     "kadin": 24117,
+     "pay": 4.09
+    },
+    "Didim": {
+     "nufus": 103141,
+     "erkek": 51930,
+     "kadin": 51211,
+     "pay": 8.8
+    },
+    "Efeler": {
+     "nufus": 310241,
+     "erkek": 151973,
+     "kadin": 158268,
+     "pay": 26.47
+    },
+    "Germencik": {
+     "nufus": 44697,
+     "erkek": 22284,
+     "kadin": 22413,
+     "pay": 3.81
+    },
+    "İncirliova": {
+     "nufus": 58230,
+     "erkek": 28807,
+     "kadin": 29423,
+     "pay": 4.97
+    },
+    "Karacasu": {
+     "nufus": 17225,
+     "erkek": 8532,
+     "kadin": 8693,
+     "pay": 1.47
+    },
+    "Karpuzlu": {
+     "nufus": 10352,
+     "erkek": 5136,
+     "kadin": 5216,
+     "pay": 0.88
+    },
+    "Koçarlı": {
+     "nufus": 22234,
+     "erkek": 11249,
+     "kadin": 10985,
+     "pay": 1.9
+    },
+    "Köşk": {
+     "nufus": 28307,
+     "erkek": 14406,
+     "kadin": 13901,
+     "pay": 2.42
+    },
+    "Kuşadası": {
+     "nufus": 141431,
+     "erkek": 69796,
+     "kadin": 71635,
+     "pay": 12.07
+    },
+    "Kuyucak": {
+     "nufus": 26196,
+     "erkek": 13294,
+     "kadin": 12902,
+     "pay": 2.23
+    },
+    "Nazilli": {
+     "nufus": 162156,
+     "erkek": 79958,
+     "kadin": 82198,
+     "pay": 13.83
+    },
+    "Söke": {
+     "nufus": 123843,
+     "erkek": 61886,
+     "kadin": 61957,
+     "pay": 10.57
+    },
+    "Sultanhisar": {
+     "nufus": 19791,
+     "erkek": 9594,
+     "kadin": 10197,
+     "pay": 1.69
+    },
+    "Yenipazar": {
+     "nufus": 11596,
+     "erkek": 5597,
+     "kadin": 5999,
+     "pay": 0.99
+    }
+   }
+  }
+ },
+ "turkiye": {
+  "ortancaYas": 34.9,
+  "haneBuyuklugu": 3.08,
+  "yas65": 11.1,
+  "dogurganlik": 1.42
+ }
+}

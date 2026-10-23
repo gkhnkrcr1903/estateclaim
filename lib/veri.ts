@@ -12,6 +12,41 @@ export interface IlVerisi {
   satisM2: number;
   satisKaynak: "TCMB" | "tahmini";
   kiraM2: number;
+  profil?: IlProfili;
+}
+
+// TÜİK ADNKS 2025 il profili (oranlar %, bağımlılık 100 kişi başına)
+export interface IlProfili {
+  ortancaYas: number;
+  yas0_14: number;
+  yas15_64: number;
+  yas65: number;
+  hicEvlenmemis: number;
+  evli: number;
+  bosanmis: number;
+  esiOlmus: number;
+  haneBuyuklugu: number;
+  haneSayisi: number;
+  tekKisilik: number;
+  cekirdekAile: number;
+  genisAile: number;
+  cocukBagimlilik: number;
+  yasliBagimlilik: number;
+  dogurganlik: number;
+  yerliOrani: number; // ilde yaşayıp nüfusa o ilde kayıtlı olanların oranı
+  yogunluk: number; // kişi/km²
+  yabanci: number;
+  egitimYili: number | null; // 25+ yaş ortalama eğitim süresi; TÜİK yalnızca bazı illeri açıkladı
+  ilceNufus: Record<string, { nufus: number; erkek: number; kadin: number; pay: number }>;
+}
+
+export interface TurkiyeProfili {
+  ortancaYas: number;
+  haneBuyuklugu: number;
+  yas65: number;
+  dogurganlik: number;
+  ortalamaEgitimYili: number;
+  yuksekogretimMezunu25Ustu: number;
 }
 
 export interface Veri {
@@ -19,6 +54,7 @@ export interface Veri {
   kaynaklar: string[];
   konutDonemi: string;
   nufusYili?: number;
+  turkiyeProfil?: TurkiyeProfili;
   iller: IlVerisi[];
 }
 

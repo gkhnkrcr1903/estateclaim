@@ -31,11 +31,18 @@ function kaynaklar(v: Veri, bugun = new Date()): Kaynak[] {
       eski: tcmbSon ? gun(tcmbSon) > 210 : false,
     },
     {
-      ad: "Nüfus ve nüfus artışı (TÜİK ADNKS)",
+      ad: "Nüfus, yaş ve hane profili (TÜİK ADNKS)",
       donem: String(nufusYili),
       nasil: "Yılda bir (Şubat), elle",
       // N yılının ADNKS verisi N+1 Şubat'ında yayımlanır; N+2 Mart'ından sonra yenisi çıkmış olmalıdır.
       eski: bugun > new Date(nufusYili + 2, 2, 1),
+    },
+    {
+      ad: "Eğitim süresi (TÜİK Ulusal Eğitim İst.)",
+      donem: String(nufusYili),
+      nasil: "Yılda bir (Haziran), elle",
+      // N yılının eğitim istatistikleri N+1 Haziran'ında yayımlanır.
+      eski: bugun > new Date(nufusYili + 2, 6, 1),
     },
     {
       ad: "Yapı maliyeti (Bakanlık tebliği)",

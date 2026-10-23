@@ -112,3 +112,10 @@ details.guncellik[open] summary { margin-bottom: 6px; }
 details.guncellik table { font-size: 12px; }
 details.guncellik td { white-space: normal; }
 @media (max-width: 600px) { details.guncellik summary { text-align: left; } }
+.ilce-bant { font-size: 13px; padding: 8px 10px; border-radius: 8px; margin-bottom: 12px; background: color-mix(in srgb, var(--vurgu) 8%, transparent); }
+.profil-cubuklar { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 14px; }
+.profil-cubuklar > div { min-width: 0; }
+.profil-cubuklar h3 { font-size: 13px; margin: 0 0 6px; }
+.dilim-cubuk { display: flex; height: 14px; border-radius: 999px; overflow: hidden; background: var(--cizgi); }
+.dilim-etiket { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 6px; font-size: 12px; color: var(--soluk); }
+.dilim-etiket i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 4px; }

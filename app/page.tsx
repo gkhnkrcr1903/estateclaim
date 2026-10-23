@@ -8,6 +8,7 @@ import { degerlendir, fiyatBandi, bolgeTavsiyeleri, arsaKarari, butceOnerileri }
 import { konutPiyasasi } from "../lib/konut";
 import MahalleEvFiyatlari from "../components/MahalleEvFiyatlari";
 import { IlGenelBilgi, EnDegerliSemtler } from "../components/BolgeOzeti";
+import BolgeProfiliBolumu from "../components/BolgeProfili";
 
 const Harita = dynamic(() => import("../components/Harita"), { ssr: false, loading: () => <div className="harita" /> });
 
@@ -124,6 +125,7 @@ export default function Sayfa() {
         </section>
 
         <IlGenelBilgi ilKod={ilKod} />
+        <BolgeProfiliBolumu ilKod={ilKod} ilce={ilce} ilAd={il.ad} />
         <EnDegerliSemtler ilKod={ilKod} ilce={ilce} ilAd={il.ad} />
 
         <section className="kart">

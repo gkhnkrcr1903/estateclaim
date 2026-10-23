@@ -1,0 +1,18 @@
+{
+  "kaynak": "TÜİK Ulusal Eğitim İstatistikleri 2025 (Haziran 2026 bülteni, basında yer alan değerler)",
+  "aciklama": "25 yaş ve üzeri nüfusun ortalama eğitim süresi (yıl). TÜİK bülteninde yalnızca en yüksek ve en düşük iller açıklandı; diğer iller için il tablosu eklendiğinde bu dosya tamamlanmalıdır.",
+  "turkiye": { "ortalamaEgitimYili": 9.6, "erkek": 10.3, "kadin": 8.9, "yuksekogretimMezunu25Ustu": 26.1, "yuksekogretimMezunu25_34": 45.6 },
+  "iller": {
+    "06": 10.9,
+    "34": 10.3,
+    "26": 10.2,
+    "41": 10.1,
+    "77": 10.0,
+    "35": 10.0,
+    "04": 7.6,
+    "63": 7.8,
+    "49": 8.2,
+    "37": 8.3,
+    "65": 8.3
+  }
+}
