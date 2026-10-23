@@ -86,7 +86,7 @@ export default function EvSayfasi() {
             {secim("park", "Park / yeşil alan", YAKINLIKLAR)}
             {kutu("cocuklu", "Okul çağında çocuğum var")}
           </div>
-          <p className="soluk" style={{ fontSize: 12, marginBottom: 0 }}>Yürüme mesafesi yaklaşık 10 dakika (~800 m) kabul edilir. Yakınlıklar fiyatı kural tabanlı olarak etkiler ve aile için uygunluk puanını belirler.</p>
+          <p className="soluk" style={{ fontSize: 12, marginBottom: 0 }}>Yürüme mesafesi yaklaşık 10 dakika (~800 m), "Uzak" araçla 20 dakikadan fazla kabul edilir. Yakınlıklar fiyatı kural tabanlı olarak etkiler ve aile için uygunluk puanını belirler.</p>
         </section>
 
         <section className="kart">

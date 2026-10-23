@@ -48,8 +48,10 @@ export interface EvBilgisi {
   vadeAy?: number;
 }
 
-export type Yakinlik = "Yürüme mesafesinde" | "Yakın (araçla 5–10 dk)" | "Uzak";
-export const YAKINLIKLAR: Yakinlik[] = ["Yürüme mesafesinde", "Yakın (araçla 5–10 dk)", "Uzak"];
+export type Yakinlik = "Yürüme mesafesinde" | "Yakın (araçla 5–10 dk)" | "Biraz uzak (araçla 10–20 dk)" | "Uzak";
+export const YAKINLIKLAR: Yakinlik[] = ["Yürüme mesafesinde", "Yakın (araçla 5–10 dk)", "Biraz uzak (araçla 10–20 dk)", "Uzak"];
+// "Biraz uzak" uzaklık etkisinin yarısını alır.
+const BIRAZ_UZAK: Yakinlik = "Biraz uzak (araçla 10–20 dk)";
 
 export interface AileUygunlugu {
   puan: number; // 0–100
@@ -108,6 +110,7 @@ export function aileUygunlugu(e: EvBilgisi): AileUygunlugu {
   const yakin = (v: Yakinlik | undefined, ad: string, a: number, u: number) => {
     if (v === "Yürüme mesafesinde") (p += a), arti.push(ad + " yürüme mesafesinde");
     else if (v === "Uzak") (p -= u), eksi.push(ad + " uzak");
+    else if (v === BIRAZ_UZAK && u) (p -= Math.round(u / 2)), eksi.push(ad + " biraz uzak");
   };
   yakin(e.devletOkulu, "devlet okulu", 12, 10);
   yakin(e.ozelOkul, "özel okul", 5, 0);
@@ -189,6 +192,7 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
     const v = e[k as keyof EvBilgisi] as Yakinlik | undefined;
     if (v === "Yürüme mesafesinde") ekle(`${ad} yürüme mesafesinde`, yakin);
     else if (v === "Uzak") ekle(`${ad} uzak`, uzak);
+    else if (v === BIRAZ_UZAK) ekle(`${ad} biraz uzak (araçla 10–20 dk)`, Math.trunc(uzak / 2));
   }
   ekle(`Tapu: ${e.tapu}`, { "Kat mülkiyeti": 0, "Kat irtifakı": -4, "Hisseli/arsa tapusu": -15 }[e.tapu]);
   if (!e.krediyeUygun) ekle("Krediye uygun değil — alıcı kitlesi daralır", -8);
@@ -394,8 +398,8 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
     if (e.kullanim === "Kiracılı") add("Oturum / yatırım", "olumlu", "Kiracılı alırsanız ilk günden kira geliri başlar; mevcut kira sözleşmesini ve kira artış dönemini öğrenin.");
   } else {
     if (e.kullanim === "Kiracılı") add("Oturum / yatırım", "uyari", "Kendiniz oturacaksanız kiracının tahliye tarihini yazılı olarak netleştirin.");
-    if (e.hastane === "Uzak") add("Oturum / yatırım", "uyari", "Hastaneye uzak: yaşlı veya kronik rahatsızlığı olan aile bireyleri için acil durumda ulaşım süresini hesaplayın.");
-    if (e.metro === "Uzak" && e.otobus === "Uzak") add("Oturum / yatırım", "uyari", "Toplu taşımaya uzak: araçsız yaşam zor; ikinci araç, yakıt ve otopark masrafını bütçeye ekleyin.");
+    if ((e.hastane === "Uzak" || e.hastane === BIRAZ_UZAK)) add("Oturum / yatırım", "uyari", "Hastaneye uzak: yaşlı veya kronik rahatsızlığı olan aile bireyleri için acil durumda ulaşım süresini hesaplayın.");
+    if ((e.metro === "Uzak" || e.metro === BIRAZ_UZAK) && (e.otobus === "Uzak" || e.otobus === BIRAZ_UZAK)) add("Oturum / yatırım", "uyari", "Toplu taşımaya uzak: araçsız yaşam zor; ikinci araç, yakıt ve otopark masrafını bütçeye ekleyin.");
     if (e.sosyalHayat === "Uzak") add("Oturum / yatırım", "bilgi", "Sosyal hayata uzak: sakin bir çevre arayanlar için artı, gençler ve tek yaşayanlar için eksi; kiralama ve satışta alıcı kitlesi daralabilir.");
     if (e.anaCadde) add("Oturum / yatırım", "bilgi", "Ana cadde üzerinde: evi akşam saatlerinde de görüp gürültüyü kontrol edin; ses yalıtımlı pencere maliyetini hesaplayın.");
     add("Oturum / yatırım", "bilgi", "Evi farklı saatlerde ziyaret edin, komşular ve bina yönetimiyle konuşun; su basıncı, doğalgaz ve internet altyapısını kontrol edin.");
