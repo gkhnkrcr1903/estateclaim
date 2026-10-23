@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { iller as ilListesi } from "../../lib/iller-meta";
 import { mahalleler } from "../../lib/arsa";
-import { evDegerle, type EvBilgisi, type Tavsiye } from "../../lib/ev";
+import { evDegerle, YAKINLIKLAR, type EvBilgisi, type Tavsiye } from "../../lib/ev";
 import PdfKaydet from "../../components/PdfKaydet";
 import SayiKutusu from "../../components/SayiKutusu";
 
@@ -27,7 +27,9 @@ export default function EvSayfasi() {
     il: "34", ilce: "Kadıköy", netM2: 100, odaSayisi: "3+1", binaYasi: 12, kat: "Ara kat", toplamKat: 6,
     durum: "Bakımlı", isinma: "Doğalgaz kombi", asansor: true, otopark: "Yok", site: false, manzara: "Yok",
     ulasimKm: 1, tapu: "Kat mülkiyeti", krediyeUygun: true, istenenFiyat: 12_000_000,
-    cephe: "Doğu/Batı", balkon: true, banyo: 1, iskan: true, aidat: 0, anaCadde: false, sosyal: true,
+    cephe: "Doğu/Batı", balkon: true, banyo: 1, iskan: true, aidat: 0, anaCadde: false,
+    metro: "Yakın (araçla 5–10 dk)", otobus: "Yürüme mesafesinde", sosyalHayat: "Yürüme mesafesinde", market: "Yürüme mesafesinde",
+    devletOkulu: "Yürüme mesafesinde", ozelOkul: "Yakın (araçla 5–10 dk)", hastane: "Yakın (araçla 5–10 dk)", park: "Yürüme mesafesinde", cocuklu: false,
     kullanim: "Boş", esyali: false, amac: "Oturmak", pesinatOrani: 30, aylikFaiz: 2.5, vadeAy: 120,
   });
   const g = <K extends keyof EvBilgisi>(k: K, v: EvBilgisi[K]) => setE({ ...e, [k]: v });
@@ -65,11 +67,26 @@ export default function EvSayfasi() {
             <label>İlçe<select value={e.ilce} onChange={(x) => setE({ ...e, ilce: x.target.value, mahalle: "" })}>{il.ilceler.map((x) => <option key={x}>{x}</option>)}</select></label>
             <label>Mahalle<select value={e.mahalle ?? ""} onChange={(x) => g("mahalle", x.target.value)}><option value="">Belirtilmedi (ilçe ortalaması)</option>{mahalleler(e.il, e.ilce).map((x) => <option key={x}>{x}</option>)}</select></label>
             {sayi("istenenFiyat", "İstenen fiyat (₺)", { min: 1, step: 50000 })}
-            {sayi("ulasimKm", "Metro/merkeze (km)", { step: 0.1 })}
+            {sayi("ulasimKm", "Şehir/iş merkezine (km)", { step: 0.1 })}
             {secim("amac", "Alma amacınız", AMAC)}
-            {kutu("sosyal", "Okul/market/hastane yakın")}
             {kutu("anaCadde", "Gürültülü ana cadde üzerinde")}
           </div>
+        </section>
+
+        <section className="kart">
+          <h2>🚇 Çevre ve yakınlık</h2>
+          <div className="form">
+            {secim("metro", "Metro / raylı sistem", YAKINLIKLAR)}
+            {secim("otobus", "Otobüs / minibüs", YAKINLIKLAR)}
+            {secim("sosyalHayat", "Sosyal hayat (kafe, AVM)", YAKINLIKLAR)}
+            {secim("market", "Market / çarşı", YAKINLIKLAR)}
+            {secim("devletOkulu", "Devlet okulu", YAKINLIKLAR)}
+            {secim("ozelOkul", "Özel okul", YAKINLIKLAR)}
+            {secim("hastane", "Hastane", YAKINLIKLAR)}
+            {secim("park", "Park / yeşil alan", YAKINLIKLAR)}
+            {kutu("cocuklu", "Okul çağında çocuğum var")}
+          </div>
+          <p className="soluk" style={{ fontSize: 12, marginBottom: 0 }}>Yürüme mesafesi yaklaşık 10 dakika (~800 m) kabul edilir. Yakınlıklar fiyatı kural tabanlı olarak etkiler ve aile için uygunluk puanını belirler.</p>
         </section>
 
         <section className="kart">
@@ -118,6 +135,7 @@ export default function EvSayfasi() {
                 <div><div className="soluk">İstenen fiyat</div><b>{TL(e.istenenFiyat)}</b><div className={s.fark > 0 ? "eksi" : "arti"}>{s.fark > 0 ? "%" + Math.round(s.fark * 100) + " pahalı" : "%" + Math.round(-s.fark * 100) + " ucuz"}</div></div>
                 <div><div className="soluk">Pazarlık</div><b>{TL(s.hedefFiyat)}</b><div className="soluk">Açılış teklifi {TL(s.acilisTeklifi)}</div></div>
                 <div><div className="soluk">Tahmini kira</div><b>{TL(s.kiraTahmini)}/ay</b><div className="soluk">%{s.brutGetiri.toLocaleString("tr-TR")} getiri · {s.amortismanYil.toLocaleString("tr-TR")} yıl</div></div>
+                <div><div className="soluk">Aile için uygunluk</div><b>{s.aile.puan}/100</b><div className="soluk">{s.aile.derece}</div></div>
                 {s.kredi && <div><div className="soluk">Kredi taksiti</div><b>{TL(s.kredi.taksit)}/ay</b><div className="soluk">Peşinat {TL(s.kredi.pesinat)}</div></div>}
               </div>
               <div className="hesap-ozeti">

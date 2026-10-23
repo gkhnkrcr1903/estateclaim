@@ -17,7 +17,7 @@ export interface EvBilgisi {
   otopark: "Yok" | "Açık" | "Kapalı";
   site: boolean; // havuz, güvenlik vb.
   manzara: "Yok" | "Şehir/doğa" | "Deniz/göl";
-  ulasimKm: number; // metro/merkez/toplu taşımaya uzaklık
+  ulasimKm: number; // şehir/iş merkezine uzaklık
   tapu: "Kat mülkiyeti" | "Kat irtifakı" | "Hisseli/arsa tapusu";
   krediyeUygun: boolean;
   istenenFiyat: number;
@@ -28,7 +28,17 @@ export interface EvBilgisi {
   iskan?: boolean; // yapı kullanma izni
   aidat?: number; // TL / ay
   anaCadde?: boolean; // gürültülü cadde üzerinde
-  sosyal?: boolean; // okul, market, hastane yürüme mesafesinde
+  sosyal?: boolean; // eski alan: okul, market, hastane yürüme mesafesinde (yerine ayrıntılı yakınlıklar geldi)
+  // Yakınlıklar (verilmezse nötr kabul edilir)
+  metro?: Yakinlik; // metro, raylı sistem, metrobüs
+  otobus?: Yakinlik;
+  sosyalHayat?: Yakinlik; // kafe, restoran, AVM, kültür
+  market?: Yakinlik;
+  devletOkulu?: Yakinlik;
+  ozelOkul?: Yakinlik;
+  hastane?: Yakinlik;
+  park?: Yakinlik; // park, yeşil alan, oyun alanı
+  cocuklu?: boolean; // okul çağında çocuk var
   kullanim?: "Boş" | "Kiracılı" | "Sahibi oturuyor";
   esyali?: boolean;
   amac?: "Oturmak" | "Yatırım (kira)";
@@ -36,6 +46,16 @@ export interface EvBilgisi {
   pesinatOrani?: number; // %
   aylikFaiz?: number; // %
   vadeAy?: number;
+}
+
+export type Yakinlik = "Yürüme mesafesinde" | "Yakın (araçla 5–10 dk)" | "Uzak";
+export const YAKINLIKLAR: Yakinlik[] = ["Yürüme mesafesinde", "Yakın (araçla 5–10 dk)", "Uzak"];
+
+export interface AileUygunlugu {
+  puan: number; // 0–100
+  derece: "Çok uygun" | "Uygun" | "Orta" | "Zayıf";
+  arti: string[];
+  eksi: string[];
 }
 
 export interface Etken {
@@ -76,7 +96,36 @@ export interface EvSonuc {
   amortismanYil: number;
   kredi?: { tutar: number; taksit: number; toplamOdeme: number; pesinat: number };
   tavsiyeler: Tavsiye[];
+  aile: AileUygunlugu;
   notlar: string[]; // geriye dönük uyumluluk: tavsiye metinleri
+}
+
+// Aile için uygunluk: okul, park, hastane, güvenlik ve konut özelliklerinden kural tabanlı puan (50 nötr).
+export function aileUygunlugu(e: EvBilgisi): AileUygunlugu {
+  let p = 50;
+  const arti: string[] = [];
+  const eksi: string[] = [];
+  const yakin = (v: Yakinlik | undefined, ad: string, a: number, u: number) => {
+    if (v === "Yürüme mesafesinde") (p += a), arti.push(ad + " yürüme mesafesinde");
+    else if (v === "Uzak") (p -= u), eksi.push(ad + " uzak");
+  };
+  yakin(e.devletOkulu, "devlet okulu", 12, 10);
+  yakin(e.ozelOkul, "özel okul", 5, 0);
+  yakin(e.park, "park/oyun alanı", 8, 6);
+  yakin(e.hastane, "hastane", 5, 6);
+  yakin(e.market, "market", 4, 5);
+  yakin(e.otobus, "otobüs", 3, 4);
+  const oda = parseInt(e.odaSayisi, 10);
+  if (oda >= 3) (p += 6), arti.push(`${e.odaSayisi} oda`);
+  else if (oda <= 1) (p -= 10), eksi.push("çocuklu aile için küçük daire");
+  if (e.site) (p += 6), arti.push("site içinde (güvenlik, oyun alanı)");
+  if (e.anaCadde) (p -= 5), eksi.push("gürültülü ana cadde");
+  if (e.kat === "Bodrum") (p -= 6), eksi.push("bodrum kat");
+  if (!e.asansor && e.toplamKat >= 4) (p -= 5), eksi.push("asansörsüz yüksek bina (bebek arabası)");
+  if (e.binaYasi > 25) (p -= 4), eksi.push("eski bina (deprem güvenliği)");
+  const puan = Math.max(0, Math.min(100, Math.round(p)));
+  const derece = puan >= 75 ? "Çok uygun" : puan >= 60 ? "Uygun" : puan >= 45 ? "Orta" : "Zayıf";
+  return { puan, derece, arti, eksi };
 }
 
 export const YAPI_MALIYET_YILI = 2026;
@@ -122,8 +171,25 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
   ekle(`Otopark: ${e.otopark}`, { Yok: 0, Açık: 2, Kapalı: 5 }[e.otopark]);
   if (e.site) ekle("Site içinde (güvenlik/sosyal alan)", 8);
   ekle(`Manzara: ${e.manzara}`, { Yok: 0, "Şehir/doğa": 4, "Deniz/göl": 15 }[e.manzara]);
-  if (e.ulasimKm <= 1) ekle("Toplu taşıma/merkeze 1 km içinde", 7);
-  else if (e.ulasimKm > 5) ekle(`Ulaşıma uzak (${e.ulasimKm} km)`, -8);
+  if (e.ulasimKm <= 2) ekle(`Şehir/iş merkezine yakın (${e.ulasimKm} km)`, 4);
+  else if (e.ulasimKm > 10) ekle(`Şehir/iş merkezine uzak (${e.ulasimKm} km)`, -6);
+
+  // Yakınlıklar: yürüme mesafesi artı, uzak eksi. Raylı sistem fiyatı en çok etkileyen ulaşım türüdür.
+  const YAKIN_ETKI: Record<string, [string, number, number]> = {
+    metro: ["Metro/raylı sistem", 6, -3],
+    otobus: ["Otobüs/minibüs durağı", 1, -4],
+    sosyalHayat: ["Sosyal hayat (kafe, restoran, AVM)", 3, -3],
+    market: ["Market/çarşı", 1, -3],
+    devletOkulu: ["Devlet okulu", 2, -2],
+    ozelOkul: ["Özel okul", 2, 0],
+    hastane: ["Hastane", 1, -2],
+    park: ["Park/yeşil alan", 2, -1],
+  };
+  for (const [k, [ad, yakin, uzak]] of Object.entries(YAKIN_ETKI)) {
+    const v = e[k as keyof EvBilgisi] as Yakinlik | undefined;
+    if (v === "Yürüme mesafesinde") ekle(`${ad} yürüme mesafesinde`, yakin);
+    else if (v === "Uzak") ekle(`${ad} uzak`, uzak);
+  }
   ekle(`Tapu: ${e.tapu}`, { "Kat mülkiyeti": 0, "Kat irtifakı": -4, "Hisseli/arsa tapusu": -15 }[e.tapu]);
   if (!e.krediyeUygun) ekle("Krediye uygun değil — alıcı kitlesi daralır", -8);
 
@@ -132,7 +198,8 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
   if (e.banyo === 2) ekle("İki banyo (ebeveyn banyosu)", e.netM2 >= 90 ? 3 : 1);
   if (e.iskan === false) ekle("İskân (yapı kullanma izni) yok", -10);
   if (e.anaCadde) ekle("Gürültülü ana cadde üzerinde", -4);
-  if (e.sosyal === false) ekle("Okul/market/hastane yürüme mesafesinde değil", -4);
+  // Eski kayıtlarda ayrıntılı yakınlık yoksa tek onay kutusu kullanılır.
+  if (e.sosyal === false && !e.market && !e.devletOkulu && !e.hastane) ekle("Okul/market/hastane yürüme mesafesinde değil", -4);
   if (e.kullanim === "Kiracılı") ekle("Kiracılı satılıyor (tahliye süreci gerekebilir)", -3);
   const normalAidat = p.kiraM2 * e.netM2 * 0.1;
   if (e.aidat && e.aidat > normalAidat * 1.5) ekle(`Yüksek aidat (${Math.round(e.aidat).toLocaleString("tr-TR")} ₺/ay)`, -4);
@@ -236,7 +303,7 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
   const hesapOzeti = [
     `Üç yöntemle ayrı ayrı değer bulundu: ${agirlikliYontemler.map((y) => `${y.ad.split(" ")[0].toLocaleLowerCase("tr")} ${T(y.deger)}`).join(", ")}.`,
     `Ağırlıklı ortalama: ${agirlikliYontemler.map((y) => `${T(y.deger)} × %${Math.round(y.agirlik * 100)}`).join(" + ")} = ${T(tahmini)}.`,
-    `Yöntemler arasındaki fark tahmini değerin %${Math.round(yayilim * 100)}'i; bu yüzden aralık ±%${Math.round(pay * 100)} alındı (${T(alt)} – ${T(ust)}).`,
+    `En yüksek ve en düşük yöntem arasındaki fark tahmini değere oranla %${Math.round(yayilim * 100)}; bu yüzden aralık ±%${Math.round(pay * 100)} alındı (${T(alt)} – ${T(ust)}).`,
     `Bölge m² fiyatı ${p.kaynak} üzerinden hesaplandı; evin özellikleri toplamda %${toplamOran >= 0 ? "+" : ""}${toplamOran} etki yaptı.`,
   ];
 
@@ -327,12 +394,23 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
     if (e.kullanim === "Kiracılı") add("Oturum / yatırım", "olumlu", "Kiracılı alırsanız ilk günden kira geliri başlar; mevcut kira sözleşmesini ve kira artış dönemini öğrenin.");
   } else {
     if (e.kullanim === "Kiracılı") add("Oturum / yatırım", "uyari", "Kendiniz oturacaksanız kiracının tahliye tarihini yazılı olarak netleştirin.");
-    if (!e.sosyal && e.sosyal !== undefined) add("Oturum / yatırım", "uyari", "Okul, market ve hastaneye uzaklık günlük yaşamı zorlaştırır; çocuklu aileler için önemlidir.");
+    if (e.hastane === "Uzak") add("Oturum / yatırım", "uyari", "Hastaneye uzak: yaşlı veya kronik rahatsızlığı olan aile bireyleri için acil durumda ulaşım süresini hesaplayın.");
+    if (e.metro === "Uzak" && e.otobus === "Uzak") add("Oturum / yatırım", "uyari", "Toplu taşımaya uzak: araçsız yaşam zor; ikinci araç, yakıt ve otopark masrafını bütçeye ekleyin.");
+    if (e.sosyalHayat === "Uzak") add("Oturum / yatırım", "bilgi", "Sosyal hayata uzak: sakin bir çevre arayanlar için artı, gençler ve tek yaşayanlar için eksi; kiralama ve satışta alıcı kitlesi daralabilir.");
     if (e.anaCadde) add("Oturum / yatırım", "bilgi", "Ana cadde üzerinde: evi akşam saatlerinde de görüp gürültüyü kontrol edin; ses yalıtımlı pencere maliyetini hesaplayın.");
     add("Oturum / yatırım", "bilgi", "Evi farklı saatlerde ziyaret edin, komşular ve bina yönetimiyle konuşun; su basıncı, doğalgaz ve internet altyapısını kontrol edin.");
   }
 
+  const aile = aileUygunlugu(e);
+  if ((e.amac ?? "Oturmak") === "Oturmak" && (e.cocuklu || aile.puan < 50)) {
+    add("Oturum / yatırım", aile.puan >= 70 ? "olumlu" : aile.puan >= 50 ? "bilgi" : "uyari", `Aile için uygunluk ${aile.puan}/100 (${aile.derece}).${aile.eksi.length ? " Eksikler: " + aile.eksi.join(", ") + "." : ""}`);
+    if (e.cocuklu && e.devletOkulu !== "Yürüme mesafesinde") add("Oturum / yatırım", "bilgi", "Devlet okullarında kayıt adrese göre yapılır (e-Okul adres kaydı): evin bağlı olduğu ilkokul ve ortaokulu, okulun kalabalığını ve servis imkânını önceden öğrenin.");
+    if (e.cocuklu && e.ozelOkul === "Yürüme mesafesinde") add("Oturum / yatırım", "olumlu", "Özel okula yürüme mesafesi servis ücretini ve yol süresini azaltır; okulun ücretini ve kontenjanını ayrıca sorun.");
+  }
+  if ((e.amac ?? "Oturmak") === "Yatırım (kira)" && e.metro === "Yürüme mesafesinde") add("Oturum / yatırım", "olumlu", "Raylı sisteme yürüme mesafesi kiracı bulmayı kolaylaştırır ve boş kalma süresini kısaltır.");
+
   return {
+    aile,
     tahmini, alt, ust, fark, karar, hedefFiyat, acilisTeklifi, yontemler, aralikPayi: pay, hesapOzeti, etkenler: et,
     kiraTahmini, brutGetiri, amortismanYil, kredi, tavsiyeler: t, notlar: t.map((x) => x.metin),
   };
