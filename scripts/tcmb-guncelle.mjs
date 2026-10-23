@@ -26,7 +26,8 @@ const al = async (yol) => {
 // EVDS alan adları büyük harfli (SERIE_CODE vb.); küçük farklılıklara karşı anahtarı desene göre bul.
 const alan = (o, re) => o[Object.keys(o).find((k) => re.test(k))];
 const metin = (o) => Object.values(o).filter((v) => typeof v === "string").join(" ");
-const BOLGE = { TR: /türkiye|turkey/i, "34": /i̇stanbul|istanbul/i, "06": /ankara/i, "35": /i̇zmir|izmir/i };
+// "İ" büyük harfi /i bayrağıyla "i" ile eşleşmediğinden ilk harf olmadan aranır.
+const BOLGE = { TR: /türkiye|turkey/i, "34": /stanbul/i, "06": /ankara/i, "35": /zmir/i };
 
 async function veriGruplari() {
   const uygun = (g) => /konut|housing|residential/i.test(metin(g)) && /birim fiyat|unit price/i.test(metin(g));
