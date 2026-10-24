@@ -4,14 +4,18 @@ import { MapContainer, TileLayer, CircleMarker, Tooltip, useMap } from "react-le
 import { useEffect } from "react";
 import type { Arsa } from "../lib/arsa";
 
-function Odakla({ arsalar }: { arsalar: Arsa[] }) {
+function Odakla({ arsalar, merkez }: { arsalar: Arsa[]; merkez?: { lat: number; lng: number } }) {
   const map = useMap();
   useEffect(() => {
     // Kapsayıcının boyutu sayfa düzeni oturduktan sonra değişebilir; haritayı yeniden ölçtür.
     map.invalidateSize();
-    if (!arsalar.length) return;
-    map.fitBounds(arsalar.map((a) => [a.lat, a.lng] as [number, number]), { padding: [30, 30], maxZoom: 13 });
-  }, [arsalar, map]);
+    // Kayıtlı arsa yoksa seçili bölgeye odaklan.
+    if (!arsalar.length) {
+      if (merkez) map.setView([merkez.lat, merkez.lng], 12);
+      return;
+    }
+    map.fitBounds(arsalar.map((a) => [a.lat, a.lng] as [number, number]), { padding: [30, 30], maxZoom: 14 });
+  }, [arsalar, map, merkez?.lat, merkez?.lng]);
   useEffect(() => {
     const g = new ResizeObserver(() => map.invalidateSize());
     g.observe(map.getContainer());
@@ -27,16 +31,18 @@ export default function Harita({
   puanlar,
   seciliId,
   sec,
+  merkez,
 }: {
   arsalar: Arsa[];
   puanlar: Record<string, number>;
   seciliId?: string;
   sec: (id: string) => void;
+  merkez?: { lat: number; lng: number };
 }) {
   return (
     <MapContainer center={[39, 35]} zoom={6} className="harita" scrollWheelZoom>
       <TileLayer attribution='&copy; OpenStreetMap' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <Odakla arsalar={arsalar} />
+      <Odakla arsalar={arsalar} merkez={merkez} />
       {arsalar.map((a) => (
         <CircleMarker
           key={a.id}
@@ -52,7 +58,7 @@ export default function Harita({
             {a.konumYaklasik && (
               <>
                 <br />
-                Konum yaklaşık (mahalle koordinatı yok)
+                Konum yaklaşık (mahalle merkezi)
               </>
             )}
           </Tooltip>

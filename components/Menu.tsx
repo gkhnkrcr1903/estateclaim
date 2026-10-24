@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useProfil } from "../lib/oturum";
+import { supabase, useProfil } from "../lib/oturum";
+import { cikisYap } from "../lib/veri";
 
 // Kurumsal logo: kalkan biçiminde amblem, içinde parsel ızgarası üzerinde yükselen bina silueti.
 export function Logo({ boyut = 34 }: { boyut?: number }) {
@@ -28,7 +29,7 @@ export function Logo({ boyut = 34 }: { boyut?: number }) {
   );
 }
 
-// Marka çubuğu: logo, uygulama adı ve sayfa bağlantıları; geçerli sayfa vurgulanır.
+// Marka çubuğu: logo, uygulama adı, sayfa bağlantıları (geçerli sayfa vurgulanır) ve kullanıcı/çıkış.
 export default function Menu() {
   const yol = usePathname();
   const p = useProfil();
@@ -38,15 +39,32 @@ export default function Menu() {
       <Link href="/" className="marka">
         <Logo />
         <span>
-          <b>Arsa Analiz</b>
+          <b>Ev/Arsa Analiz</b>
           <small>Gayrimenkul Analiz</small>
         </span>
       </Link>
       <div className="menu-baglanti">
         {p?.arsa && <Link href="/" className={aktif("/") ? "aktif" : ""}>Arsa Analizi</Link>}
-        {p?.ev && <Link href="/ev" className={aktif("/ev") ? "aktif" : ""}>Bu ev alınır mı?</Link>}
+        {p?.ev && <Link href="/ev" className={aktif("/ev") ? "aktif" : ""}>Ev Analiz</Link>}
+        {p?.aktif && <Link href="/kaynaklar" className={aktif("/kaynaklar") ? "aktif" : ""}>Kaynaklar</Link>}
         {p?.admin && <Link href="/admin" className={aktif("/admin") ? "aktif" : ""}>Yönetim</Link>}
       </div>
+      {p && (
+        <div className="kullanici-menu">
+          <span className="avatar" aria-hidden="true">{(p.ad || p.eposta).trim().charAt(0).toLocaleUpperCase("tr")}</span>
+          <span className="kullanici-ad" title={p.eposta}>{p.ad || p.eposta}</span>
+          <button
+            type="button"
+            className="cikis"
+            onClick={async () => {
+              cikisYap();
+              await supabase.auth.signOut();
+            }}
+          >
+            Çıkış
+          </button>
+        </div>
+      )}
     </nav>
   );
 }

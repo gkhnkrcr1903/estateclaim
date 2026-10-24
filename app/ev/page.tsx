@@ -63,7 +63,7 @@ function EvSayfasi() {
     <>
       <header className="baslik-satiri">
         <div>
-          <h1>Bu ev alınır mı?</h1>
+          <h1>Ev Analiz</h1>
           <p>Evin özelliklerini girin: adil değer dört yöntemle hesaplanır, pazarlık, finansman ve kontrol tavsiyeleri verilir.</p>
         </div>
         <PdfKaydet dosyaAdi={`Ev Değerleme - ${[e.mahalle, e.ilce, il.ad].filter(Boolean).join(", ")}`} />
@@ -72,7 +72,7 @@ function EvSayfasi() {
         <div className="uyari">⚠️ Tahminler TCMB/tahmini bölge fiyatları, Bakanlık 2026 yapı maliyetleri ve kural tabanlı düzeltmelerle hesaplanır, <b>ekspertiz veya yatırım tavsiyesi değildir</b>. Kesin değer için lisanslı gayrimenkul değerleme raporu alın.</div>
 
         <section className="kart">
-          <h2>📍 Konum ve fiyat</h2>
+          <h2>Konum ve fiyat</h2>
           <div className="form">
             <label>İl<select value={e.il} onChange={(x) => setE({ ...e, il: x.target.value, ilce: iller.find((i) => i.kod === x.target.value)!.ilceler[0], mahalle: "" })}>{iller.map((i) => <option key={i.kod} value={i.kod}>{i.ad}</option>)}</select></label>
             <label>İlçe<select value={e.ilce} onChange={(x) => setE({ ...e, ilce: x.target.value, mahalle: "" })}>{il.ilceler.map((x) => <option key={x}>{x}</option>)}</select></label>
@@ -85,7 +85,7 @@ function EvSayfasi() {
         </section>
 
         <section className="kart">
-          <h2>🚇 Çevre ve yakınlık</h2>
+          <h2>Çevre ve yakınlık</h2>
           <div className="form">
             {secim("metro", "Metro / raylı sistem", YAKINLIKLAR)}
             {secim("otobus", "Otobüs / minibüs", YAKINLIKLAR)}
@@ -101,7 +101,7 @@ function EvSayfasi() {
         </section>
 
         <section className="kart">
-          <h2>🏠 Ev ve bina</h2>
+          <h2>Ev ve bina</h2>
           <div className="form">
             {sayi("netM2", "Net m²", { min: 1 })}
             {secim("odaSayisi", "Oda sayısı", ["1+0", "1+1", "2+1", "3+1", "4+1", "5+1 ve üzeri"] as const)}
@@ -123,7 +123,7 @@ function EvSayfasi() {
         </section>
 
         <section className="kart">
-          <h2>📄 Tapu, kullanım ve finansman</h2>
+          <h2>Tapu, kullanım ve finansman</h2>
           <div className="form">
             {secim("tapu", "Tapu durumu", TAPU)}
             {secim("kullanim", "Şu an", KULLANIM)}
@@ -152,13 +152,13 @@ function EvSayfasi() {
                 {s.kredi && <div><div className="soluk">Kredi taksiti</div><b>{TL(s.kredi.taksit)}/ay</b><div className="soluk">Peşinat {TL(s.kredi.pesinat)}</div></div>}
               </div>
               <div className="hesap-ozeti">
-                <h3>🧮 Tahmini adil değer nasıl hesaplandı?</h3>
+                <h3>Tahmini adil değer nasıl hesaplandı?</h3>
                 <ol>{s.hesapOzeti.map((m, i) => <li key={i}>{m}</li>)}</ol>
               </div>
             </section>
 
             <section className="kart">
-              <h2>⚖️ Adil değer — yöntemlere göre</h2>
+              <h2>Adil değer — yöntemlere göre</h2>
               <div className="yontemler">
                 {s.yontemler.map((y) => (
                   <div key={y.ad} className="yontem">
@@ -189,7 +189,7 @@ function EvSayfasi() {
 
             <div className="izgara">
               <section className="kart">
-                <h2>🧭 Tavsiyeler</h2>
+                <h2>Tavsiyeler</h2>
                 {GRUPLAR.map((grup) => {
                   const liste = s.tavsiyeler.filter((t) => t.grup === grup);
                   if (!liste.length) return null;

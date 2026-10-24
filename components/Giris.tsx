@@ -1,14 +1,23 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { girisYap, yenidenYukle, cikisYap, SifreHatasi, type Veri } from "../lib/veri";
 import { supabase, profilGetir, veriSifresiGetir, veriSifresiKaydet, girisKaydet, hataMetni, ProfilBaglami, type Profil } from "../lib/oturum";
-import VeriGuncelligi from "./VeriGuncelligi";
 import { Logo } from "./Menu";
 
 // Kullanıcı girişi (Supabase), onay ve yetki kontrolü; onaylı kullanıcı için şifreli veri çözülene kadar
 // uygulama içeriğini göstermez. Veri şifresi kullanıcıya söylenmez, yalnızca aktif kullanıcıların okuyabildiği
 // "ayarlar" tablosundan alınır.
+
+// Çözülmüş veri ve "güncel veriyi çek" işlemi; Veri ve Kaynaklar sayfası kullanır.
+interface VeriDurumu {
+  v: Veri;
+  guncelle: () => Promise<void>;
+  bekle: boolean;
+  mesaj: string;
+}
+const VeriBaglami = createContext<VeriDurumu | null>(null);
+export const useVeriDurumu = () => useContext(VeriBaglami);
 
 type Durum = "yukleniyor" | "giris" | "bekliyor" | "sifre-yok" | "hazir" | "hata";
 
@@ -16,7 +25,7 @@ function Kabuk({ children }: { children: React.ReactNode }) {
   return (
     <div className="giris">
       <div className="kart giris-kart">
-        <div className="giris-marka"><Logo boyut={44} /><div><h1>Arsa Analiz</h1><small>Gayrimenkul Analiz</small></div></div>
+        <div className="giris-marka"><Logo boyut={44} /><div><h1>Ev/Arsa Analiz</h1><small>Gayrimenkul Analiz</small></div></div>
         {children}
       </div>
     </div>
@@ -127,20 +136,14 @@ export default function Giris({ children }: { children: React.ReactNode }) {
 
   return (
     <ProfilBaglami.Provider value={profil}>
-      <div className="veri-cubugu">
-        <span className="soluk" title={v.kaynaklar.join("\n")}>Veri tarihi: {v.guncelleme} · Konut fiyatı: {v.konutDonemi}</span>
-        {mesaj && <span className="arti">{mesaj}</span>}
-        <span className="soluk">👤 {profil?.ad || profil?.eposta}</span>
-        <button className="ikincil" onClick={guncelle} disabled={bekle}>{bekle ? "Çekiliyor…" : "🔄 Güncel veriyi çek"}</button>
-        <button className="ikincil" onClick={cikis}>Çıkış</button>
-        <VeriGuncelligi v={v} />
-      </div>
+    <VeriBaglami.Provider value={{ v, guncelle, bekle, mesaj }}>
       <div key={surum}>{children}</div>
       {profil?.pdf && (
         <div className="yazdirma-imza">
-          Hazırlayan: {profil.ad ? `${profil.ad} (${profil.eposta})` : profil.eposta} · {new Date().toLocaleString("tr-TR")} · Arsa Analiz — Gayrimenkul Analiz. Ekspertiz veya yatırım tavsiyesi değildir.
+          Hazırlayan: {profil.ad ? `${profil.ad} (${profil.eposta})` : profil.eposta} · {new Date().toLocaleString("tr-TR")} · Ev/Arsa Analiz — Gayrimenkul Analiz. Ekspertiz veya yatırım tavsiyesi değildir.
         </div>
       )}
+    </VeriBaglami.Provider>
     </ProfilBaglami.Provider>
   );
 }
@@ -183,7 +186,7 @@ function GirisFormu({ tamam }: { tamam: () => void }) {
   return (
     <div className="giris">
       <form className="kart giris-kart" onSubmit={gonder}>
-        <div className="giris-marka"><Logo boyut={44} /><div><h1>Arsa Analiz</h1><small>Gayrimenkul Analiz</small></div></div>
+        <div className="giris-marka"><Logo boyut={44} /><div><h1>Ev/Arsa Analiz</h1><small>Gayrimenkul Analiz</small></div></div>
         <div className="sekme">
           <button type="button" className={mod === "giris" ? "" : "ikincil"} onClick={() => setMod("giris")}>Giriş yap</button>
           <button type="button" className={mod === "kayit" ? "" : "ikincil"} onClick={() => setMod("kayit")}>Kayıt ol</button>

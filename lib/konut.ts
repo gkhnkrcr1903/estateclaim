@@ -13,12 +13,6 @@ export interface KonutPiyasasi {
   yorum: string;
 }
 
-function sapma(s: string) {
-  let h = 0;
-  for (const c of s) h = (h * 31 + c.charCodeAt(0)) >>> 0;
-  return 0.75 + (h % 1000) / 2000; // 0.75–1.25
-}
-
 // Büyük şehirlerde ilçelerin genel piyasa konumu (A: en pahalı … D: en uygun). Kesin fiyat değil,
 // yaygın bilinen göreli sıralamaya dayanan tahmindir. Listede olmayan ilçeler "varsayilan" kademeyi alır.
 // Kademe içindeki sıra da anlamlıdır: listede önce gelen ilçe daha pahalı kabul edilir.
@@ -69,7 +63,7 @@ export function ilceKademesiVar(ilKod: string) {
 }
 
 function ilceCarpani(ilKod: string, ilce: string): number {
-  const ince = 0.94 + (sapma(ilKod + ilce) - 0.75) * 0.24; // aynı kademe içinde ±%6 örnek fark
+  // Rastgele/örnek sapma kullanılmaz: yalnızca bilinen kademe ve merkez/kırsal ayrımı uygulanır.
   const t = ILCE_KADEMELERI[ilKod];
   if (t) {
     const kademe = (["A", "B", "C", "D"] as Kademe[]).find((k) => t[k]?.includes(ilce));
@@ -80,14 +74,15 @@ function ilceCarpani(ilKod: string, ilce: string): number {
     return KADEME_CARPANI[kademe] * (1.06 - sira * 0.12);
   }
   // Diğer illerde merkez ilçe daha değerli, kırsal ilçeler daha uygun.
-  if (ilMeta(ilKod).ilceler.includes("Merkez")) return (ilce === "Merkez" ? KADEME_CARPANI.B : KADEME_CARPANI.D) * ince;
-  return 0.9 * ince * (0.85 + (sapma(ilce + ilKod) - 0.75) * 0.5); // büyükşehir, kademe bilgisi yok
+  if (ilMeta(ilKod).ilceler.includes("Merkez")) return ilce === "Merkez" ? KADEME_CARPANI.B : KADEME_CARPANI.D;
+  return 1; // büyükşehir, ilçe kademe bilgisi yok: il ortalaması
 }
 
 // İl ortalamasına göre ilçe/mahalle fiyat çarpanı (tahmini). Konut ve arsa değerlemesi aynı çarpanı kullanır.
 export function bolgeCarpani(ilKod: string, ilce?: string, mahalle?: string) {
-  // Mahalle farkı ilçe farkının üstüne daha dar bir sapma (±%15) olarak eklenir.
-  const mh = ilce && mahalle ? 0.85 + (sapma(ilce + mahalle) - 0.75) * 0.6 : 1;
+  // Mahalle bazında açık fiyat verisi yok: mahalle, ilçe değerini alır (uydurma fark eklenmez).
+  void mahalle;
+  const mh = 1;
   const ic = ilce ? ilceCarpani(ilKod, ilce) : 1;
   return {
     satis: ic * mh,
@@ -106,7 +101,7 @@ export function konutPiyasasi(ilKod: string, ilce?: string, mahalle?: string): K
   const daireM2 = 110;
 
   const ilKaynak = m.satisKaynak === "TCMB" ? `TCMB ${veri().konutDonemi} il ortalaması` : "il ortalaması tahmini";
-  const kaynak = mahalle ? `${ilKaynak}; ilçe/mahalle farkı ve kira tahmini` : ilce ? `${ilKaynak}; ilçe farkı ve kira tahmini` : `${ilKaynak}; kira tahmini`;
+  const kaynak = mahalle ? `${ilKaynak}; ilçe farkı ve kira tahmini (mahalle verisi yok, ilçe değeri)` : ilce ? `${ilKaynak}; ilçe farkı ve kira tahmini` : `${ilKaynak}; kira tahmini`;
 
   let yorum: string;
   if (brutGetiri >= 6) yorum = "Kira getirisi yüksek: kiralamak amacıyla konut almak cazip; arsa yerine hazır konut değerlendirilebilir.";

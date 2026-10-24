@@ -48,9 +48,9 @@ const uzaklik = (a: number, b: number, c: number, d: number) => {
 };
 
 const GRUPLAR: { tur: Yer["tur"]; baslik: string; adet: number }[] = [
-  { tur: "Hastane", baslik: "🏥 Hastaneler", adet: 5 },
-  { tur: "Okul", baslik: "🏫 Okullar", adet: 8 },
-  { tur: "AVM", baslik: "🛍️ AVM ve çarşılar", adet: 5 },
+  { tur: "Hastane", baslik: "Hastaneler", adet: 5 },
+  { tur: "Okul", baslik: "Okullar", adet: 8 },
+  { tur: "AVM", baslik: "AVM ve çarşılar", adet: 5 },
 ];
 
 export default function YakinYerler({ il, ilce, mahalle }: { il: string; ilce: string; mahalle?: string }) {
@@ -82,7 +82,7 @@ export default function YakinYerler({ il, ilce, mahalle }: { il: string; ilce: s
   const yer = mahalleNoktasi ? `${mahalle} mahallesi` : `${ilce} merkezi`;
   return (
     <div className="yakin-yerler">
-      <h3>📍 {yer} çevresindeki hastane, okul ve AVM'ler</h3>
+      <h3>{yer} çevresindeki hastane, okul ve AVM'ler</h3>
       {durum.yuk && !durum.yerler && <p className="soluk">Yükleniyor…</p>}
       {durum.yok && <p className="soluk">Bu il için hastane, okul ve AVM verisi henüz derlenmedi.</p>}
       {durum.hata && (

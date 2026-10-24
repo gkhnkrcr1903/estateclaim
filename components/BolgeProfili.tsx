@@ -34,7 +34,7 @@ export default function BolgeProfiliBolumu({ ilKod, ilce, ilAd }: { ilKod: strin
 
   return (
     <section className="kart">
-      <h2>👥 Kimler yaşıyor? — {ilAd} nüfus profili</h2>
+      <h2>Kimler yaşıyor? — {ilAd} nüfus profili</h2>
 
       {ic && (
         <div className="ilce-bant">
@@ -89,7 +89,7 @@ export default function BolgeProfiliBolumu({ ilKod, ilce, ilAd }: { ilKod: strin
         </div>
       </div>
 
-      <h3 style={{ fontSize: 14, margin: "14px 0 6px" }}>🏘️ Konut talebi açısından ne anlama geliyor?</h3>
+      <h3 style={{ fontSize: 14, margin: "14px 0 6px" }}>Konut talebi açısından ne anlama geliyor?</h3>
       <ul className="tavsiye-liste">
         {b.yorumlar.map((y, i) => <li key={i}><span>💡</span><span>{y}</span></li>)}
       </ul>

@@ -41,21 +41,10 @@ export interface Arsa {
   konumYaklasik?: boolean; // gerçek mahalle koordinatı yoksa ilçe/il merkezi çevresi
   lng: number;
   manuel?: boolean;
+  ekspertiz?: number; // SPK lisanslı değerleme raporundaki toplam değer (TL); varsa fiyat kararı buna göre verilir
+  kontroller?: string[]; // tamamlanan resmi doğrulama adımlarının kimlikleri (lib/dogrulama.ts)
 }
 
-// Deterministik rastgele: aynı il/ilçe/mahalle hep aynı örnek arsaları üretir.
-function tohum(s: string) {
-  let h = 1779033703 ^ s.length;
-  for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 3432918353), (h = (h << 13) | (h >>> 19));
-  return () => {
-    h = Math.imul(h ^ (h >>> 16), 2246822507);
-    h = Math.imul(h ^ (h >>> 13), 3266489909);
-    return ((h ^= h >>> 16) >>> 0) / 4294967296;
-  };
-}
-
-// Konumlar Wikidata koordinatlarıdır. Koordinatı bulunmayan ilçede il merkezi, mahallede ilçe merkezi
-// kullanılır ve konum "yaklaşık" işaretlenir.
 export function ilceKonumu(ilKod: string, ilce: string) {
   const m = ilMeta(ilKod);
   const k = m.ilceKonum?.[ilce];
@@ -79,47 +68,4 @@ export function tahminiArsaM2(ilKod: string, imar: ImarFonksiyonu, merkezKm: num
   const konum = imarli ? 1.3 - Math.min(merkezKm, 30) / 30 : Math.max(0.12, 1 - merkezKm / 20);
   const bolge = bolgeCarpani(ilKod, ilce, mahalle).satis;
   return Math.round((ortalamaArsaM2(ilKod) * bolge * (imarli ? 1 : 0.35) * konum) / 10) * 10;
-}
-
-export function ornekArsalar(ilKod: string, ilce: string, adet = 8, mahalle?: string): Arsa[] {
-  const r = tohum(ilKod + ilce + (mahalle ?? ""));
-  const liste = mahalleler(ilKod, ilce);
-  const sec = <T,>(a: T[]) => a[Math.floor(r() * a.length)];
-
-  return Array.from({ length: adet }, (_, i) => {
-    const mah = mahalle ?? (liste.length ? sec(liste) : undefined);
-    const merkez = mah ? mahalleKonumu(ilKod, ilce, mah) : ilceKonumu(ilKod, ilce);
-    const imar = sec(IMAR_FONKSIYONLARI);
-    const imarli = !["Tarla (imarsız)", "Koruma alanı"].includes(imar);
-    const merkezKm = Math.round((0.5 + r() * 18) * 10) / 10;
-    const t = r();
-    const tapu: TapuDurumu = t < 0.7 ? "Özel mülk" : t < 0.85 ? "Hazine (Milli Emlak)" : t < 0.95 ? "Belediye" : "Vakıf";
-    const tahminiM2 = tahminiArsaM2(ilKod, imar, merkezKm, ilce, mah);
-    // Özel mülkte satıcının istediği fiyat piyasadan sapabilir; kamuda muhammen bedel genelde biraz altındadır.
-    const fiyatM2 = Math.round((tahminiM2 * (kamuMu(tapu) ? 0.85 + r() * 0.1 : 0.7 + r() * 0.6)) / 10) * 10;
-    const projeler = PROJE_TURLERI.filter(() => r() < 0.15);
-    return {
-      id: `${ilKod}-${ilce}-${mahalle ?? ""}-${i}`,
-      il: ilKod,
-      ilce,
-      mahalle: mah,
-      ada: String(100 + Math.floor(r() * 900)),
-      parsel: String(1 + Math.floor(r() * 60)),
-      // İmarsız arazilerin bir kısmı küçük tarla/bahçe parselleridir.
-      alan: Math.round((imarli ? 300 + r() * 1500 : r() < 0.4 ? 300 + r() * 1200 : 1500 + r() * 14500) / 10) * 10,
-      imar,
-      emsal: imarli ? Math.round((0.3 + r() * 2.2) * 10) / 10 : imar === "Koruma alanı" ? 0 : 0.05,
-      tapu,
-      fiyatM2,
-      tahminiM2,
-      merkezKm,
-      yolCephesi: r() > 0.25,
-      hisseli: tapu === "Özel mülk" && r() < 0.3,
-      projeler,
-      // Örnek parseller mahalle noktasının hemen çevresine (~1 km) dağılır.
-      lat: merkez.lat + (r() - 0.5) * (merkez.yaklasik ? 0.04 : 0.012),
-      lng: merkez.lng + (r() - 0.5) * (merkez.yaklasik ? 0.05 : 0.016),
-      konumYaklasik: merkez.yaklasik,
-    };
-  });
 }

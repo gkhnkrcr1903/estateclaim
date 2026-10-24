@@ -25,7 +25,7 @@ export default function PdfKaydet({ dosyaAdi }: { dosyaAdi: string }) {
   if (!profil?.pdf) return null;
   return (
     <button type="button" className="pdf-dugme yazdirma" onClick={yazdir} title="Yazdırma penceresinde 'PDF olarak kaydet'i seçin">
-      📄 PDF olarak kaydet
+      PDF olarak kaydet
     </button>
   );
 }

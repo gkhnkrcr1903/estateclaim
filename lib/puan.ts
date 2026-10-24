@@ -1,7 +1,7 @@
 import { buyumeAnalizi, buyumeTavsiyeleri, type BolgeTavsiyesi, type TavsiyeGrubu } from "./buyume";
 import { konutPiyasasi } from "./konut";
-import { kamuMu, tahminiArsaM2, ornekArsalar, KAMU_EDINIM, type Arsa } from "./arsa";
-import { ilMeta, iller, turkiyeOrtalamaM2 } from "./iller-meta";
+import { kamuMu, tahminiArsaM2, KAMU_EDINIM, type Arsa } from "./arsa";
+import { ilMeta, turkiyeOrtalamaM2 } from "./iller-meta";
 
 export interface Neden {
   metin: string;
@@ -47,11 +47,12 @@ export function degerlendir(a: Arsa): Degerlendirme {
     n.push({ metin: `Yakın projeler: ${a.projeler.join(", ")}`, etki: Math.min(15, a.projeler.length * 6) });
   }
 
-  // Konum ve imara göre tahmini piyasa değerine kıyasla fiyat
-  const beklenen = a.tahminiM2 ?? tahminiArsaM2(a.il, a.imar, a.merkezKm, a.ilce, a.mahalle);
+  // Fiyat kıyası: ekspertiz değeri varsa ona, yoksa konum ve imara göre bölge tahminine göre.
+  const beklenen = a.ekspertiz ? a.ekspertiz / a.alan : (a.tahminiM2 ?? tahminiArsaM2(a.il, a.imar, a.merkezKm, a.ilce, a.mahalle));
+  const neye = a.ekspertiz ? "ekspertiz değerinin" : "bölge tahmininin";
   const oran = a.fiyatM2 / beklenen;
-  if (oran < 0.85) n.push({ metin: `m² fiyatı tahmini piyasa değerinin %${Math.round((1 - oran) * 100)} altında`, etki: Math.min(15, Math.round((1 - oran) * 30)) });
-  else if (oran > 1.2) n.push({ metin: `m² fiyatı tahmini piyasa değerinin %${Math.round((oran - 1) * 100)} üstünde`, etki: -Math.min(10, Math.round((oran - 1) * 15)) });
+  if (oran < 0.85) n.push({ metin: `m² fiyatı ${neye} %${Math.round((1 - oran) * 100)} altında`, etki: Math.min(15, Math.round((1 - oran) * 30)) });
+  else if (oran > 1.2) n.push({ metin: `m² fiyatı ${neye} %${Math.round((oran - 1) * 100)} üstünde`, etki: -Math.min(10, Math.round((oran - 1) * 15)) });
 
   if (a.tapu && kamuMu(a.tapu)) n.push({ metin: `${a.tapu} — doğrudan satın alınamaz, ihale gerekir`, etki: -5 });
 
@@ -75,17 +76,6 @@ export function degerlendir(a: Arsa): Degerlendirme {
   return { puan, etiket, nedenler: n, oneri };
 }
 
-export type FiyatBandi = "Düşük" | "Orta" | "Yüksek";
-
-// Toplam bedeli o ilçedeki arsaların toplam bedeline göre üçe böler.
-export function fiyatBandi(a: Arsa, tumu: Arsa[]): FiyatBandi {
-  const bedeller = tumu.map((x) => x.alan * x.fiyatM2).sort((p, q) => p - q);
-  const b = a.alan * a.fiyatM2;
-  const alt = bedeller[Math.floor(bedeller.length / 3)];
-  const ust = bedeller[Math.floor((bedeller.length * 2) / 3)];
-  return b < alt ? "Düşük" : b < ust ? "Orta" : "Yüksek";
-}
-
 // İl/ilçe düzeyinde ileriye dönük tavsiyeler, gruplara ayrılmış olarak.
 export const TAVSIYE_GRUPLARI: TavsiyeGrubu[] = ["Bölge ve büyüme", "Ne tür arsa, nereden?", "İmar ve hukuki durum", "Alım maliyeti ve vergiler", "Vade ve risk"];
 
@@ -104,7 +94,7 @@ export function bolgeTavsiyeleri(ilKod: string, tumu: Arsa[], ilce?: string): Bo
   else ekle("Bölge ve büyüme", "Nüfus artışı düşük: değer artışı yavaş olabilir; spekülatif tarla alımlarında dikkatli olun, kira/kullanım geliri düşünün.");
   grubu("Bölge ve büyüme");
   const projeli = tumu.filter((a) => a.projeler.length).length;
-  if (projeli) ekle("Bölge ve büyüme", `${projeli} örnek arsanın yakınında planlanan altyapı projesi var: projelerin ihale ve yapım durumunu takip edin; değer artışı genellikle proje başladığında hızlanır, bitince yavaşlar.`);
+  if (projeli) ekle("Bölge ve büyüme", `${projeli} kayıtlı arsanızın yakınında planlanan altyapı projesi var: projelerin ihale ve yapım durumunu takip edin; değer artışı genellikle proje başladığında hızlanır, bitince yavaşlar.`);
 
   // Ne tür arsa, nereden?
   grubu("Ne tür arsa, nereden?");
@@ -117,7 +107,7 @@ export function bolgeTavsiyeleri(ilKod: string, tumu: Arsa[], ilce?: string): Bo
   ekle("Ne tür arsa, nereden?", "Arsanın değeri en çok imar hakkına bağlıdır: emsali (KAKS) 2 olan bir parsel, aynı büyüklükte emsali 1 olan parselin iki katı inşaat alanı demektir. Fiyatları m² yanında inşaat alanı başına da karşılaştırın.");
   if (m.satisM2 > turkiyeOrtalamaM2() * 1.1) ekle("Ne tür arsa, nereden?", "Fiyat seviyesi yüksek bir il: aynı bütçeyle büyüyen çevre ilçelerde daha büyük ve getiri potansiyeli daha yüksek arsa bulunabilir.");
   const kamu = tumu.filter((a) => a.tapu && kamuMu(a.tapu)).length;
-  if (kamu) ekle("Ne tür arsa, nereden?", `${kamu} örnek arsa kamuya ait (Hazine/belediye/vakıf): bunlar ihaleyle satılır. Milli Emlak ihalelerini milliemlak.gov.tr, belediye ve diğer kamu ihale ilanlarını ilan.gov.tr üzerinden takip edin.`);
+  if (kamu) ekle("Ne tür arsa, nereden?", `${kamu} kayıtlı arsanız kamuya ait (Hazine/belediye/vakıf): bunlar ihaleyle satılır. Milli Emlak ihalelerini milliemlak.gov.tr, belediye ve diğer kamu ihale ilanlarını ilan.gov.tr üzerinden takip edin.`);
 
   // İmar ve hukuki durum
   grubu("İmar ve hukuki durum");
@@ -150,7 +140,9 @@ export function bolgeTavsiyeleri(ilKod: string, tumu: Arsa[], ilce?: string): Bo
 }
 
 export interface ArsaKarari {
-  tahmini: number; // toplam tahmini piyasa değeri
+  kaynak: "ekspertiz" | "bolge"; // değer neye dayanıyor
+  tahmini: number; // toplam değer (ekspertiz veya bölge tahmini)
+  bolgeTahmini: number; // her durumda bölge tahmini (karşılaştırma için)
   alt: number;
   ust: number;
   fark: number; // fiyat / tahmini - 1
@@ -164,7 +156,11 @@ export interface ArsaKarari {
 export function arsaKarari(a: Arsa): ArsaKarari {
   const d = degerlendir(a);
   const m2 = a.tahminiM2 ?? tahminiArsaM2(a.il, a.imar, a.merkezKm, a.ilce, a.mahalle);
-  const tahmini = Math.round((m2 * a.alan) / 1000) * 1000;
+  const bolgeTahmini = Math.round((m2 * a.alan) / 1000) * 1000;
+  // Ekspertiz raporu varsa kesin değer odur; yoksa bölge tahmini kullanılır ve aralık geniş tutulur (±%25).
+  const kaynak = a.ekspertiz ? "ekspertiz" : "bolge";
+  const tahmini = a.ekspertiz ? Math.round(a.ekspertiz) : bolgeTahmini;
+  const pay = a.ekspertiz ? 0.05 : 0.25;
   const fiyat = a.fiyatM2 * a.alan;
   const fark = fiyat / tahmini - 1;
   const fiyatKarari = fark <= 0.03 ? "Fiyatı uygun" : fark <= 0.15 ? "Pazarlıkla alınır" : "Pahalı";
@@ -173,83 +169,24 @@ export function arsaKarari(a: Arsa): ArsaKarari {
   let ozet: string;
   if (fiyatKarari === "Pahalı" && gelecek !== "Gelecek için alınır") ozet = "Önerilmez: hem fiyatı yüksek hem de değer artışı beklentisi sınırlı.";
   else if (fiyatKarari === "Pahalı") ozet = "Potansiyeli iyi ama fiyatı yüksek: pazarlık hedefine inmezse beklemek daha mantıklı.";
-  else if (gelecek === "Gelecek için alınır") ozet = "Alınabilir: fiyatı makul ve değer artışı göstergeleri güçlü.";
-  else if (gelecek === "Orta vadede makul") ozet = "Makul: fiyat uygun, ancak değer artışı orta düzeyde; uzun vadeli düşünün.";
+  // "Pazarlıkla alınır" durumunda fiyat uygun denmez; pazarlık payı vurgulanır.
+  else if (gelecek === "Gelecek için alınır") ozet = fiyatKarari === "Fiyatı uygun" ? "Alınabilir: fiyatı makul ve değer artışı göstergeleri güçlü." : "Alınabilir, ancak pazarlıkla: değer artışı göstergeleri güçlü, fiyat biraz yüksek.";
+  else if (gelecek === "Orta vadede makul") ozet = fiyatKarari === "Fiyatı uygun" ? "Makul: fiyat uygun, ancak değer artışı orta düzeyde; uzun vadeli düşünün." : "Pazarlık şart: fiyat biraz yüksek ve değer artışı orta düzeyde; uzun vadeli düşünün.";
   else ozet = "Ucuz olsa da gelecek beklentisi zayıf; yalnızca kullanım amaçlıysa değerlendirin.";
   if (a.tapu && kamuMu(a.tapu)) ozet = `Kamuya ait: ihaleyle satılır. ${ozet}`;
 
+  if (!a.ekspertiz) ozet += " Değer, bölge ortalamasından türetilmiş bir tahmindir; karar için lisanslı ekspertiz raporu alın.";
+
   return {
+    kaynak,
     tahmini,
-    alt: Math.round((tahmini * 0.85) / 1000) * 1000,
-    ust: Math.round((tahmini * 1.15) / 1000) * 1000,
+    bolgeTahmini,
+    alt: Math.round((tahmini * (1 - pay)) / 1000) * 1000,
+    ust: Math.round((tahmini * (1 + pay)) / 1000) * 1000,
     fark,
     fiyatKarari,
     hedefFiyat: Math.min(fiyat, Math.round((tahmini * 0.95) / 1000) * 1000),
     gelecek,
     ozet,
   };
-}
-
-export interface Butce {
-  ad: string;
-  min: number;
-  max: number;
-}
-
-export const BUTCELER: Butce[] = [
-  { ad: "1 milyona kadar", min: 0, max: 1_000_000 },
-  { ad: "1–5 milyon", min: 1_000_000, max: 5_000_000 },
-  { ad: "5–20 milyon", min: 5_000_000, max: 20_000_000 },
-  { ad: "20 milyon üzeri", min: 20_000_000, max: Infinity },
-];
-
-export interface ButceOnerisi {
-  butce: Butce;
-  kapsam: "secili" | "il" | "yakin"; // önerilerin nereden geldiği
-  oneriler: { arsa: Arsa; d: Degerlendirme; k: ArsaKarari }[];
-}
-
-const toplamFiyat = (a: Arsa) => a.alan * a.fiyatM2;
-
-function enIyiler(havuz: Arsa[], b: Butce, adet: number) {
-  return havuz
-    // Yapılaşma yasağı olan koruma alanları yatırım önerisi olarak gösterilmez.
-    .filter((a) => a.imar !== "Koruma alanı" && toplamFiyat(a) >= b.min && toplamFiyat(a) < b.max)
-    .map((arsa) => ({ arsa, d: degerlendir(arsa), k: arsaKarari(arsa) }))
-    // Önce gelecek puanı, eşitlikte tahmini değerine göre daha ucuz olan
-    .sort((p, q) => q.d.puan - p.d.puan || p.k.fark - q.k.fark)
-    .slice(0, adet);
-}
-
-// Her bütçe için en iyi arsalar: önce seçili yer, yoksa ilin tamamı, o da yoksa en yakın iller.
-export function butceOnerileri(ilKod: string, secili: Arsa[], adet = 3): ButceOnerisi[] {
-  const ILCE_BASINA = 6;
-  let ilHavuzu: Arsa[] | null = null;
-  const il = () => (ilHavuzu ??= ilMeta(ilKod).ilceler.flatMap((x) => ornekArsalar(ilKod, x, ILCE_BASINA)));
-
-  // Yakın iller uzaklık sırasıyla, gerektiği kadar (en fazla 12 il) taranır.
-  const m = ilMeta(ilKod);
-  const komsular = iller()
-    .filter((i) => i.kod !== ilKod)
-    .sort((p, q) => (p.lat - m.lat) ** 2 + (p.lng - m.lng) ** 2 - ((q.lat - m.lat) ** 2 + (q.lng - m.lng) ** 2))
-    .slice(0, 12);
-  const komsuHavuzu = new Map<string, Arsa[]>();
-  const komsu = (kod: string) => {
-    if (!komsuHavuzu.has(kod)) komsuHavuzu.set(kod, ilMeta(kod).ilceler.flatMap((x) => ornekArsalar(kod, x, ILCE_BASINA)));
-    return komsuHavuzu.get(kod)!;
-  };
-
-  return BUTCELER.map((butce) => {
-    let oneriler = enIyiler(secili, butce, adet);
-    if (oneriler.length) return { butce, kapsam: "secili" as const, oneriler };
-    oneriler = enIyiler(il(), butce, adet);
-    if (oneriler.length) return { butce, kapsam: "il" as const, oneriler };
-    const havuz: Arsa[] = [];
-    for (const k of komsular) {
-      havuz.push(...komsu(k.kod));
-      oneriler = enIyiler(havuz, butce, adet);
-      if (oneriler.length >= adet) break;
-    }
-    return { butce, kapsam: "yakin" as const, oneriler };
-  });
 }

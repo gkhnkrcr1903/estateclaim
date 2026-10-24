@@ -70,17 +70,17 @@ function OdaTipleri({ ilKod, ilce, mahalle }: { ilKod: string; ilce: string; mah
     <>
       <div className="oneriler" style={{ marginBottom: 12 }}>
         <div className="karar" style={{ marginBottom: 0 }}>
-          <div className="soluk">💸 Bölgedeki en ucuz ev</div>
+          <div className="soluk">💸 En düşük özellikli ev (tahmini)</div>
           <div style={{ fontSize: 20, fontWeight: 700 }}>{TL(enUcuz.ucuz)}</div>
           <div className="soluk" style={{ fontSize: 12 }}>{enUcuz.oda}, {enUcuz.m2} m², bodrum kat, 30 yaşında, tadilat gerekli, sobalı, ulaşıma uzak</div>
         </div>
         <div className="karar" style={{ marginBottom: 0 }}>
-          <div className="soluk">💎 Bölgedeki en pahalı ev</div>
+          <div className="soluk">💎 En yüksek özellikli ev (tahmini)</div>
           <div style={{ fontSize: 20, fontWeight: 700 }}>{TL(enPahali.pahali)}</div>
           <div className="soluk" style={{ fontSize: 12 }}>{enPahali.oda}, {enPahali.m2} m², yeni bina, site içi, manzaralı, yerden ısıtma, metroya yakın</div>
         </div>
         <div className="karar" style={{ marginBottom: 0 }}>
-          <div className="soluk">🏠 Ortalama bir 2+1</div>
+          <div className="soluk">🏠 Ortalama bir 2+1 (tahmini)</div>
           <div style={{ fontSize: 20, fontWeight: 700 }}>{TL(ikiArti.ort)}</div>
           <div className="soluk" style={{ fontSize: 12 }}>{ikiArti.m2} m², 10 yaşında, bakımlı, ara kat · kira ≈ {TL(ikiArti.kira)}/ay</div>
         </div>
@@ -140,7 +140,8 @@ export default function MahalleEvFiyatlari({ ilKod, ilce, mahalle, yer }: { ilKo
 
   return (
     <section className="kart">
-      <h2>🏢 Ev fiyatları — {yer}</h2>
+      <h2>Ev fiyatları (tahmini) — {yer}</h2>
+      <p className="soluk" style={{ marginTop: 0, fontSize: 12 }}>Gerçek ilan değil: bölge m² fiyatı (TCMB/il tahmini, ilçe kademesi) ve özellik düzeltmeleriyle hesaplanmış örnek daireler. Mahalle bazında fiyat verisi olmadığından mahalleler ilçe değerini alır.</p>
       <OdaTipleri ilKod={ilKod} ilce={ilce} mahalle={mahalle} />
       <p className="soluk" style={{ marginTop: 0 }}>
         {M2} m² net, 3+1, 10 yaşında, bakımlı bir daire için özelliklere göre tahmini satış fiyatı ve kira. Site içi sütununa otopark dahildir.
@@ -162,14 +163,14 @@ export default function MahalleEvFiyatlari({ ilKod, ilce, mahalle, yer }: { ilKo
           </tbody>
         </table>
       </div>
-      <h3 style={{ fontSize: 14, marginBottom: 6 }}>💡 Öneriler</h3>
+      <h3 style={{ fontSize: 14, marginBottom: 6 }}>Öneriler</h3>
       <ol className="tavsiye">
         <li>Site içi bir daire, site dışındaki aynı daireden yaklaşık <b>%{siteFarki}</b> daha pahalı. Güvenlik ve otopark sizin için önemli değilse site dışı daha ekonomik.</li>
         <li>Bodrum katlar ara katlara göre yaklaşık <b>%{bodrumIndirim}</b> ucuz, ama yeniden satması zor ve nem riski var. Yatırım için önerilmez.</li>
         <li>4 ve üzeri katlı binada asansör olmaması değeri yaklaşık <b>%{asansorFarki}</b> düşürüyor. Pazarlıkta bunu kullanın.</li>
         <li>En uygun fiyatlı seçenek: <b>{enUcuz.ad}</b> ({TL(enUcuz.fiyat)}).</li>
         <li>Kira getirisi en yüksek seçenek: <b>{enIyiGetiri.ad}</b> (yıllık %{enIyiGetiri.getiri.toLocaleString("tr-TR")}). Yatırım amaçlı alım için bu seçeneğe bakın.</li>
-        <li>Belirli bir evi değerlendirmek için <b>“Bu ev alınır mı?”</b> menüsünü kullanın.</li>
+        <li>Belirli bir evi değerlendirmek için <b>Ev Analiz</b> sayfasını kullanın.</li>
       </ol>
     </section>
   );

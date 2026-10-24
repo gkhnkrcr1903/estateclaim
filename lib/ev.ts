@@ -258,7 +258,7 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
   const yontemler: Yontem[] = [
     {
       ad: "Emsal (karşılaştırma) yöntemi", deger: emsal, agirlik: 0.6,
-      aciklama: `Bölge m² fiyatı (${p.satisM2.toLocaleString("tr-TR")} ₺) × net m², evin özelliklerine göre %${toplamOran >= 0 ? "+" : ""}${toplamOran} düzeltme.`,
+      aciklama: `Bölge m² fiyatı (${p.satisM2.toLocaleString("tr-TR")} ₺) × net m², evin özelliklerine göre ${toplamOran >= 0 ? "+" : "−"}%${Math.abs(toplamOran)} düzeltme.`,
       adimlar: [
         { ad: "Bölge ortalama m² fiyatı", deger: `${T(p.satisM2)} (${p.kaynak})` },
         { ad: "Ham değer (m² fiyatı × net m²)", deger: `${T(p.satisM2)} × ${e.netM2} = ${T(ham)}` },
@@ -268,7 +268,7 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
         { ad: "Sonuç", deger: `${T(ham)} × (1 ${toplamOran >= 0 ? "+" : "−"} ${Math.abs(toplamOran)}/100) = ${T(emsal)}` },
       ],
       guclu: "Alıcıların gerçekte ödediği bölge fiyatlarına dayanır; konut değerlemesinde en çok kullanılan yöntemdir.",
-      zayif: "Bölge fiyatı il ortalamasından ilçe/mahalle farkıyla türetilir; aynı sokaktaki gerçek satışları bilmez.",
+      zayif: "Bölge fiyatı il ortalamasından ilçe kademesiyle türetilir; mahalle ve aynı sokaktaki gerçek satışları bilmez.",
     },
     {
       ad: "Gelir (kira) yöntemi", deger: gelir, agirlik: 0.25,
@@ -319,7 +319,7 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
     `Üç yöntemle ayrı ayrı değer bulundu: ${agirlikliYontemler.map((y) => `${y.ad.split(" ")[0].toLocaleLowerCase("tr")} ${T(y.deger)}`).join(", ")}.`,
     `Ağırlıklı ortalama: ${agirlikliYontemler.map((y) => `${T(y.deger)} × %${Math.round(y.agirlik * 100)}`).join(" + ")} = ${T(tahmini)}.`,
     `En yüksek ve en düşük yöntem arasındaki fark tahmini değere oranla %${Math.round(yayilim * 100)}; bu yüzden aralık ±%${Math.round(pay * 100)} alındı (${T(alt)} – ${T(ust)}).`,
-    `Bölge m² fiyatı ${p.kaynak} üzerinden hesaplandı; evin özellikleri toplamda %${toplamOran >= 0 ? "+" : ""}${toplamOran} etki yaptı.`,
+    `Bölge m² fiyatı ${p.kaynak} üzerinden hesaplandı; evin özellikleri toplamda ${toplamOran >= 0 ? "+" : "−"}%${Math.abs(toplamOran)} etki yaptı.`,
   ];
 
   const karar: EvSonuc["karar"] = fark <= 0.03 ? "Alınır — fiyatı uygun" : fark <= 0.15 ? "Makul — pazarlıkla alınır" : "Pahalı — önerilmez";

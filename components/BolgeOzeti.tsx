@@ -27,7 +27,7 @@ export function IlGenelBilgi({ ilKod }: { ilKod: string }) {
   const o = useMemo(() => ilOzeti(ilKod), [ilKod]);
   return (
     <section className="kart">
-      <h2>ℹ️ {o.ad} hakkında genel bilgi</h2>
+      <h2>{o.ad} hakkında genel bilgi</h2>
       <div className="bilgi-izgara">
         <div><div className="soluk">Nüfus (TÜİK 2025)</div><b>{SAYI(o.nufus)}</b><div className="soluk">81 il içinde {o.nufusSirasi}.</div></div>
         <div>
@@ -54,7 +54,7 @@ export function EnDegerliSemtler({ ilKod, ilce, ilAd }: { ilKod: string; ilce: s
   const s = useMemo(() => semtSiralamasi(ilKod), [ilKod]);
   return (
     <section className="kart">
-      <h2>📍 En değerli ilçeler — {ilAd}</h2>
+      <h2>En değerli ilçeler — {ilAd}</h2>
       {s ? (
         <div className="oneriler">
           <Liste baslik="🏠 Satılık konut (m²)" kalemler={s.satis} birim="" />
@@ -69,7 +69,7 @@ export function EnDegerliSemtler({ ilKod, ilce, ilAd }: { ilKod: string; ilce: s
       )}
       <p className="soluk" style={{ fontSize: 12, marginBottom: 0 }}>
         ⚠️ İlçe sıralaması tahminidir: ilçelerin yaygın bilinen genel piyasa konumuna (kademe) dayanır, aynı kademedeki ilçelerin sırası kesin değildir.
-        Mahalle bazında açık fiyat verisi olmadığından semt (mahalle) sıralaması yapılmıyor{ilce ? `; ${ilce} içindeki mahalle farkları örnek veridir` : ""}.
+        Mahalle bazında açık fiyat verisi olmadığından semt (mahalle) sıralaması yapılmıyor{ilce ? `; ${ilce} içindeki tüm mahalleler ilçe değeriyle gösterilir` : ""}.
       </p>
     </section>
   );

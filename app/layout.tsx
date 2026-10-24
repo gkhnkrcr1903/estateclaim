@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Arsa Analiz",
+  title: "Ev/Arsa Analiz",
   description: "İl/ilçe bazında arsa imar durumu ve değerlenme potansiyeli analizi",
 };
 
@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Menu />
           {children}
           <footer className="alt-bilgi">
-            Arsa Analiz · Kural tabanlı analiz aracıdır; ekspertiz veya yatırım tavsiyesi değildir. Veriler: TÜİK, TCMB, Wikidata, PTT.
+            Ev/Arsa Analiz · Kural tabanlı analiz aracıdır; ekspertiz veya yatırım tavsiyesi değildir. Veriler: TÜİK, TCMB, DASK, Wikidata, OpenStreetMap, PTT.
           </footer>
         </Giris>
       </body>

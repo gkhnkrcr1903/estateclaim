@@ -81,7 +81,7 @@ function AdminPaneli() {
         {hata && <div className="uyari">⚠️ {hata}</div>}
 
         <section className="kart">
-          <h2>👥 Özet</h2>
+          <h2>Özet</h2>
           <div className="oneriler">
             <div><div className="soluk">Toplam kullanıcı</div><b>{liste.length}</b></div>
             <div><div className="soluk">Aktif</div><b>{aktifSayisi} / {KULLANICI_SINIRI}</b>{aktifSayisi >= KULLANICI_SINIRI && <div className="eksi">Sınıra ulaşıldı</div>}</div>
@@ -91,7 +91,7 @@ function AdminPaneli() {
 
         {bekleyen.length > 0 && (
           <section className="kart">
-            <h2>⏳ Onay bekleyenler</h2>
+            <h2>Onay bekleyenler</h2>
             <div className="admin-tablo">
               <table>
                 <thead><tr><th>Ad</th><th>E-posta</th><th>Kayıt</th><th></th></tr></thead>
@@ -115,7 +115,7 @@ function AdminPaneli() {
         )}
 
         <section className="kart">
-          <h2>🔐 Kullanıcılar ve yetkiler</h2>
+          <h2>Kullanıcılar ve yetkiler</h2>
           <input placeholder="Ad veya e-posta ara…" value={ara} onChange={(e) => setAra(e.target.value)} style={{ width: "100%", maxWidth: 360, marginBottom: 12 }} />
           {yuk ? (
             <p className="soluk">Yükleniyor…</p>
@@ -189,7 +189,7 @@ function VeriSifresi() {
   };
   return (
     <section className="kart">
-      <h2>🗝️ Veri şifresi</h2>
+      <h2>Veri şifresi</h2>
       <p style={{ marginTop: 0 }}>GitHub'daki SITE_PASSWORD değiştiğinde yeni şifreyi buraya girin. Kaydetmeden önce şifrenin veri dosyasını açtığı doğrulanır.</p>
       <form onSubmit={kaydet} style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         <input type="password" required placeholder="Yeni veri şifresi" value={sifre} onChange={(e) => setSifre(e.target.value)} autoComplete="off" />

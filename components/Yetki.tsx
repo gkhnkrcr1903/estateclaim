@@ -11,7 +11,7 @@ export default function Yetki({ gerekli, children }: { gerekli: "arsa" | "ev" | 
   return (
     <main>
       <section className="kart">
-        <h2>🔒 Bu bölüme erişim yetkiniz yok</h2>
+        <h2>Bu bölüme erişim yetkiniz yok</h2>
         <p style={{ marginTop: 0 }}>Erişim için yöneticinizden yetki isteyin.</p>
         {ilk && <Link href={ilk.href}>{ilk.ad} sayfasına git →</Link>}
       </section>
@@ -22,7 +22,7 @@ export default function Yetki({ gerekli, children }: { gerekli: "arsa" | "ev" | 
 // Kullanıcının yetkili olduğu ilk sayfa (menü ve yönlendirme için).
 export function ilkSayfa(p: Profil | null) {
   if (p?.arsa) return { href: "/", ad: "Arsa Analizi" };
-  if (p?.ev) return { href: "/ev", ad: "Bu ev alınır mı?" };
+  if (p?.ev) return { href: "/ev", ad: "Ev Analiz" };
   if (p?.admin) return { href: "/admin", ad: "Yönetim" };
   return null;
 }

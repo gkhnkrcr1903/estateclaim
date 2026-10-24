@@ -1,4 +1,4 @@
-# Arsa Analiz (estateclaim) — Proje Notları
+# Ev/Arsa Analiz (estateclaim) — Proje Notları
 
 Yayın: https://gkhnkrcr1903.github.io/estateclaim/ · Depo: https://github.com/gkhnkrcr1903/estateclaim
 
@@ -32,7 +32,8 @@ Uygulama yatırım tavsiyesi değil, kural tabanlı bir analiz aracıdır; her e
 | Dosya | Görev |
 |---|---|
 | `app/page.tsx` | Arsa Analizi: il/ilçe/mahalle seçimi, bütçe önerileri, il bilgisi, nüfus profili, en değerli semtler, konut piyasası, harita, arsa kararı |
-| `app/ev/page.tsx` | "Bu ev alınır mı?": form, 4 yöntemle adil değer, tavsiyeler |
+| `app/kaynaklar/page.tsx` | Veri ve Kaynaklar: veri tarihi, güncel veriyi çek, kaynak listesi (`components/VeriGuncelligi.tsx`) |
+| `app/ev/page.tsx` | Ev Analiz: form, 4 yöntemle adil değer, tavsiyeler |
 | `lib/ev.ts` | Ev değerleme: emsal (%60), gelir (%25), maliyet (%15), il ortalaması (referans); fiyat etkenleri; tavsiyeler; kredi |
 | `lib/konut.ts` | Bölge çarpanı (ilçe kademeleri + mahalle sapması), konut piyasası |
 | `lib/arsa.ts` | Örnek arsa üretimi, tapu durumu, tahmini arsa m² |
@@ -60,7 +61,7 @@ Uygulama yatırım tavsiyesi değil, kural tabanlı bir analiz aracıdır; her e
 | Konut m² fiyatı: TR, İstanbul, Ankara, İzmir | TCMB EVDS 3 (`evds3.tcmb.gov.tr/igmevdsms-dis/`) | Gerçek | **Otomatik**, her ayın 20'si (GitHub Actions) |
 | Diğer illerin konut m² fiyatı | TR ortalaması × il kademesi | Tahmini | TCMB ile birlikte |
 | İlçe farkları | Büyük şehirlerde bilinen piyasa kademeleri (A–D), diğer illerde Merkez/kırsal | Tahmini | Kodda (`lib/konut.ts`) |
-| Mahalle farkları | Sabit sapma (±%15) | **Örnek**; bu yüzden mahalle (semt) sıralaması gösterilmez | — |
+| Mahalle farkları | **Yok** — mahalle ilçe değerini alır (uydurma sapma 2026-10-24'te kaldırıldı) | — | — |
 | Kira | %5,5 brüt getiri varsayımı + oda tipi primi | Tahmini | — |
 | Nüfus, nüfus artışı (2021–2025) | TÜİK ADNKS (`data/kaynak/tuik-2025.csv`, `tuik-2021.csv`) | Gerçek | **Elle**, yılda bir (Şubat) |
 | İlçe nüfus serisi 2015–2025 | TÜİK ADNKS (nufusune.com derlemesi), 972/973 ilçe (19 Mayıs eksik) | Gerçek | **Elle**, Şubat: `node scripts/ilce-nufus-cek.mjs` (~20 dk) |
@@ -71,7 +72,7 @@ Uygulama yatırım tavsiyesi değil, kural tabanlı bir analiz aracıdır; her e
 | DASK tarifesi (birim maliyet, 7 risk grubu oranı) | dask.gov.tr Tarife ve Primler, 01.10.2026 dönemi | Gerçek; ilçe risk grubu açık değil → prim aralık olarak | **Elle**, DASK yeni dönem açıklayınca: `lib/ev.ts` → `DASK` |
 | Hastane, okul, AVM konumları | OpenStreetMap (Overpass, ODbL) | Gerçek; eksik kayıt olabilir, özel/devlet ayrımı addan | **Elle**, birkaç ayda bir: `node scripts/yakin-yerler-cek.mjs` (~15 dk; tek il: `… 34`) |
 | İl/ilçe/mahalle listesi | PTT (`turkey-neighbourhoods` paketi) | Gerçek | Her derlemede |
-| Arsa ilanları ve tapu durumları | Deterministik örnek üretim | **Örnek** | Gerçek açık kaynak yok |
+| Arsalar | Kullanıcı girer (localStorage, kullanıcı başına); örnek ilan üretimi kaldırıldı. Her arsa için resmi doğrulama listesi (`lib/dogrulama.ts`) ve ekspertiz değeri alanı | Kullanıcı verisi | — |
 
 Malik adı KVKK gereği hiçbir zaman gösterilmez. Türkiye'de "sahipsiz arsa" yoktur; tapusuz yerler Hazine'ye aittir.
 
@@ -113,3 +114,4 @@ Malik adı KVKK gereği hiçbir zaman gösterilmez. Türkiye'de "sahipsiz arsa" 
 - **İlçe sıralaması** yalnızca `ILCE_KADEMELERI` olan illerde gösterilir; kademe içindeki sıra listedeki sıradır.
 - **Wikidata "Merkez" kayıtları** başka illere karışıyor; Merkez ilçe için il merkezi koordinatı kullanılır. Wikidata sorguları 429/502 verebilir, betik yeniden dener.
 - **Overpass sunucuları** sık sık 502/504/429 verir; `yakin-yerler-cek.mjs` sunucuları sırayla ve beklemeli dener. Sınıflama kuralları (ASM, poliklinik, kurs vb. eleme) betikte; OSM adlarındaki yazım hataları için kökler kısaltılmış.
+- Ayrıntılı işletim/yayın rehberi yerelde `UYGULAMA-REHBERI.md` (git dışı, herkese açık depoya konmaz).
