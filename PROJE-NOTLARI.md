@@ -42,6 +42,7 @@ Uygulama yatırım tavsiyesi değil, kural tabanlı bir analiz aracıdır; her e
 | `lib/buyume.ts` | İlçe nüfus artışı + koordinatlarla büyüme yönü, yatırım yönü, imar tavsiyeleri |
 | `components/PdfKaydet.tsx` | Tarayıcı yazdırma penceresiyle PDF kaydetme (ev ve arsa sayfaları) |
 | `components/SayiKutusu.tsx` | Sayı girişi; silip yazarken başa 0 eklenmesini önler |
+| `scripts/yakin-yerler-cek.mjs` | OpenStreetMap hastane/okul/AVM → `public/yakin/{il}.json` (il başına, şifresiz, git'te); `components/YakinYerler.tsx` yalnızca seçili ilin dosyasını indirir |
 | `scripts/koordinat-cek.mjs` | Wikidata'dan ilçe/mahalle koordinatları → `data/kaynak/ilce-koordinat.json`, `mahalle-koordinat.json` |
 | `scripts/tuik-profil-cek.mjs` | 81 il TÜİK profilini (nufusune.com derlemesi) çeker |
 | `.github/workflows/yayinla.yml` | Push'ta + her ayın 20'sinde + elle: TCMB güncelle → veri oluştur/şifrele → derle → Pages |
@@ -62,6 +63,7 @@ Uygulama yatırım tavsiyesi değil, kural tabanlı bir analiz aracıdır; her e
 | Yapı maliyeti | Bakanlık 2026 tebliği (RG 03.02.2026/33157) | Gerçek | **Elle**, Ocak–Şubat: `lib/ev.ts` → `yapiBirimMaliyeti`, `YAPI_MALIYET_YILI` |
 | İlçe ve mahalle koordinatları (harita) | Wikidata (CC0): ilçe 968/973, mahalle ~33 bin/73 bin; eksikte ilçe/il merkezi, "konum yaklaşık" | Gerçek | **Elle**, nadiren: `node scripts/koordinat-cek.mjs` |
 | DASK tarifesi (birim maliyet, 7 risk grubu oranı) | dask.gov.tr Tarife ve Primler, 01.10.2026 dönemi | Gerçek; ilçe risk grubu açık değil → prim aralık olarak | **Elle**, DASK yeni dönem açıklayınca: `lib/ev.ts` → `DASK` |
+| Hastane, okul, AVM konumları | OpenStreetMap (Overpass, ODbL) | Gerçek; eksik kayıt olabilir, özel/devlet ayrımı addan | **Elle**, birkaç ayda bir: `node scripts/yakin-yerler-cek.mjs` (~15 dk; tek il: `… 34`) |
 | İl/ilçe/mahalle listesi | PTT (`turkey-neighbourhoods` paketi) | Gerçek | Her derlemede |
 | Arsa ilanları ve tapu durumları | Deterministik örnek üretim | **Örnek** | Gerçek açık kaynak yok |
 
@@ -104,3 +106,4 @@ Malik adı KVKK gereği hiçbir zaman gösterilmez. Türkiye'de "sahipsiz arsa" 
 - Mahalle nüfusu (nufusune.com'da mahalle sayfaları var, ~50 bin sayfa; toplu çekmek yerine talep üzerine).
 - **İlçe sıralaması** yalnızca `ILCE_KADEMELERI` olan illerde gösterilir; kademe içindeki sıra listedeki sıradır.
 - **Wikidata "Merkez" kayıtları** başka illere karışıyor; Merkez ilçe için il merkezi koordinatı kullanılır. Wikidata sorguları 429/502 verebilir, betik yeniden dener.
+- **Overpass sunucuları** sık sık 502/504/429 verir; `yakin-yerler-cek.mjs` sunucuları sırayla ve beklemeli dener. Sınıflama kuralları (ASM, poliklinik, kurs vb. eleme) betikte; OSM adlarındaki yazım hataları için kökler kısaltılmış.

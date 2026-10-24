@@ -3,23 +3,43 @@
 import { useEffect, useState } from "react";
 import { ilceKonumu, mahalleKonumu } from "../lib/arsa";
 
-// Seçilen mahallenin (yoksa ilçenin) çevresindeki hastane, okul ve AVM'leri OpenStreetMap'ten
-// (Overpass API) tarayıcıda çeker. Sunucular yoğun olabildiği için sırayla denenir; sonuç oturum boyunca saklanır.
+// Seçilen mahallenin (yoksa ilçenin) çevresindeki hastane, okul ve AVM'ler. Veri OpenStreetMap'ten
+// scripts/yakin-yerler-cek.mjs ile il başına önceden çekilir (public/yakin/{il}.json); sayfa yalnızca seçilen ilin
+// dosyasını indirir ve uzaklıkları tarayıcıda hesaplar.
 
 interface Yer {
   ad: string;
   tur: "Hastane" | "Okul" | "AVM";
-  alt: string; // özel / devlet / kamu vb.
+  alt: string; // özel / devlet / kamu, okul kademesi
   km: number;
   lat: number;
   lng: number;
 }
+type Kayit = ["H" | "O" | "A", string, string, number, number];
+interface IlDosyasi {
+  tarih: string;
+  y: Kayit[];
+  yok?: boolean;
+}
 
-const SUNUCULAR = [
-  "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
-  "https://overpass-api.de/api/interpreter",
-  "https://overpass.kumi.systems/api/interpreter",
-];
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const TUR = { H: "Hastane", O: "Okul", A: "AVM" } as const;
+const onbellek = new Map<string, Promise<IlDosyasi>>();
+const ilDosyasi = (il: string) => {
+  if (!onbellek.has(il))
+    onbellek.set(
+      il,
+      fetch(`${BASE}/yakin/${il}.json`).then((r) => {
+        // 404: bu il için yakın yer verisi henüz derlenmedi (boş liste gibi davranılır).
+        if (r.status === 404) return { tarih: "", y: [], yok: true };
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      }),
+    );
+  const p = onbellek.get(il)!;
+  p.catch(() => onbellek.delete(il)); // hata olursa bir sonraki denemede yeniden indir
+  return p;
+};
 
 const uzaklik = (a: number, b: number, c: number, d: number) => {
   const r = Math.PI / 180;
@@ -27,117 +47,47 @@ const uzaklik = (a: number, b: number, c: number, d: number) => {
   return Math.hypot(x, (c - a) * r) * 6371;
 };
 
-// OSM'de aile sağlığı merkezi, kurs ve halk eğitim gibi kayıtlar da hastane/okul etiketli olabilir; bunlar elenir.
-const HASTANE_DISI = /aile sağlığı|asm\b|sağlık ocağı|ağız ve diş|diş hastanesi|veteriner|tıbbiye binası|poliklini|dispanser|tıp merkezi|sağlık merkezi|laboratuvar|fizik tedavi/i;
-const OKUL_DISI = /halk eğitim|eğitim merkezi|kurs|sürücü|dershane|etüt|anaokulu|kreş|üniversite|fakülte|yüksekokul/i;
-
-function sinifla(t: Record<string, string>): { tur: Yer["tur"]; alt: string } | null {
-  const ad = t.name ?? "";
-  const ozel = /^özel\b|\bözel\b/i.test(ad) || t["operator:type"] === "private";
-  if (t.amenity === "hospital") {
-    if (!ad || HASTANE_DISI.test(ad)) return null;
-    const kamu = t["operator:type"] === "government" || /devlet|şehir hastanesi|eğitim ve araştırma|numune|sağlık bakanlığı|üniversite/i.test(ad);
-    return { tur: "Hastane", alt: ozel ? "Özel" : kamu ? "Kamu" : "" };
-  }
-  if (t.amenity === "school") {
-    if (!ad || OKUL_DISI.test(ad)) return null;
-    const kademe = /lise/i.test(ad) ? "Lise" : /ortaokul/i.test(ad) ? "Ortaokul" : /ilkokul|ilköğretim/i.test(ad) ? "İlkokul" : "";
-    return { tur: "Okul", alt: [ozel ? "Özel" : "Devlet", kademe].filter(Boolean).join(" · ") };
-  }
-  if (t.shop === "mall") return ad ? { tur: "AVM", alt: "" } : null;
-  return null;
-}
-
-function ayikla(j: { elements: { lat?: number; lon?: number; center?: { lat: number; lon: number }; tags?: Record<string, string> }[] }, lat: number, lng: number): Yer[] {
-  const goruldu = new Set<string>();
-  const yerler: Yer[] = [];
-  for (const e of j.elements) {
-    const p = e.center ?? (e.lat !== undefined ? { lat: e.lat, lon: e.lon! } : null);
-    const s = e.tags && sinifla(e.tags);
-    if (!p || !s) continue;
-    const ad = e.tags!.name;
-    if (goruldu.has(s.tur + ad)) continue; // aynı yer hem nokta hem alan olarak girilmiş olabilir
-    goruldu.add(s.tur + ad);
-    yerler.push({ ad, ...s, km: Math.round(uzaklik(lat, lng, p.lat, p.lon) * 10) / 10, lat: p.lat, lng: p.lon });
-  }
-  return yerler.sort((a, b) => a.km - b.km);
-}
-
-// Sunucular 6 sn arayla devreye girer; ilk başarılı cevap alınır, diğer istekler iptal edilir.
-async function cek(lat: number, lng: number, yaricap: { okul: number; diger: number }): Promise<Yer[]> {
-  const q = `[out:json][timeout:25];(nwr(around:${yaricap.diger},${lat},${lng})[amenity=hospital];nwr(around:${yaricap.okul},${lat},${lng})[amenity=school];nwr(around:${yaricap.diger},${lat},${lng})[shop=mall];);out center tags;`;
-  const iptaller = SUNUCULAR.map(() => new AbortController());
-  const zamanlar: ReturnType<typeof setTimeout>[] = [];
-  const dene = (u: string, i: number) =>
-    new Promise<Yer[]>((coz, reddet) => {
-      zamanlar.push(
-        setTimeout(async () => {
-          zamanlar.push(setTimeout(() => iptaller[i].abort(), 30000));
-          try {
-            const r = await fetch(u, { method: "POST", signal: iptaller[i].signal, body: "data=" + encodeURIComponent(q), headers: { "Content-Type": "application/x-www-form-urlencoded" } });
-            if (!r.ok) throw new Error("HTTP " + r.status);
-            coz(ayikla(await r.json(), lat, lng));
-          } catch (h) {
-            reddet(h);
-          }
-        }, i * 6000),
-      );
-    });
-  try {
-    return await Promise.any(SUNUCULAR.map(dene));
-  } finally {
-    zamanlar.forEach(clearTimeout);
-    iptaller.forEach((c) => c.abort());
-  }
-}
-
-const GRUPLAR: { tur: Yer["tur"]; baslik: string }[] = [
-  { tur: "Hastane", baslik: "🏥 Hastaneler" },
-  { tur: "Okul", baslik: "🏫 Okullar" },
-  { tur: "AVM", baslik: "🛍️ AVM ve çarşılar" },
+const GRUPLAR: { tur: Yer["tur"]; baslik: string; adet: number }[] = [
+  { tur: "Hastane", baslik: "🏥 Hastaneler", adet: 5 },
+  { tur: "Okul", baslik: "🏫 Okullar", adet: 8 },
+  { tur: "AVM", baslik: "🛍️ AVM ve çarşılar", adet: 5 },
 ];
 
 export default function YakinYerler({ il, ilce, mahalle }: { il: string; ilce: string; mahalle?: string }) {
-  const [durum, setDurum] = useState<{ yuk: boolean; hata?: string; yerler?: Yer[] }>({ yuk: true });
+  const [durum, setDurum] = useState<{ yuk: boolean; hata?: boolean; yok?: boolean; yerler?: Yer[]; tarih?: string }>({ yuk: true });
   const [deneme, setDeneme] = useState(0);
   const k = mahalle ? mahalleKonumu(il, ilce, mahalle) : ilceKonumu(il, ilce);
   const mahalleNoktasi = !!mahalle && !k.yaklasik;
-  const yaricap = mahalleNoktasi ? { okul: 1500, diger: 3000 } : { okul: 2500, diger: 5000 };
-  const anahtar = `yakin:${k.lat},${k.lng},${yaricap.okul}`;
+  const yaricap = mahalleNoktasi ? { okul: 1.5, diger: 3 } : { okul: 2.5, diger: 5 };
 
   useEffect(() => {
     let iptal = false;
-    try {
-      const kayit = sessionStorage.getItem(anahtar);
-      if (kayit) {
-        setDurum({ yuk: false, yerler: JSON.parse(kayit) });
-        return;
-      }
-    } catch {}
-    setDurum({ yuk: true });
-    cek(k.lat, k.lng, yaricap)
-      .then((yerler) => {
+    setDurum((d) => ({ ...d, yuk: true, hata: false }));
+    ilDosyasi(il)
+      .then((dosya) => {
         if (iptal) return;
-        setDurum({ yuk: false, yerler });
-        try {
-          sessionStorage.setItem(anahtar, JSON.stringify(yerler));
-        } catch {}
+        const yerler = dosya.y
+          .map(([t, alt, ad, lat, lng]) => ({ tur: TUR[t], alt, ad, lat, lng, km: Math.round(uzaklik(k.lat, k.lng, lat, lng) * 10) / 10 }))
+          .filter((y) => y.km <= (y.tur === "Okul" ? yaricap.okul : yaricap.diger))
+          .sort((a, b) => a.km - b.km);
+        setDurum(dosya.yok ? { yuk: false, yok: true } : { yuk: false, yerler, tarih: dosya.tarih });
       })
-      .catch(() => !iptal && setDurum({ yuk: false, hata: "Harita sunucuları şu an yoğun." }));
+      .catch(() => !iptal && setDurum({ yuk: false, hata: true }));
     return () => {
       iptal = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anahtar, deneme]);
+  }, [il, k.lat, k.lng, deneme]);
 
   const yer = mahalleNoktasi ? `${mahalle} mahallesi` : `${ilce} merkezi`;
   return (
     <div className="yakin-yerler">
       <h3>📍 {yer} çevresindeki hastane, okul ve AVM'ler</h3>
-      {durum.yuk && <p className="soluk">OpenStreetMap'ten yükleniyor…</p>}
+      {durum.yuk && !durum.yerler && <p className="soluk">Yükleniyor…</p>}
+      {durum.yok && <p className="soluk">Bu il için hastane, okul ve AVM verisi henüz derlenmedi.</p>}
       {durum.hata && (
         <p className="soluk">
-          {durum.hata}{" "}
+          Yakın yer verisi yüklenemedi.{" "}
           <button type="button" className="ikincil yazdirma" style={{ height: 28, padding: "0 10px", fontSize: 12 }} onClick={() => setDeneme((d) => d + 1)}>
             Tekrar dene
           </button>
@@ -152,8 +102,8 @@ export default function YakinYerler({ il, ilce, mahalle }: { il: string; ilce: s
                 <b>{g.baslik}</b> <span className="soluk">({liste.length})</span>
                 {liste.length ? (
                   <ul>
-                    {liste.slice(0, g.tur === "Okul" ? 8 : 5).map((y) => (
-                      <li key={y.ad}>
+                    {liste.slice(0, g.adet).map((y) => (
+                      <li key={y.ad + y.lat}>
                         <a href={`https://www.openstreetmap.org/?mlat=${y.lat}&mlon=${y.lng}#map=17/${y.lat}/${y.lng}`} target="_blank" rel="noreferrer">{y.ad}</a>
                         <span className="soluk">{[y.alt, `${y.km.toLocaleString("tr-TR")} km`].filter(Boolean).join(" · ")}</span>
                       </li>
@@ -168,8 +118,8 @@ export default function YakinYerler({ il, ilce, mahalle }: { il: string; ilce: s
         </div>
       )}
       <p className="soluk" style={{ fontSize: 11, marginBottom: 0 }}>
-        Kaynak: OpenStreetMap katkıcıları (ODbL). {mahalleNoktasi ? "Mahalle noktasına" : "Mahalle koordinatı olmadığından ilçe merkezine"} göre kuş uçuşu uzaklık; okullar {(yaricap.okul / 1000).toLocaleString("tr-TR")} km,
-        hastane ve AVM'ler {yaricap.diger / 1000} km içinde. Özel/devlet ayrımı okul adından çıkarılır; kayıtlar eksik olabilir.
+        Kaynak: OpenStreetMap katkıcıları (ODbL){durum.tarih ? `, ${durum.tarih} tarihli derleme` : ""}. {mahalleNoktasi ? "Mahalle noktasına" : mahalle ? "Mahalle koordinatı olmadığından ilçe merkezine" : "Mahalle seçilmediğinden ilçe merkezine"} göre kuş uçuşu uzaklık; okullar{" "}
+        {yaricap.okul.toLocaleString("tr-TR")} km, hastane ve AVM'ler {yaricap.diger.toLocaleString("tr-TR")} km içinde. Özel/devlet ayrımı adından çıkarılır; kayıtlar eksik olabilir.
       </p>
     </div>
   );
