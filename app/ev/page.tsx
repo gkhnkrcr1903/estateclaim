@@ -5,6 +5,7 @@ import { iller as ilListesi } from "../../lib/iller-meta";
 import { mahalleler } from "../../lib/arsa";
 import { evDegerle, YAKINLIKLAR, type EvBilgisi, type Tavsiye } from "../../lib/ev";
 import PdfKaydet from "../../components/PdfKaydet";
+import Yetki from "../../components/Yetki";
 import SayiKutusu from "../../components/SayiKutusu";
 import YakinYerler from "../../components/YakinYerler";
 
@@ -22,7 +23,16 @@ const AMAC: NonNullable<EvBilgisi["amac"]>[] = ["Oturmak", "Yatırım (kira)"];
 const GRUPLAR: Tavsiye["grup"][] = ["Fiyat ve pazarlık", "Kira mı, satın almak mı?", "Finansman", "Hukuki ve teknik kontrol", "Oturum / yatırım"];
 const SIMGE: Record<Tavsiye["tur"], string> = { olumlu: "✅", uyari: "⚠️", bilgi: "💡" };
 
-export default function EvSayfasi() {
+// Sayfa yalnızca "ev" yetkisi olan kullanıcıya açılır.
+export default function Sayfa() {
+  return (
+    <Yetki gerekli="ev">
+      <EvSayfasi />
+    </Yetki>
+  );
+}
+
+function EvSayfasi() {
   const iller = ilListesi();
   const [e, setE] = useState<EvBilgisi>({
     il: "34", ilce: "Kadıköy", netM2: 100, odaSayisi: "3+1", binaYasi: 12, kat: "Ara kat", toplamKat: 6,

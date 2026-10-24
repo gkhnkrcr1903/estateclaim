@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useProfil } from "../lib/oturum";
 
 // Kurumsal logo: kalkan biçiminde amblem, içinde parsel ızgarası üzerinde yükselen bina silueti.
 export function Logo({ boyut = 34 }: { boyut?: number }) {
@@ -30,6 +31,7 @@ export function Logo({ boyut = 34 }: { boyut?: number }) {
 // Marka çubuğu: logo, uygulama adı ve sayfa bağlantıları; geçerli sayfa vurgulanır.
 export default function Menu() {
   const yol = usePathname();
+  const p = useProfil();
   const aktif = (h: string) => (h === "/" ? yol === "/" : yol?.startsWith(h));
   return (
     <nav className="menu">
@@ -41,8 +43,9 @@ export default function Menu() {
         </span>
       </Link>
       <div className="menu-baglanti">
-        <Link href="/" className={aktif("/") ? "aktif" : ""}>Arsa Analizi</Link>
-        <Link href="/ev" className={aktif("/ev") ? "aktif" : ""}>Bu ev alınır mı?</Link>
+        {p?.arsa && <Link href="/" className={aktif("/") ? "aktif" : ""}>Arsa Analizi</Link>}
+        {p?.ev && <Link href="/ev" className={aktif("/ev") ? "aktif" : ""}>Bu ev alınır mı?</Link>}
+        {p?.admin && <Link href="/admin" className={aktif("/admin") ? "aktif" : ""}>Yönetim</Link>}
       </div>
     </nav>
   );

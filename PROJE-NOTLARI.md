@@ -16,6 +16,12 @@ Uygulama yatırım tavsiyesi değil, kural tabanlı bir analiz aracıdır; her e
 
 - Next.js 15 + React 19, **statik çıktı** (`output: "export"`), GitHub Pages'te yayın. Sunucu yok.
 - Harita: Leaflet / react-leaflet (OpenStreetMap).
+- **Kullanıcılar ve roller (Supabase, ücretsiz plan):** e-posta + şifre ile giriş/kayıt; yeni kayıt yetkisiz başlar, admin
+  `/admin` panelinden onaylar ve yetki verir (aktif, arsa, ev, pdf, admin). Tablolar ve RLS kuralları `supabase/kurulum.sql`
+  (ilk admin: gkhnkrcr1903@gmail.com). Proje: https://ylyjcarnydrumlrkvlyw.supabase.co, istemci `lib/oturum.ts`.
+  Supabase ayarları: Email sağlayıcı açık, "Confirm email" kapalı, Site URL = Pages adresi. Gizli (service role) anahtar kullanılmaz.
+  Veri şifresi kullanıcıya söylenmez: `ayarlar` tablosunda (veri_sifresi), yalnızca aktif kullanıcılar okuyabilir; SITE_PASSWORD
+  değişirse admin panelinden güncellenir. PDF yetkisi olmayanın yazdırma çıktısı gizlenir (Ctrl+P tam engellenemez).
 - **Şifreli giriş:** Tüm veri `data/veri.json` → gzip → AES-256-GCM (PBKDF2, 310 bin tur) → `public/veri.enc.json`.
   Giriş ekranı şifreyle tarayıcıda çözer. Kod herkese açık, veri şifreli. Şifre `SITE_PASSWORD` secret'ında,
   yerelde `.env.local` içinde (git'e girmez).

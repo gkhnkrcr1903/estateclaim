@@ -314,3 +314,23 @@ ul.tavsiye-liste li { background: var(--yuzey); }
 .yakin-izgara li a { color: var(--yazi); text-decoration: none; min-width: 0; }
 .yakin-izgara li a:hover { color: var(--vurgu); text-decoration: underline; }
 .yakin-izgara li .soluk { white-space: nowrap; font-size: 12px; }
+
+/* Giriş formu sekmeleri */
+.sekme { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.kucuk-baglanti { font-size: 12px; color: var(--vurgu); text-align: center; }
+.giris-kart input:not([type=checkbox]) { width: 100%; }
+
+/* Yazdırma yetkisi ve imza */
+.yazdirma-imza { display: none; }
+@media print {
+  .yazdirma-imza { display: block; margin-top: 16px; padding-top: 8px; border-top: 1px solid #ccc; font-size: 10px; color: #444; }
+  body[data-pdf="kapali"] > * { display: none !important; }
+  body[data-pdf="kapali"]::after { content: "Bu içeriği yazdırma veya PDF olarak kaydetme yetkiniz yok."; display: block; padding: 40px; font: 16px sans-serif; }
+}
+
+/* Yönetim paneli */
+.admin-tablo { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.admin-tablo table { min-width: 640px; }
+.admin-tablo td { vertical-align: middle; }
+.admin-tablo tbody tr:hover { cursor: default; }
+tr.pasif-satir td { opacity: 0.55; }

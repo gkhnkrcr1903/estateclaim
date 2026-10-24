@@ -9,6 +9,7 @@ import { konutPiyasasi } from "../lib/konut";
 import MahalleEvFiyatlari from "../components/MahalleEvFiyatlari";
 import { IlGenelBilgi, EnDegerliSemtler } from "../components/BolgeOzeti";
 import PdfKaydet from "../components/PdfKaydet";
+import Yetki from "../components/Yetki";
 import BolgeProfiliBolumu from "../components/BolgeProfili";
 
 const Harita = dynamic(() => import("../components/Harita"), { ssr: false, loading: () => <div className="harita" /> });
@@ -20,7 +21,16 @@ function puanSinifi(p: number) {
   return p >= 65 ? "p-yuksek" : p >= 40 ? "p-orta" : "p-dusuk";
 }
 
+// Sayfa yalnızca "arsa" yetkisi olan kullanıcıya açılır.
 export default function Sayfa() {
+  return (
+    <Yetki gerekli="arsa">
+      <ArsaSayfasi />
+    </Yetki>
+  );
+}
+
+function ArsaSayfasi() {
   const iller = ilListesi();
   const [ilKod, setIlKod] = useState("34");
   const [ilce, setIlce] = useState("");
