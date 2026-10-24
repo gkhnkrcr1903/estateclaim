@@ -18,7 +18,7 @@ const MANZARA: EvBilgisi["manzara"][] = ["Yok", "Şehir/doğa", "Deniz/göl"];
 const CEPHE: NonNullable<EvBilgisi["cephe"]>[] = ["Güney", "Doğu/Batı", "Kuzey", "Çift cephe ve üzeri"];
 const KULLANIM: NonNullable<EvBilgisi["kullanim"]>[] = ["Boş", "Kiracılı", "Sahibi oturuyor"];
 const AMAC: NonNullable<EvBilgisi["amac"]>[] = ["Oturmak", "Yatırım (kira)"];
-const GRUPLAR: Tavsiye["grup"][] = ["Fiyat ve pazarlık", "Finansman", "Hukuki ve teknik kontrol", "Oturum / yatırım"];
+const GRUPLAR: Tavsiye["grup"][] = ["Fiyat ve pazarlık", "Kira mı, satın almak mı?", "Finansman", "Hukuki ve teknik kontrol", "Oturum / yatırım"];
 const SIMGE: Record<Tavsiye["tur"], string> = { olumlu: "✅", uyari: "⚠️", bilgi: "💡" };
 
 export default function EvSayfasi() {
@@ -30,7 +30,7 @@ export default function EvSayfasi() {
     cephe: "Doğu/Batı", balkon: true, banyo: 1, iskan: true, aidat: 0, anaCadde: false,
     metro: "Yakın (araçla 5–10 dk)", otobus: "Yürüme mesafesinde", sosyalHayat: "Yürüme mesafesinde", market: "Yürüme mesafesinde",
     devletOkulu: "Yürüme mesafesinde", ozelOkul: "Yakın (araçla 5–10 dk)", hastane: "Yakın (araçla 5–10 dk)", park: "Yürüme mesafesinde", cocuklu: false,
-    kullanim: "Boş", esyali: false, amac: "Oturmak", pesinatOrani: 30, aylikFaiz: 2.5, vadeAy: 120,
+    kullanim: "Boş", esyali: false, mevcutKira: 0, amac: "Oturmak", pesinatOrani: 30, aylikFaiz: 2.5, vadeAy: 120,
   });
   const g = <K extends keyof EvBilgisi>(k: K, v: EvBilgisi[K]) => setE({ ...e, [k]: v });
   const il = iller.find((i) => i.kod === e.il)!;
@@ -116,6 +116,7 @@ export default function EvSayfasi() {
           <div className="form">
             {secim("tapu", "Tapu durumu", TAPU)}
             {secim("kullanim", "Şu an", KULLANIM)}
+            {sayi("mevcutKira", "Şu an ödediğim kira (₺/ay, yoksa 0)", { step: 500 })}
             {sayi("pesinatOrani", "Peşinat (%)", { max: 100 })}
             {sayi("aylikFaiz", "Aylık kredi faizi (%)", { step: 0.01 })}
             {sayi("vadeAy", "Vade (ay)", { min: 1, step: 12 })}
@@ -135,6 +136,7 @@ export default function EvSayfasi() {
                 <div><div className="soluk">İstenen fiyat</div><b>{TL(e.istenenFiyat)}</b><div className={s.fark > 0 ? "eksi" : "arti"}>{s.fark > 0 ? "%" + Math.round(s.fark * 100) + " pahalı" : "%" + Math.round(-s.fark * 100) + " ucuz"}</div></div>
                 <div><div className="soluk">Pazarlık</div><b>{TL(s.hedefFiyat)}</b><div className="soluk">Açılış teklifi {TL(s.acilisTeklifi)}</div></div>
                 <div><div className="soluk">Tahmini kira</div><b>{TL(s.kiraTahmini)}/ay</b><div className="soluk">%{s.brutGetiri.toLocaleString("tr-TR")} getiri · {s.amortismanYil.toLocaleString("tr-TR")} yıl</div></div>
+                <div><div className="soluk">DASK primi (yıllık, tahmini)</div><b>{TL(s.dask.min)} – {TL(s.dask.max)}</b><div className="soluk">Risk grubuna göre · <a href="https://www.dask.gov.tr/tr/police-prim-ve-bedeli-hesaplama" target="_blank" rel="noreferrer">kesin prim</a></div></div>
                 <div><div className="soluk">Aile için uygunluk</div><b>{s.aile.puan}/100</b><div className="soluk">{s.aile.derece}</div></div>
                 {s.kredi && <div><div className="soluk">Kredi taksiti</div><b>{TL(s.kredi.taksit)}/ay</b><div className="soluk">Peşinat {TL(s.kredi.pesinat)}</div></div>}
               </div>

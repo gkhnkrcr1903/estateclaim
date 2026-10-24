@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { girisYap, yenidenYukle, cikisYap, SifreHatasi, type Veri } from "../lib/veri";
 import VeriGuncelligi from "./VeriGuncelligi";
+import { Logo } from "./Menu";
 
 // Şifre girilip veri çözülene kadar uygulama içeriğini göstermez.
 export default function Giris({ children }: { children: React.ReactNode }) {
@@ -52,7 +53,7 @@ export default function Giris({ children }: { children: React.ReactNode }) {
     return (
       <div className="giris">
         <form className="kart giris-kart" onSubmit={gonder}>
-          <h1>🔒 Arsa Analiz</h1>
+          <div className="giris-marka"><Logo boyut={44} /><div><h1>Arsa Analiz</h1><small>Gayrimenkul Analiz</small></div></div>
           <p className="soluk">Devam etmek için şifreyi girin.</p>
           <input type="password" autoFocus required autoCapitalize="off" autoCorrect="off" spellCheck={false} placeholder="Şifre" value={sifre} onChange={(e) => setSifre(e.target.value)} />
           {hata && <div className="eksi">{hata}</div>}

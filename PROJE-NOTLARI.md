@@ -61,6 +61,7 @@ Uygulama yatırım tavsiyesi değil, kural tabanlı bir analiz aracıdır; her e
 | Eğitim süresi (25+) | TÜİK Ulusal Eğitim İst. 2025 | Gerçek, **yalnızca 11 il** | **Elle**, Haziran: `data/kaynak/tuik-egitim-2025.json` |
 | Yapı maliyeti | Bakanlık 2026 tebliği (RG 03.02.2026/33157) | Gerçek | **Elle**, Ocak–Şubat: `lib/ev.ts` → `yapiBirimMaliyeti`, `YAPI_MALIYET_YILI` |
 | İlçe ve mahalle koordinatları (harita) | Wikidata (CC0): ilçe 968/973, mahalle ~33 bin/73 bin; eksikte ilçe/il merkezi, "konum yaklaşık" | Gerçek | **Elle**, nadiren: `node scripts/koordinat-cek.mjs` |
+| DASK tarifesi (birim maliyet, 7 risk grubu oranı) | dask.gov.tr Tarife ve Primler, 01.10.2026 dönemi | Gerçek; ilçe risk grubu açık değil → prim aralık olarak | **Elle**, DASK yeni dönem açıklayınca: `lib/ev.ts` → `DASK` |
 | İl/ilçe/mahalle listesi | PTT (`turkey-neighbourhoods` paketi) | Gerçek | Her derlemede |
 | Arsa ilanları ve tapu durumları | Deterministik örnek üretim | **Örnek** | Gerçek açık kaynak yok |
 

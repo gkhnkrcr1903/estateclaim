@@ -43,6 +43,7 @@ export interface EvBilgisi {
   esyali?: boolean;
   amac?: "Oturmak" | "Yatırım (kira)";
   // Finansman
+  mevcutKira?: number; // şu an oturduğunuz evin aylık kirası (0: kirada değil)
   pesinatOrani?: number; // %
   aylikFaiz?: number; // %
   vadeAy?: number;
@@ -76,7 +77,7 @@ export interface Yontem {
 }
 
 export interface Tavsiye {
-  grup: "Fiyat ve pazarlık" | "Finansman" | "Hukuki ve teknik kontrol" | "Oturum / yatırım";
+  grup: "Fiyat ve pazarlık" | "Kira mı, satın almak mı?" | "Finansman" | "Hukuki ve teknik kontrol" | "Oturum / yatırım";
   tur: "olumlu" | "uyari" | "bilgi";
   metin: string;
 }
@@ -99,6 +100,7 @@ export interface EvSonuc {
   kredi?: { tutar: number; taksit: number; toplamOdeme: number; pesinat: number };
   tavsiyeler: Tavsiye[];
   aile: AileUygunlugu;
+  dask: { sigortaBedeli: number; min: number; max: number; birimMaliyet: number };
   notlar: string[]; // geriye dönük uyumluluk: tavsiye metinleri
 }
 
@@ -130,6 +132,15 @@ export function aileUygunlugu(e: EvBilgisi): AileUygunlugu {
   const derece = puan >= 75 ? "Çok uygun" : puan >= 60 ? "Uygun" : puan >= 45 ? "Orta" : "Zayıf";
   return { puan, derece, arti, eksi };
 }
+
+// Zorunlu Deprem Sigortası (DASK) tarifesi, 01.10.2026 ve sonrası başlayan poliçeler (dask.gov.tr, Tarife ve Primler).
+// Risk grubu (I–VII) adrese göre DASK tarafından belirlenir ve açık liste olarak yayımlanmaz; bu yüzden aralık verilir.
+// Prim = brüt m² × birim maliyet × oran (binde). Yapı tarzı betonarme kabul edilir.
+export const DASK = {
+  donem: "01.10.2026",
+  birimMaliyet: 12039, // TL/m², betonarme
+  oranlar: [2.82, 2.51, 2.13, 2.0, 1.5, 1.07, 0.73], // binde, I → VII
+};
 
 export const YAPI_MALIYET_YILI = 2026;
 // Çevre, Şehircilik ve İklim Değişikliği Bakanlığı 2026 yapı yaklaşık birim maliyetleri (RG 03.02.2026/33157), konut satırları.
@@ -316,6 +327,14 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
   const acilisTeklifi = Math.min(e.istenenFiyat, yuvarla(Math.max(hedefFiyat * 0.93, alt)));
 
   const brutGetiri = Math.round(((kiraTahmini * 12) / e.istenenFiyat) * 1000) / 10;
+
+  const sigortaBedeli = Math.round(e.netM2 * 1.25 * DASK.birimMaliyet);
+  const dask = {
+    sigortaBedeli,
+    birimMaliyet: DASK.birimMaliyet,
+    min: Math.round((sigortaBedeli * Math.min(...DASK.oranlar)) / 1000),
+    max: Math.round((sigortaBedeli * Math.max(...DASK.oranlar)) / 1000),
+  };
   const amortismanYil = Math.round((e.istenenFiyat / (kiraTahmini * 12)) * 10) / 10;
 
   // Kredi: eşit taksitli, aylık faiz
@@ -351,11 +370,47 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
     if (kredi.taksit > kiraTahmini * 1.5) add("Finansman", "uyari", `Taksit, aynı evin tahmini kirasının (${TL(kiraTahmini)}) ${(kredi.taksit / kiraTahmini).toFixed(1).replace(".", ",")} katı. Oturmak için alıyorsanız kirada kalıp birikim yapmak şimdilik daha ekonomik olabilir.`);
     else add("Finansman", "olumlu", "Taksit, tahmini kiraya yakın: kira öder gibi ev sahibi olabilirsiniz.");
   }
+  // Şu an kirada oturuluyorsa: ödenen kira, bu evin piyasa kirası ve taksitle karşılaştırılır.
+  const mk = e.mevcutKira ?? 0;
+  if (mk > 0) {
+    const kiraFarki = kiraTahmini - mk;
+    add(
+      "Kira mı, satın almak mı?",
+      "bilgi",
+      `Şu an ${TL(mk)}/ay kira ödüyorsunuz; bu evin tahmini piyasa kirası ${TL(kiraTahmini)}/ay. ` +
+        (kiraFarki > mk * 0.15
+          ? `Bu ev, oturduğunuz evden aylık yaklaşık ${TL(kiraFarki)} daha değerli bir konut: aynı evi kiralamak da bütçenizi zorlar, alım kararını buna göre değerlendirin.`
+          : kiraFarki < -mk * 0.15
+            ? `Bu ev, oturduğunuz evden aylık yaklaşık ${TL(-kiraFarki)} daha uygun bir konut: daha küçük veya daha uygun bir bölgeye geçiyorsunuz.`
+            : "Bu ev, oturduğunuz evle benzer kira seviyesinde."),
+    );
+    if (kredi) {
+      const ek = kredi.taksit - mk;
+      add(
+        "Kira mı, satın almak mı?",
+        ek > mk ? "uyari" : ek > 0 ? "bilgi" : "olumlu",
+        ek > 0
+          ? `Kira yerine ${TL(kredi.taksit)} taksit ödeyeceksiniz: aylık bütçenize ${TL(ek)} ek yük gelir (${e.vadeAy} ay boyunca toplam ${TL(ek * (e.vadeAy ?? 0))}). Peşinat (${TL(kredi.pesinat)}) da birikiminizden çıkar.`
+          : `Taksit (${TL(kredi.taksit)}) şu anki kiranızdan ${TL(-ek)} düşük: kira öder gibi ev sahibi olursunuz.`,
+      );
+      if (ek > mk) add("Kira mı, satın almak mı?", "bilgi", "Taksit kiranızın iki katını aşıyor: daha uzun vade, daha yüksek peşinat veya daha uygun bir ev, aylık yükü kiranıza yaklaştırır. Kira artışlarını da hesaba katın; taksit sabit kalırken kira her yıl artar.");
+    } else {
+      const yillik = mk * 12;
+      const yil = Math.round((e.istenenFiyat / yillik) * 10) / 10;
+      add(
+        "Kira mı, satın almak mı?",
+        "bilgi",
+        `Peşin alırsanız yılda ${TL(yillik)} kira ödemezsiniz; bu tasarruf, ev fiyatına oranla yıllık %${((yillik / e.istenenFiyat) * 100).toFixed(1).replace(".", ",")} getiri demek ve fiyatı yaklaşık ${yil.toLocaleString("tr-TR")} yılda karşılar. Bu oranı paranızın alternatif getirisiyle (mevduat vb.) karşılaştırın.`,
+      );
+    }
+    add("Kira mı, satın almak mı?", "bilgi", "Kirada oturan biri için ev almanın ek maliyetleri: tapu harcı, komisyon, taşınma, aidat ve emlak vergisi. Bunlar ilk yıl kira tasarrufunun önemli bir kısmını götürebilir.");
+  }
   if (!e.krediyeUygun || e.iskan === false) add("Finansman", "uyari", "İskânı olmayan veya krediye uygun olmayan evler için banka kredisi çıkmaz; peşin almanız ve ileride peşin alıcıya satmanız gerekir.");
   add("Finansman", "bilgi", "Tapu harcı alıcı ve satıcı için ayrı ayrı %2'dir (gerçek satış bedeli üzerinden). Ekspertiz, DASK, döner sermaye ve emlakçı komisyonunu da bütçeye ekleyin.");
   const ekMasraf = yuvarla(e.istenenFiyat * 0.02 + e.istenenFiyat * 0.02 * 1.2); // alıcı harcı + %2 komisyon ve %20 KDV
   add("Finansman", "bilgi", `Kabaca hesap: ${TL(e.istenenFiyat)} fiyatta alıcı tapu harcı ${TL(yuvarla(e.istenenFiyat * 0.02))}; emlakçı komisyonu (genelde %2 + KDV) ile birlikte ek masraf ${TL(ekMasraf)} civarında olabilir.`);
-  add("Finansman", "bilgi", "Konutlarda her yıl emlak vergisi ödenir: binde 1, büyükşehir belediyesi sınırlarında binde 2. Zorunlu deprem sigortası (DASK) yaptırılmadan tapu işlemi yapılmaz.");
+  add("Finansman", "bilgi", "Konutlarda her yıl emlak vergisi ödenir: binde 1, büyükşehir belediyesi sınırlarında binde 2.");
+  add("Finansman", "bilgi", `Zorunlu deprem sigortası (DASK) yaptırılmadan tapu işlemi yapılmaz. Bu ev için yıllık DASK primi risk grubuna göre yaklaşık ${TL(dask.min)} – ${TL(dask.max)} (sigorta bedeli ${TL(dask.sigortaBedeli)}, betonarme). Kesin prim ve evin risk grubu için DASK prim hesaplama ekranını kullanın.`);
   if (kredi) add("Finansman", "bilgi", "Kredi kullanacaksanız banka ekspertizi istenen fiyatın altında çıkarsa kredi tutarı ekspertiz değerine göre belirlenir; aradaki farkı peşin ödemeniz gerekir.");
 
   // Hukuki ve teknik kontrol
@@ -367,6 +422,7 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
   if (e.cephe === "Kuzey") add("Hukuki ve teknik kontrol", "bilgi", "Kuzey cephe az güneş alır: ısınma giderleri ve rutubet için kış aylarında evi görmeye çalışın.");
   if (e.kat === "Bodrum" || e.kat === "Zemin/bahçe") add("Hukuki ve teknik kontrol", "bilgi", "Alt katlarda nem, su basması ve güvenlik riskine bakın; DASK ve konut sigortasını genişletmeyi düşünün.");
   if (e.kat === "En üst kat" || e.kat === "Çatı dubleks") add("Hukuki ve teknik kontrol", "bilgi", "Üst katta çatı yalıtımı ve su sızıntısı izlerini kontrol edin; çatı onarımı tüm kat malikleriyle paylaşılır.");
+  add("Hukuki ve teknik kontrol", "bilgi", "Deprem riski: evin bulunduğu noktanın yer hareketi değerini e-Devlet üzerinden AFAD Deprem Tehlike Haritası ile (turkiye.gov.tr/afad-deprem-tehlike-haritasi), yakındaki diri fayları MTA Yerbilimleri haritasında (yerbilimleri.mta.gov.tr) kontrol edin. Riskli yapı tespiti yapılıp yapılmadığını belediyeye sorun.");
   add("Hukuki ve teknik kontrol", "bilgi", "Tapu kaydında ipotek, haciz ve şerh olmadığını, enerji kimlik belgesini ve yapı denetim evraklarını kontrol edin.");
   add("Hukuki ve teknik kontrol", "bilgi", "Satıcıdan isteyin: güncel tapu fotokopisi, iskân belgesi, onaylı mimari proje, aidat ve emlak vergisi borcu olmadığını gösteren belgeler. Projede olmayan kapatılmış balkon, kat veya bölme değişikliği kaçak sayılabilir.");
   add("Hukuki ve teknik kontrol", "bilgi", "Ödemeyi tapu devriyle aynı anda yapın; kapora verirseniz yazılı sözleşmeyle ve satıcının tapudaki adına yapın. Vekaletle satışta vekaletnamenin güncelliğini noterden doğrulayın.");
@@ -415,6 +471,7 @@ export function evDegerle(e: EvBilgisi): EvSonuc {
 
   return {
     aile,
+    dask,
     tahmini, alt, ust, fark, karar, hedefFiyat, acilisTeklifi, yontemler, aralikPayi: pay, hesapOzeti, etkenler: et,
     kiraTahmini, brutGetiri, amortismanYil, kredi, tavsiyeler: t, notlar: t.map((x) => x.metin),
   };
