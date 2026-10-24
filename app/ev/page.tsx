@@ -6,6 +6,7 @@ import { mahalleler } from "../../lib/arsa";
 import { evDegerle, YAKINLIKLAR, type EvBilgisi, type Tavsiye } from "../../lib/ev";
 import PdfKaydet from "../../components/PdfKaydet";
 import SayiKutusu from "../../components/SayiKutusu";
+import YakinYerler from "../../components/YakinYerler";
 
 const TL = (n: number) => n.toLocaleString("tr-TR", { maximumFractionDigits: 0 }) + " ₺";
 
@@ -200,6 +201,7 @@ export default function EvSayfasi() {
                   ))}
                 </ul>
                 <p className="soluk" style={{ fontSize: 12 }}>Özelliklerin toplam etkisi −%45 ile +%60 arasında sınırlandırılır.</p>
+                <YakinYerler il={e.il} ilce={e.ilce} mahalle={e.mahalle || undefined} />
               </section>
             </div>
           </>

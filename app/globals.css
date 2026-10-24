@@ -307,3 +307,10 @@ ul.tavsiye-liste li { background: var(--yuzey); }
 .giris-marka { display: flex; align-items: center; gap: 12px; }
 .giris-marka h1 { margin: 0; font-size: 20px; }
 .giris-marka small { color: var(--soluk); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
+.yakin-yerler { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--cizgi); }
+.yakin-izgara { display: grid; gap: 12px; }
+.yakin-izgara ul { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 4px; font-size: 13px; }
+.yakin-izgara li { display: flex; justify-content: space-between; gap: 8px; padding: 4px 0; border-bottom: 1px dashed var(--cizgi); }
+.yakin-izgara li a { color: var(--yazi); text-decoration: none; min-width: 0; }
+.yakin-izgara li a:hover { color: var(--vurgu); text-decoration: underline; }
+.yakin-izgara li .soluk { white-space: nowrap; font-size: 12px; }
