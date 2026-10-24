@@ -53,6 +53,7 @@ export default function Menu() {
         <div className="kullanici-menu">
           <span className="avatar" aria-hidden="true">{(p.ad || p.eposta).trim().charAt(0).toLocaleUpperCase("tr")}</span>
           <span className="kullanici-ad" title={p.eposta}>{p.ad || p.eposta}</span>
+          {p.pdf && <Link href="/rapor-ayarlari" className={`rapor-ayar-baglanti${aktif("/rapor-ayarlari") ? " aktif" : ""}`} title="PDF rapor ayarları (logo, ofis bilgileri)">Rapor ayarları</Link>}
           <button
             type="button"
             className="cikis"

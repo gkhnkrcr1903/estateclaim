@@ -32,6 +32,8 @@ Uygulama yatırım tavsiyesi değil, kural tabanlı bir analiz aracıdır; her e
 | Dosya | Görev |
 |---|---|
 | `app/page.tsx` | Arsa Analizi: il/ilçe/mahalle seçimi, bütçe önerileri, il bilgisi, nüfus profili, en değerli semtler, konut piyasası, harita, arsa kararı |
+| `app/rapor-ayarlari/page.tsx` | Ofis logolu PDF: ofis/danışman bilgileri, logo (tarayıcıda küçültülür), önizleme; `lib/rapor.ts`, `components/RaporBasligi.tsx`, tablo `supabase/rapor-kimligi.sql` |
+| `app/admin/page.tsx` | Yönetim paneli: kullanıcı onayı, yetkiler, veri şifresi |
 | `app/kaynaklar/page.tsx` | Veri ve Kaynaklar: veri tarihi, güncel veriyi çek, kaynak listesi (`components/VeriGuncelligi.tsx`) |
 | `app/ev/page.tsx` | Ev Analiz: form, 4 yöntemle adil değer, tavsiyeler |
 | `lib/ev.ts` | Ev değerleme: emsal (%60), gelir (%25), maliyet (%15), il ortalaması (referans); fiyat etkenleri; tavsiyeler; kredi |

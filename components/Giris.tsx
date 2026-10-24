@@ -4,6 +4,8 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 import { girisYap, yenidenYukle, cikisYap, SifreHatasi, type Veri } from "../lib/veri";
 import { supabase, profilGetir, veriSifresiGetir, veriSifresiKaydet, girisKaydet, hataMetni, ProfilBaglami, type Profil } from "../lib/oturum";
 import { Logo } from "./Menu";
+import { RaporUst, RaporAlt } from "./RaporBasligi";
+import { raporOnbellekTemizle } from "../lib/rapor";
 
 // Kullanıcı girişi (Supabase), onay ve yetki kontrolü; onaylı kullanıcı için şifreli veri çözülene kadar
 // uygulama içeriğini göstermez. Veri şifresi kullanıcıya söylenmez, yalnızca aktif kullanıcıların okuyabildiği
@@ -70,6 +72,7 @@ export default function Giris({ children }: { children: React.ReactNode }) {
     const { data } = supabase.auth.onAuthStateChange((olay) => {
       if (olay === "SIGNED_OUT") {
         cikisYap();
+        raporOnbellekTemizle();
         setV(null);
         setProfil(null);
         setDurum("giris");
@@ -137,12 +140,10 @@ export default function Giris({ children }: { children: React.ReactNode }) {
   return (
     <ProfilBaglami.Provider value={profil}>
     <VeriBaglami.Provider value={{ v, guncelle, bekle, mesaj }}>
+      {/* PDF'te üstte ofis başlığı, altta danışman imza bloğu (yalnızca yazdırırken görünür) */}
+      <RaporUst />
       <div key={surum}>{children}</div>
-      {profil?.pdf && (
-        <div className="yazdirma-imza">
-          Hazırlayan: {profil.ad ? `${profil.ad} (${profil.eposta})` : profil.eposta} · {new Date().toLocaleString("tr-TR")} · Ev/Arsa Analiz — Gayrimenkul Analiz. Ekspertiz veya yatırım tavsiyesi değildir.
-        </div>
-      )}
+      <RaporAlt />
     </VeriBaglami.Provider>
     </ProfilBaglami.Provider>
   );
