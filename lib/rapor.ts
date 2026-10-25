@@ -88,3 +88,17 @@ export async function logoKucult(dosya: File): Promise<string> {
     URL.revokeObjectURL(url);
   }
 }
+
+// PDF başlığındaki rapor türü (ör. "Satıcı Fiyatlandırma Raporu"); sayfalar ayarlar, RaporUst okur.
+let raporBasligi = "Gayrimenkul Ön Analiz Raporu";
+const BASLIK_OLAYI = "rapor-basligi-degisti";
+export function raporBasligiAyarla(b: string) {
+  if (b === raporBasligi) return;
+  raporBasligi = b;
+  window.dispatchEvent(new Event(BASLIK_OLAYI));
+}
+export const raporBasligiAl = () => raporBasligi;
+export function raporBasligiDinle(f: () => void) {
+  window.addEventListener(BASLIK_OLAYI, f);
+  return () => window.removeEventListener(BASLIK_OLAYI, f);
+}

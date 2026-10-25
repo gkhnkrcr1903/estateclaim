@@ -1,9 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { iller as ilListesi } from "../../lib/iller-meta";
 import { mahalleler } from "../../lib/arsa";
-import { evDegerle, YAKINLIKLAR, type EvBilgisi, type Tavsiye } from "../../lib/ev";
+import { evDegerle, YAKINLIKLAR, type EvBilgisi } from "../../lib/ev";
+import { saticiFiyatlandirma } from "../../lib/satici";
+import { paylasimOlustur } from "../../lib/paylasim";
+import { raporBasligiAyarla } from "../../lib/rapor";
+import { useProfil, hataMetni } from "../../lib/oturum";
+import { AliciSonuc, SaticiSonuc, Yontemler, AliciTavsiyeler, Etkenler } from "../../components/EvRaporBolumleri";
 import PdfKaydet from "../../components/PdfKaydet";
 import Yetki from "../../components/Yetki";
 import SayiKutusu from "../../components/SayiKutusu";
@@ -20,8 +25,6 @@ const MANZARA: EvBilgisi["manzara"][] = ["Yok", "Şehir/doğa", "Deniz/göl"];
 const CEPHE: NonNullable<EvBilgisi["cephe"]>[] = ["Güney", "Doğu/Batı", "Kuzey", "Çift cephe ve üzeri"];
 const KULLANIM: NonNullable<EvBilgisi["kullanim"]>[] = ["Boş", "Kiracılı", "Sahibi oturuyor"];
 const AMAC: NonNullable<EvBilgisi["amac"]>[] = ["Oturmak", "Yatırım (kira)"];
-const GRUPLAR: Tavsiye["grup"][] = ["Fiyat ve pazarlık", "Kira mı, satın almak mı?", "Finansman", "Hukuki ve teknik kontrol", "Oturum / yatırım"];
-const SIMGE: Record<Tavsiye["tur"], string> = { olumlu: "✅", uyari: "⚠️", bilgi: "💡" };
 
 // Sayfa yalnızca "ev" yetkisi olan kullanıcıya açılır.
 export default function Sayfa() {
@@ -46,8 +49,37 @@ function EvSayfasi() {
   const g = <K extends keyof EvBilgisi>(k: K, v: EvBilgisi[K]) => setE({ ...e, [k]: v });
   const il = iller.find((i) => i.kod === e.il)!;
   const s = useMemo(() => (e.netM2 > 0 && e.istenenFiyat > 0 ? evDegerle(e) : null), [e]);
-  const kararSinifi = s?.karar.startsWith("Alınır") ? "p-yuksek" : s?.karar.startsWith("Makul") ? "p-orta" : "p-dusuk";
-  const enBuyuk = s ? Math.max(e.istenenFiyat, ...s.yontemler.map((y) => y.deger)) : 1;
+  // Rapor türü: alıcıya "alınır mı?" analizi veya satıcıya fiyatlandırma raporu.
+  const [tur, setTur] = useState<"alici" | "satici">("alici");
+  const satici = tur === "satici";
+  const f = useMemo(() => (s && satici ? saticiFiyatlandirma(e, s) : null), [e, s, satici]);
+  const baslik = satici ? "Satıcı Fiyatlandırma Raporu" : "Gayrimenkul Ön Analiz Raporu";
+  useEffect(() => {
+    raporBasligiAyarla(baslik);
+    return () => raporBasligiAyarla("Gayrimenkul Ön Analiz Raporu");
+  }, [baslik]);
+
+  // Paylaşılabilir bağlantı
+  const profil = useProfil();
+  const [paylasim, setPaylasim] = useState<{ url?: string; hata?: string; bekle?: boolean; kopyalandi?: boolean }>({});
+  useEffect(() => setPaylasim({}), [e, tur]);
+  const paylas = async () => {
+    if (!s || !profil) return;
+    setPaylasim({ bekle: true });
+    try {
+      const url = await paylasimOlustur(satici ? "ev-satici" : "ev-alici", baslik, { e, s, f: f ?? undefined, hazirlayan: { ad: profil.ad, eposta: profil.eposta }, ilAd: il.ad });
+      setPaylasim({ url });
+    } catch (h) {
+      setPaylasim({ hata: /paylasimlar/.test(String((h as Error)?.message)) ? "Paylaşım tablosu henüz kurulmamış (supabase/paylasim.sql çalıştırılmalı)." : hataMetni(h) });
+    }
+  };
+  const kopyala = async () => {
+    if (!paylasim.url) return;
+    try {
+      await navigator.clipboard.writeText(paylasim.url);
+      setPaylasim({ ...paylasim, kopyalandi: true });
+    } catch {}
+  };
 
   const sayi = (k: keyof EvBilgisi, ad: string, ek: Record<string, number | string> = {}) => (
     <label>{ad}<SayiKutusu min={0} {...ek} deger={(e[k] as number) ?? 0} degistir={(n) => g(k, n as never)} /></label>
@@ -64,11 +96,35 @@ function EvSayfasi() {
       <header className="baslik-satiri">
         <div>
           <h1>Ev Analiz</h1>
-          <p>Evin özelliklerini girin: adil değer dört yöntemle hesaplanır, pazarlık, finansman ve kontrol tavsiyeleri verilir.</p>
+          <p>{satici
+            ? "Satıcı için fiyatlandırma: ilan, hedef ve hızlı satış fiyatı, değeri artırma önerileri ve satış stratejisi."
+            : "Alıcı için analiz: adil değer dört yöntemle hesaplanır; pazarlık, finansman ve kontrol tavsiyeleri verilir."}</p>
+          <div className="rapor-turu yazdirma" role="tablist" aria-label="Rapor türü">
+            <button type="button" role="tab" aria-selected={!satici} className={satici ? "ikincil" : ""} onClick={() => setTur("alici")}>Alıcı analizi</button>
+            <button type="button" role="tab" aria-selected={satici} className={satici ? "" : "ikincil"} onClick={() => setTur("satici")}>Satıcı fiyatlandırma</button>
+          </div>
         </div>
-        <PdfKaydet dosyaAdi={`Ev Değerleme - ${[e.mahalle, e.ilce, il.ad].filter(Boolean).join(", ")}`} />
+        <div className="baslik-dugmeleri">
+          {s && <button type="button" className="pdf-dugme yazdirma" onClick={paylas} disabled={paylasim.bekle}>{paylasim.bekle ? "Hazırlanıyor…" : "Paylaşılabilir bağlantı"}</button>}
+          <PdfKaydet dosyaAdi={`${satici ? "Satıcı Fiyatlandırma" : "Ev Değerleme"} - ${[e.mahalle, e.ilce, il.ad].filter(Boolean).join(", ")}`} />
+        </div>
       </header>
       <main>
+        {(paylasim.url || paylasim.hata) && (
+          <div className="paylasim-kutu yazdirma">
+            {paylasim.hata ? <span className="eksi">{paylasim.hata}</span> : (
+              <>
+                <b>Bağlantı hazır.</b> <span className="soluk">Müşteriniz giriş yapmadan, logonuz ve bilgilerinizle bu raporu görür. 30 gün geçerlidir; Rapor ayarları sayfasından kaldırabilirsiniz.</span>
+                <div className="paylasim-satir">
+                  <input readOnly value={paylasim.url} onFocus={(x) => x.target.select()} aria-label="Paylaşım bağlantısı" />
+                  <button type="button" onClick={kopyala}>{paylasim.kopyalandi ? "Kopyalandı" : "Kopyala"}</button>
+                  <a className="dugme-baglanti" href={`https://wa.me/?text=${encodeURIComponent(baslik + ": " + paylasim.url)}`} target="_blank" rel="noreferrer">WhatsApp</a>
+                  <a className="dugme-baglanti ikincil-baglanti" href={paylasim.url} target="_blank" rel="noreferrer">Aç</a>
+                </div>
+              </>
+            )}
+          </div>
+        )}
         <div className="uyari">⚠️ Tahminler TCMB/tahmini bölge fiyatları, Bakanlık 2026 yapı maliyetleri ve kural tabanlı düzeltmelerle hesaplanır, <b>ekspertiz veya yatırım tavsiyesi değildir</b>. Kesin değer için lisanslı gayrimenkul değerleme raporu alın.</div>
 
         <section className="kart">
@@ -77,9 +133,9 @@ function EvSayfasi() {
             <label>İl<select value={e.il} onChange={(x) => setE({ ...e, il: x.target.value, ilce: iller.find((i) => i.kod === x.target.value)!.ilceler[0], mahalle: "" })}>{iller.map((i) => <option key={i.kod} value={i.kod}>{i.ad}</option>)}</select></label>
             <label>İlçe<select value={e.ilce} onChange={(x) => setE({ ...e, ilce: x.target.value, mahalle: "" })}>{il.ilceler.map((x) => <option key={x}>{x}</option>)}</select></label>
             <label>Mahalle<select value={e.mahalle ?? ""} onChange={(x) => g("mahalle", x.target.value)}><option value="">Belirtilmedi (ilçe ortalaması)</option>{mahalleler(e.il, e.ilce).map((x) => <option key={x}>{x}</option>)}</select></label>
-            {sayi("istenenFiyat", "İstenen fiyat (₺)", { min: 1, step: 50000 })}
+            {sayi("istenenFiyat", satici ? "Satıcının beklediği fiyat (₺)" : "İstenen fiyat (₺)", { min: 1, step: 50000 })}
             {sayi("ulasimKm", "Şehir/iş merkezine (km)", { step: 0.1 })}
-            {secim("amac", "Alma amacınız", AMAC)}
+            {!satici && secim("amac", "Alma amacınız", AMAC)}
             {kutu("anaCadde", "Gürültülü ana cadde üzerinde")}
           </div>
         </section>
@@ -127,92 +183,25 @@ function EvSayfasi() {
           <div className="form">
             {secim("tapu", "Tapu durumu", TAPU)}
             {secim("kullanim", "Şu an", KULLANIM)}
-            {sayi("mevcutKira", "Şu an ödediğim kira (₺/ay, yoksa 0)", { step: 500 })}
-            {sayi("pesinatOrani", "Peşinat (%)", { max: 100 })}
-            {sayi("aylikFaiz", "Aylık kredi faizi (%)", { step: 0.01 })}
-            {sayi("vadeAy", "Vade (ay)", { min: 1, step: 12 })}
+            {!satici && sayi("mevcutKira", "Şu an ödediğim kira (₺/ay, yoksa 0)", { step: 500 })}
+            {!satici && sayi("pesinatOrani", "Peşinat (%)", { max: 100 })}
+            {!satici && sayi("aylikFaiz", "Aylık kredi faizi (%)", { step: 0.01 })}
+            {!satici && sayi("vadeAy", "Vade (ay)", { min: 1, step: 12 })}
             {kutu("iskan", "İskânı var")}
             {kutu("krediyeUygun", "Krediye uygun")}
           </div>
-          <p className="soluk" style={{ fontSize: 12, marginBottom: 0 }}>Kredi faizi bankaya ve döneme göre değişir; bankanızın güncel konut kredisi faizini girin.</p>
+          {!satici && <p className="soluk" style={{ fontSize: 12, marginBottom: 0 }}>Kredi faizi bankaya ve döneme göre değişir; bankanızın güncel konut kredisi faizini girin.</p>}
         </section>
 
         {s && (
           <>
-            <section className="kart">
-              <h2>Sonuç</h2>
-              <span className={`rozet ${kararSinifi}`} style={{ fontSize: 15 }}>{s.karar}</span>
-              <div className="oneriler" style={{ marginTop: 14 }}>
-                <div><div className="soluk">Tahmini adil değer</div><b style={{ fontSize: 20 }}>{TL(s.tahmini)}</b><div className="soluk">{TL(s.alt)} – {TL(s.ust)}</div></div>
-                <div><div className="soluk">İstenen fiyat</div><b>{TL(e.istenenFiyat)}</b><div className={s.fark > 0 ? "eksi" : "arti"}>{s.fark > 0 ? "%" + Math.round(s.fark * 100) + " pahalı" : "%" + Math.round(-s.fark * 100) + " ucuz"}</div></div>
-                <div><div className="soluk">Pazarlık</div><b>{TL(s.hedefFiyat)}</b><div className="soluk">Açılış teklifi {TL(s.acilisTeklifi)}</div></div>
-                <div><div className="soluk">Tahmini kira</div><b>{TL(s.kiraTahmini)}/ay</b><div className="soluk">%{s.brutGetiri.toLocaleString("tr-TR")} getiri · {s.amortismanYil.toLocaleString("tr-TR")} yıl</div></div>
-                <div><div className="soluk">DASK primi (yıllık, tahmini)</div><b>{TL(s.dask.min)} – {TL(s.dask.max)}</b><div className="soluk">Risk grubuna göre · <a href="https://www.dask.gov.tr/tr/police-prim-ve-bedeli-hesaplama" target="_blank" rel="noreferrer">kesin prim</a></div></div>
-                <div><div className="soluk">Aile için uygunluk</div><b>{s.aile.puan}/100</b><div className="soluk">{s.aile.derece}</div></div>
-                {s.kredi && <div><div className="soluk">Kredi taksiti</div><b>{TL(s.kredi.taksit)}/ay</b><div className="soluk">Peşinat {TL(s.kredi.pesinat)}</div></div>}
-              </div>
-              <div className="hesap-ozeti">
-                <h3>Tahmini adil değer nasıl hesaplandı?</h3>
-                <ol>{s.hesapOzeti.map((m, i) => <li key={i}>{m}</li>)}</ol>
-              </div>
-            </section>
-
-            <section className="kart">
-              <h2>Adil değer — yöntemlere göre</h2>
-              <div className="yontemler">
-                {s.yontemler.map((y) => (
-                  <div key={y.ad} className="yontem">
-                    <div className="yontem-ust">
-                      <span><b>{y.ad}</b> {y.agirlik > 0 ? <span className="soluk">· ağırlık %{Math.round(y.agirlik * 100)}</span> : <span className="soluk">· yalnızca referans</span>}</span>
-                      <b>{TL(y.deger)}</b>
-                    </div>
-                    <div className="cubuk"><div style={{ width: `${(y.deger / enBuyuk) * 100}%`, opacity: y.agirlik > 0 ? 1 : 0.45 }} /></div>
-                    <div className="soluk" style={{ fontSize: 12 }}>{y.aciklama}</div>
-                    {y.agirlik > 0 && <div className="soluk" style={{ fontSize: 12 }}>Adil değere katkısı: {TL(y.deger * y.agirlik)} · istenen fiyata göre {y.deger >= e.istenenFiyat ? "%" + Math.round((y.deger / e.istenenFiyat - 1) * 100) + " yüksek" : "%" + Math.round((1 - y.deger / e.istenenFiyat) * 100) + " düşük"}</div>}
-                    <details className="ayrinti">
-                      <summary>Hesap adımları</summary>
-                      <table>
-                        <tbody>{y.adimlar.map((a, i) => <tr key={i}><td>{a.ad}</td><td>{a.deger}</td></tr>)}</tbody>
-                      </table>
-                      <p><b>Güçlü yanı:</b> {y.guclu}</p>
-                      <p><b>Sınırlılığı:</b> {y.zayif}</p>
-                    </details>
-                  </div>
-                ))}
-                <div className="yontem">
-                  <div className="yontem-ust"><span><b>İstenen fiyat</b></span><b>{TL(e.istenenFiyat)}</b></div>
-                  <div className="cubuk istenen"><div style={{ width: `${(e.istenenFiyat / enBuyuk) * 100}%` }} /></div>
-                </div>
-              </div>
-              <p className="soluk" style={{ fontSize: 12, marginBottom: 0 }}>Adil değer, emsal (%60), gelir (%25) ve maliyet (%15) yöntemlerinin ağırlıklı ortalamasıdır. Emsal en yüksek ağırlığı alır çünkü alıcıların ödediği fiyatı en doğrudan yansıtır; maliyet yöntemi değerli semtlerde piyasa değerinin altında kalır, bu normaldir. Her yöntemin ayrıntısı için "Hesap adımları"nı açın.</p>
-            </section>
-
+            {satici && f ? <SaticiSonuc s={s} f={f} /> : <AliciSonuc e={e} s={s} />}
+            <Yontemler e={e} s={s} satici={satici} />
             <div className="izgara">
-              <section className="kart">
-                <h2>Tavsiyeler</h2>
-                {GRUPLAR.map((grup) => {
-                  const liste = s.tavsiyeler.filter((t) => t.grup === grup);
-                  if (!liste.length) return null;
-                  return (
-                    <div key={grup} style={{ marginBottom: 12 }}>
-                      <h3 style={{ fontSize: 14, margin: "0 0 6px" }}>{grup}</h3>
-                      <ul className="tavsiye-liste">
-                        {liste.map((t, i) => <li key={i} className={`t-${t.tur}`}><span>{SIMGE[t.tur]}</span><span>{t.metin}</span></li>)}
-                      </ul>
-                    </div>
-                  );
-                })}
-              </section>
-              <section className="kart">
-                <h2>Fiyata etki eden özellikler</h2>
-                <ul className="nedenler">
-                  {s.etkenler.map((x, i) => (
-                    <li key={i}><span>{x.metin}</span><span className={x.oran >= 0 ? "arti" : "eksi"}>{x.oran >= 0 ? "+" : ""}{x.oran}%</span></li>
-                  ))}
-                </ul>
-                <p className="soluk" style={{ fontSize: 12 }}>Özelliklerin toplam etkisi −%45 ile +%60 arasında sınırlandırılır.</p>
+              {!satici && <AliciTavsiyeler s={s} />}
+              <Etkenler s={s}>
                 <YakinYerler il={e.il} ilce={e.ilce} mahalle={e.mahalle || undefined} />
-              </section>
+              </Etkenler>
             </div>
           </>
         )}

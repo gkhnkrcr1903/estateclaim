@@ -6,6 +6,7 @@ import { supabase, profilGetir, veriSifresiGetir, veriSifresiKaydet, girisKaydet
 import { Logo } from "./Menu";
 import { RaporUst, RaporAlt } from "./RaporBasligi";
 import { raporOnbellekTemizle } from "../lib/rapor";
+import { usePathname } from "next/navigation";
 
 // Kullanıcı girişi (Supabase), onay ve yetki kontrolü; onaylı kullanıcı için şifreli veri çözülene kadar
 // uygulama içeriğini göstermez. Veri şifresi kullanıcıya söylenmez, yalnızca aktif kullanıcıların okuyabildiği
@@ -42,6 +43,7 @@ export default function Giris({ children }: { children: React.ReactNode }) {
   const [bekle, setBekle] = useState(false);
   const [mesaj, setMesaj] = useState("");
   const [surum, setSurum] = useState(0);
+  const yol = usePathname();
 
   // Oturumdaki kullanıcının profilini alır, onaylıysa veri şifresini çekip veriyi çözer.
   const hazirla = useCallback(async () => {
@@ -83,8 +85,9 @@ export default function Giris({ children }: { children: React.ReactNode }) {
 
   // Yazdırma yetkisi: PDF yetkisi olmayanların çıktısında içerik gizlenir (bkz. globals.css @media print).
   useEffect(() => {
-    document.body.dataset.pdf = profil?.pdf ? "acik" : "kapali";
-  }, [profil]);
+    // Paylaşılan raporu alan müşteri de yazdırabilir.
+    document.body.dataset.pdf = profil?.pdf || yol?.startsWith("/paylasim") ? "acik" : "kapali";
+  }, [profil, yol]);
 
   const cikis = async () => {
     cikisYap();
@@ -102,6 +105,10 @@ export default function Giris({ children }: { children: React.ReactNode }) {
     setMesaj(yeni.guncelleme === once ? `Veriler zaten güncel (${yeni.guncelleme}).` : `Veriler güncellendi: ${yeni.guncelleme}`);
     setTimeout(() => setMesaj(""), 5000);
   };
+
+  // Herkese açık sayfalar: paylaşılan rapor her zaman girişsiz; tanıtım sayfası giriş yapılmamışsa girişsiz gösterilir.
+  if (yol?.startsWith("/paylasim") || (yol?.startsWith("/neden") && durum !== "hazir"))
+    return <ProfilBaglami.Provider value={null}>{children}</ProfilBaglami.Provider>;
 
   if (durum === "yukleniyor") return <div className="giris"><p className="soluk">Yükleniyor…</p></div>;
   if (durum === "giris") return <GirisFormu tamam={hazirla} />;
@@ -205,6 +212,7 @@ function GirisFormu({ tamam }: { tamam: () => void }) {
         {mod === "giris" && <a href="#" className="kucuk-baglanti" onClick={(e) => { e.preventDefault(); setMod("sifirla"); }}>Şifremi unuttum</a>}
         {mod === "sifirla" && <a href="#" className="kucuk-baglanti" onClick={(e) => { e.preventDefault(); setMod("giris"); }}>Girişe dön</a>}
         {mod === "kayit" && <p className="soluk" style={{ fontSize: 12, margin: 0 }}>Kayıt olduktan sonra yönetici onayı gerekir.</p>}
+        <a href={(process.env.NEXT_PUBLIC_BASE_PATH ?? "") + "/neden/"} className="kucuk-baglanti">Neden Ev/Arsa Analiz?</a>
       </form>
     </div>
   );

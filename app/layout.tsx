@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Giris from "../components/Giris";
 import Menu from "../components/Menu";
 import "leaflet/dist/leaflet.css";
@@ -22,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Menu />
           {children}
           <footer className="alt-bilgi">
-            Ev/Arsa Analiz · Kural tabanlı analiz aracıdır; ekspertiz veya yatırım tavsiyesi değildir. Veriler: TÜİK, TCMB, DASK, Wikidata, OpenStreetMap, PTT.
+            Ev/Arsa Analiz · Kural tabanlı analiz aracıdır; ekspertiz veya yatırım tavsiyesi değildir. Veriler: TÜİK, TCMB, DASK, Wikidata, OpenStreetMap, PTT. · <Link href="/neden">Neden Ev/Arsa Analiz?</Link>
           </footer>
         </Giris>
       </body>

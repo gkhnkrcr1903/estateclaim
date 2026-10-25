@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useProfil, hataMetni } from "../../lib/oturum";
 import { BOS_KIMLIK, raporKimligiGetir, raporKimligiKaydet, logoKucult, type RaporKimligi } from "../../lib/rapor";
 import { RaporUstGorunum, RaporAltGorunum } from "../../components/RaporBasligi";
+import { paylasimlarim, paylasimSil, paylasimAdresi, type PaylasimOzeti } from "../../lib/paylasim";
 
 // Rapor ayarları: PDF raporlarında görünen ofis/danışman kimliği ve logo. Yalnızca PDF yetkisi olan kullanıcılar.
 const ALANLAR: { a: Exclude<keyof RaporKimligi, "logo">; ad: string; ipucu?: string; tur?: string }[] = [
@@ -109,7 +110,58 @@ export default function Sayfa() {
             </div>
             <p className="soluk" style={{ fontSize: 12, marginBottom: 0 }}>Gerçek raporda gri çizgilerin yerinde sayfanın analiz içeriği yer alır.</p>
         </section>
+        <Paylasimlarim />
       </main>
     </>
+  );
+}
+
+// Kullanıcının oluşturduğu paylaşım bağlantıları: görüntülenme sayısı, süre ve kaldırma.
+function Paylasimlarim() {
+  const [liste, setListe] = useState<PaylasimOzeti[] | null>(null);
+  const [hata, setHata] = useState("");
+  useEffect(() => {
+    paylasimlarim()
+      .then(setListe)
+      .catch((e) => setHata(/paylasimlar/.test(String(e?.message)) ? "Paylaşım tablosu henüz kurulmamış (supabase/paylasim.sql çalıştırılmalı)." : hataMetni(e)));
+  }, []);
+  const sil = async (id: string) => {
+    if (!confirm("Bu bağlantı kaldırılsın mı? Müşteriniz raporu artık açamaz.")) return;
+    try {
+      await paylasimSil(id);
+      setListe((l) => l?.filter((x) => x.id !== id) ?? null);
+    } catch (e) {
+      setHata(hataMetni(e));
+    }
+  };
+  const tarih = (t: string) => new Date(t).toLocaleDateString("tr-TR", { day: "2-digit", month: "short", year: "numeric" });
+  return (
+    <section className="kart">
+      <h2>Paylaştığım bağlantılar</h2>
+      {hata && <p className="eksi" style={{ marginTop: 0 }}>{hata}</p>}
+      {!hata && !liste && <p className="soluk">Yükleniyor…</p>}
+      {liste && liste.length === 0 && <p className="soluk" style={{ margin: 0 }}>Henüz paylaşılmış rapor yok. Ev Analiz sayfasında "Paylaşılabilir bağlantı" ile oluşturabilirsiniz.</p>}
+      {liste && liste.length > 0 && (
+        <div className="kaynak-tablo">
+          <table>
+            <thead><tr><th>Rapor</th><th>Oluşturma</th><th>Geçerlilik</th><th>Görüntülenme</th><th></th></tr></thead>
+            <tbody>
+              {liste.map((x) => {
+                const gecti = new Date(x.bitis) < new Date();
+                return (
+                  <tr key={x.id}>
+                    <td><b>{x.baslik}</b><div className="kaynak-link"><a href={paylasimAdresi(x.id)} target="_blank" rel="noreferrer">Bağlantıyı aç ↗</a></div></td>
+                    <td>{tarih(x.olusturma)}</td>
+                    <td>{gecti ? <span className="rozet p-dusuk">Süresi doldu</span> : tarih(x.bitis)}</td>
+                    <td>{x.goruntulenme}</td>
+                    <td style={{ textAlign: "right" }}><button className="ikincil" style={{ height: 30, padding: "0 10px" }} onClick={() => sil(x.id)}>Kaldır</button></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
   );
 }

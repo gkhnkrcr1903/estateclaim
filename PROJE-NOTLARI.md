@@ -34,6 +34,10 @@ Uygulama yatırım tavsiyesi değil, kural tabanlı bir analiz aracıdır; her e
 | `app/page.tsx` | Arsa Analizi: il/ilçe/mahalle seçimi, bütçe önerileri, il bilgisi, nüfus profili, en değerli semtler, konut piyasası, harita, arsa kararı |
 | `app/rapor-ayarlari/page.tsx` | Ofis logolu PDF: ofis/danışman bilgileri, logo (tarayıcıda küçültülür), önizleme; `lib/rapor.ts`, `components/RaporBasligi.tsx`, tablo `supabase/rapor-kimligi.sql` |
 | `app/admin/page.tsx` | Yönetim paneli: kullanıcı onayı, yetkiler, veri şifresi |
+| `app/neden/page.tsx` | Tanıtım: emlak danışmanları için güçlü yanlar (herkese açık, yalnızca var olan özellikler) |
+| `app/paylasim/page.tsx` | Paylaşılan rapor (girişsiz); `lib/paylasim.ts`, tablo/fonksiyon `supabase/paylasim.sql`, 30 gün geçerli |
+| `lib/satici.ts` | Satıcı fiyatlandırma: ilan/hedef/hızlı satış fiyatı, iyileştirme etkileri (model yeniden çalıştırılarak) |
+| `components/EvRaporBolumleri.tsx` | Ev sonuç bölümleri (Ev Analiz ve paylaşım sayfası ortak) |
 | `app/kaynaklar/page.tsx` | Veri ve Kaynaklar: veri tarihi, güncel veriyi çek, kaynak listesi (`components/VeriGuncelligi.tsx`) |
 | `app/ev/page.tsx` | Ev Analiz: form, 4 yöntemle adil değer, tavsiyeler |
 | `lib/ev.ts` | Ev değerleme: emsal (%60), gelir (%25), maliyet (%15), il ortalaması (referans); fiyat etkenleri; tavsiyeler; kredi |

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { useProfil, type Profil } from "../lib/oturum";
-import { raporKimligiGetir, raporKimligiDinle, type RaporKimligi } from "../lib/rapor";
+import { raporKimligiGetir, raporKimligiDinle, raporBasligiAl, raporBasligiDinle, type RaporKimligi } from "../lib/rapor";
 
 // PDF/yazdırma çıktısının üstündeki kurumsal başlık ve altındaki danışman imza bloğu.
 // Ekranda görünmez (yalnızca @media print); Rapor ayarları sayfasında önizleme olarak da kullanılır.
@@ -54,8 +54,9 @@ export function RaporAltGorunum({ k, profil }: { k: RaporKimligi | null; profil:
 export function RaporUst() {
   const profil = useProfil();
   const k = useRaporKimligi(!!profil?.pdf);
+  const baslik = useSyncExternalStore(raporBasligiDinle, raporBasligiAl, () => "Gayrimenkul Ön Analiz Raporu");
   if (!profil?.pdf) return null;
-  return <div className="yalniz-yazdir"><RaporUstGorunum k={k} profil={profil} /></div>;
+  return <div className="yalniz-yazdir"><RaporUstGorunum k={k} profil={profil} baslik={baslik} /></div>;
 }
 
 export function RaporAlt() {

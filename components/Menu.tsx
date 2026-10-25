@@ -33,6 +33,8 @@ export function Logo({ boyut = 34 }: { boyut?: number }) {
 export default function Menu() {
   const yol = usePathname();
   const p = useProfil();
+  // Paylaşılan raporda uygulama menüsü gösterilmez; rapor danışmanın kendi başlığıyla açılır.
+  if (yol?.startsWith("/paylasim")) return null;
   const aktif = (h: string) => (h === "/" ? yol === "/" : yol?.startsWith(h));
   return (
     <nav className="menu">
