@@ -1,6 +1,7 @@
 # Ev/Arsa Analiz (estateclaim) — Proje Notları
 
-Yayın: https://gkhnkrcr1903.github.io/estateclaim/ · Depo: https://github.com/gkhnkrcr1903/estateclaim
+Yayın: https://evarsaanaliz.pages.dev (Cloudflare Pages) · Depo: https://github.com/gkhnkrcr1903/estateclaim
+Eski adres https://gkhnkrcr1903.github.io/estateclaim/ yalnızca yeni adrese yönlendirir (`yonlendirme/`).
 
 ## Amaç
 
@@ -14,7 +15,8 @@ Uygulama yatırım tavsiyesi değil, kural tabanlı bir analiz aracıdır; her e
 
 ## Mimari
 
-- Next.js 15 + React 19, **statik çıktı** (`output: "export"`), GitHub Pages'te yayın. Sunucu yok.
+- Next.js 15 + React 19, **statik çıktı** (`output: "export"`), **Cloudflare Pages**'te yayın (2026-10-25'te GitHub Pages'ten taşındı; GitHub Pages ticari SaaS'a izin vermiyor). Sunucu yok.
+  Cloudflare her push'ta derler: build `npm run cf-build`, çıktı `out`, ortam değişkenleri `SITE_PASSWORD` (şifreli) ve `NODE_VERSION=22`, base path yok.
 - Harita: Leaflet / react-leaflet (OpenStreetMap).
 - **Kullanıcılar ve roller (Supabase, ücretsiz plan):** e-posta + şifre ile giriş/kayıt; yeni kayıt yetkisiz başlar, admin
   `/admin` panelinden onaylar ve yetki verir (aktif, arsa, ev, pdf, admin). Tablolar ve RLS kuralları `supabase/kurulum.sql`
@@ -60,7 +62,8 @@ Uygulama yatırım tavsiyesi değil, kural tabanlı bir analiz aracıdır; her e
 | `scripts/yakin-yerler-cek.mjs` | OpenStreetMap hastane/okul/AVM → `public/yakin/{il}.json` (il başına, şifresiz, git'te); `components/YakinYerler.tsx` yalnızca seçili ilin dosyasını indirir |
 | `scripts/koordinat-cek.mjs` | Wikidata'dan ilçe/mahalle koordinatları → `data/kaynak/ilce-koordinat.json`, `mahalle-koordinat.json` |
 | `scripts/tuik-profil-cek.mjs` | 81 il TÜİK profilini (nufusune.com derlemesi) çeker |
-| `.github/workflows/yayinla.yml` | Push'ta + her ayın 20'sinde + elle: TCMB güncelle → veri oluştur/şifrele → derle → Pages |
+| `.github/workflows/yayinla.yml` | "Veri güncelle": her ayın 20'si + elle TCMB güncelle ve commit'le (Cloudflare yeni yayını başlatır); eski GitHub Pages adresine `yonlendirme/` sayfasını yayınlar |
+| `yonlendirme/` | Eski github.io adresinden yeni adrese yol ve parametreleri koruyarak yönlendiren sayfa (index.html + 404.html) |
 
 ## Veri kaynakları ve güncelleme takvimi
 
@@ -87,7 +90,8 @@ Malik adı KVKK gereği hiçbir zaman gösterilmez. Türkiye'de "sahipsiz arsa" 
 ## Kurulum / ayarlar
 
 - GitHub secrets: `SITE_PASSWORD` (giriş şifresi), `EVDS_API_KEY` (TCMB EVDS anahtarı, gerçek anahtar girildi ve çalışıyor).
-- GitHub Pages kaynağı: **GitHub Actions**.
+- GitHub Pages kaynağı: **GitHub Actions** (yalnızca yönlendirme sayfası). Uygulama Cloudflare'de.
+- Supabase Site URL: https://evarsaanaliz.pages.dev/ (Redirect URLs'te ayrıca localhost:3000).
 - Yerel çalıştırma: `npm run dev` (önce veriyi oluşturup şifreler). Yerel şifre `.env.local` içinde.
 - Zamanlanmış görev (Claude masaüstü uygulaması): **"GitHub Pages depolarına boş commit"**, her ayın 1'i 10:00.
   Betik: `C:\Claude_projects\github-keepalive\bos-commit.sh` — Pages'i açık tüm depolara boş commit atar,

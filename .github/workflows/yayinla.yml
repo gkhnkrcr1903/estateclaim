@@ -1,11 +1,17 @@
-name: Yayınla
+name: Veri güncelle
+
+# Uygulama Cloudflare Pages'te yayınlanır (evarsaanaliz.pages.dev): her push'ta Cloudflare kendisi derler.
+# Bu iş akışı yalnızca:
+#  1) her ayın 20'si (veya elle) TCMB konut verisini günceller ve commit'ler — commit, Cloudflare'de yeni yayını tetikler;
+#  2) eski GitHub Pages adresinde (…github.io/estateclaim/…) yeni adrese yönlendiren sayfayı yayınlar.
 
 on:
-  push:
-    branches: [main]
   schedule:
     - cron: "0 6 20 * *" # her ayın 20'si: TCMB verisini yenile
-  workflow_dispatch: # GitHub > Actions > Yayınla > Run workflow ile elle güncelleme
+  workflow_dispatch: # GitHub > Actions > Veri güncelle > Run workflow ile elle güncelleme
+  push:
+    branches: [main]
+    paths: ["yonlendirme/**", ".github/workflows/yayinla.yml"]
 
 permissions:
   contents: write
@@ -13,11 +19,12 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: veri-guncelle
+  cancel-in-progress: false
 
 jobs:
-  build:
+  tcmb:
+    if: github.event_name != 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -30,31 +37,22 @@ jobs:
         run: node scripts/tcmb-guncelle.mjs
         env:
           EVDS_API_KEY: ${{ secrets.EVDS_API_KEY }}
-      - name: Güncellenen kaynak veriyi kaydet
+      - name: Güncellenen kaynak veriyi kaydet (Cloudflare yeni yayını başlatır)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/kaynak
           git diff --cached --quiet || (git commit -m "TCMB verisi güncellendi" && git push)
-      - name: Veriyi oluştur ve şifrele
-        run: npm run veri
-        env:
-          SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
-      - name: Derle
-        run: npm run build
-        env:
-          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
-      - run: touch out/.nojekyll
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: out
 
-  deploy:
-    needs: build
+  yonlendirme:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: yonlendirme
       - id: deployment
         uses: actions/deploy-pages@v4
