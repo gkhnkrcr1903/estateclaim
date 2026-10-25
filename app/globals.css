@@ -510,3 +510,8 @@ textarea:focus { outline: none; border-color: var(--vurgu); box-shadow: 0 0 0 3p
 .ekspertiz-firma { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 14px; border: 1px solid var(--cizgi); border-radius: 10px; background: var(--yuzey); }
 .ekspertiz-dugmeler { display: flex; gap: 8px; flex-wrap: wrap; }
 .talep-metni { white-space: pre-wrap; font: 12.5px/1.55 "Inter", system-ui, sans-serif; background: var(--yuzey); border: 1px solid var(--cizgi); border-radius: 8px; padding: 10px 12px; margin: 8px 0 0; color: var(--yazi); }
+
+/* Yönetim: erişim bilgileri */
+.erisim-satir { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 14px; border: 1px solid var(--cizgi); border-radius: 10px; background: var(--yuzey); }
+.gizli-deger { display: inline-block; margin-top: 4px; font: 600 15px/1.4 ui-monospace, "Cascadia Code", Consolas, monospace; letter-spacing: 0.04em; color: var(--yazi); word-break: break-all; }
+@media print { .erisim-satir, .gizli-deger { display: none !important; } }

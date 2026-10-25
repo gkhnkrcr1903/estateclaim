@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Yetki from "../../components/Yetki";
-import { supabase, useProfil, veriSifresiKaydet, hataMetni, type Profil } from "../../lib/oturum";
+import { supabase, useProfil, veriSifresiKaydet, veriSifresiGetir, hataMetni, type Profil } from "../../lib/oturum";
 import { girisYap, SifreHatasi } from "../../lib/veri";
 
 // Yönetim paneli: kullanıcı onayı, yetkiler (arsa, ev, PDF, admin), pasife alma ve veri şifresi.
@@ -54,6 +54,19 @@ function AdminPaneli() {
     setIsleniyor(null);
   };
 
+  // Şifreler geri çevrilemez biçimde saklandığı için gösterilemez; kullanıcıya sıfırlama bağlantısı gönderilir.
+  const [bilgi, setBilgi] = useState("");
+  const sifreSifirla = async (p: Profil) => {
+    if (!confirm(`${p.eposta} adresine şifre sıfırlama bağlantısı gönderilsin mi? Kullanıcı yeni şifresini kendisi belirler.`)) return;
+    setIsleniyor(p.id);
+    setHata("");
+    setBilgi("");
+    const { error } = await supabase.auth.resetPasswordForEmail(p.eposta, { redirectTo: window.location.origin + (process.env.NEXT_PUBLIC_BASE_PATH ?? "") + "/" });
+    if (error) setHata(hataMetni(error));
+    else setBilgi(`${p.eposta} adresine şifre sıfırlama bağlantısı gönderildi.`);
+    setIsleniyor(null);
+  };
+
   const sil = async (p: Profil) => {
     if (!confirm(`${p.eposta} kullanıcısının kaydı silinsin mi? Kullanıcı tekrar giriş yaparsa onay bekleyen olarak görünür.`)) return;
     setIsleniyor(p.id);
@@ -79,6 +92,7 @@ function AdminPaneli() {
       </header>
       <main>
         {hata && <div className="uyari">⚠️ {hata}</div>}
+        {bilgi && <div className="uyari" style={{ borderLeftColor: "var(--yesil)" }}>✅ {bilgi}</div>}
 
         <section className="kart">
           <h2>Özet</h2>
@@ -150,6 +164,7 @@ function AdminPaneli() {
                       ))}
                       <td style={{ whiteSpace: "nowrap" }}>{tarih(p.son_giris)}</td>
                       <td style={{ textAlign: "right" }}>
+                        <button className="ikincil" style={{ height: 30, padding: "0 10px" }} disabled={isleniyor === p.id} onClick={() => sifreSifirla(p)} title="Kullanıcıya yeni şifre belirleme bağlantısı gönderir">Şifre sıfırla</button>{" "}
                         {p.id !== ben?.id && <button className="ikincil" style={{ height: 30, padding: "0 10px" }} disabled={isleniyor === p.id} onClick={() => sil(p)}>Sil</button>}
                       </td>
                     </tr>
@@ -171,6 +186,20 @@ function AdminPaneli() {
 
 function VeriSifresi() {
   const [sifre, setSifre] = useState("");
+  const [kayitli, setKayitli] = useState<string | null>(null);
+  const [goster, setGoster] = useState(false);
+  const [kopyalandi, setKopyalandi] = useState(false);
+  useEffect(() => {
+    veriSifresiGetir().then(setKayitli).catch(() => setKayitli(null));
+  }, []);
+  const kopyala = async () => {
+    if (!kayitli) return;
+    try {
+      await navigator.clipboard.writeText(kayitli);
+      setKopyalandi(true);
+      setTimeout(() => setKopyalandi(false), 2500);
+    } catch {}
+  };
   const [mesaj, setMesaj] = useState("");
   const [bekle, setBekle] = useState(false);
   const kaydet = async (e: React.FormEvent) => {
@@ -180,6 +209,7 @@ function VeriSifresi() {
     try {
       await girisYap(sifre);
       await veriSifresiKaydet(sifre);
+      setKayitli(sifre.trim());
       setSifre("");
       setMesaj("✅ Veri şifresi güncellendi.");
     } catch (h) {
@@ -190,7 +220,21 @@ function VeriSifresi() {
   return (
     <section className="kart">
       <h2>Veri şifresi</h2>
-      <p style={{ marginTop: 0 }}>GitHub'daki SITE_PASSWORD değiştiğinde yeni şifreyi buraya girin. Kaydetmeden önce şifrenin veri dosyasını açtığı doğrulanır.</p>
+      <div className="erisim-satir">
+        <div>
+          <div className="soluk">Kayıtlı veri şifresi (GitHub'daki SITE_PASSWORD ile aynı olmalı)</div>
+          <code className="gizli-deger">{kayitli == null ? "—" : goster ? kayitli : "•".repeat(Math.max(8, kayitli.length))}</code>
+        </div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button type="button" className="ikincil" disabled={!kayitli} onClick={() => setGoster(!goster)}>{goster ? "Gizle" : "Göster"}</button>
+          <button type="button" className="ikincil" disabled={!kayitli} onClick={kopyala}>{kopyalandi ? "Kopyalandı" : "Kopyala"}</button>
+        </div>
+      </div>
+      <p className="soluk" style={{ fontSize: 12 }}>
+        Bu şifre kullanıcılara gösterilmez; onaylı kullanıcılar giriş yaptığında uygulama tarafından otomatik kullanılır. Kullanıcı şifreleri ise Supabase'te
+        geri çevrilemez biçimde (bcrypt) saklandığı için kimse tarafından görüntülenemez; şifresini unutan kullanıcıya yukarıdaki listeden "Şifre sıfırla" ile bağlantı gönderin.
+      </p>
+      <p style={{ margin: "12px 0 8px" }}><b>Veri şifresini değiştir</b> — GitHub'daki SITE_PASSWORD değiştiğinde yeni şifreyi girin. Kaydetmeden önce şifrenin veri dosyasını açtığı doğrulanır.</p>
       <form onSubmit={kaydet} style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         <input type="password" required placeholder="Yeni veri şifresi" value={sifre} onChange={(e) => setSifre(e.target.value)} autoComplete="off" />
         <button type="submit" disabled={bekle}>{bekle ? "Doğrulanıyor…" : "Kaydet"}</button>
