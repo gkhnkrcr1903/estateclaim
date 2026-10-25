@@ -498,3 +498,15 @@ main a:not(.dugme-baglanti) { color: var(--vurgu); text-underline-offset: 2px; }
 @media (max-width: 600px) { .tanitim-baslik h1 { font-size: 26px !important; } .tanitim-baslik { padding: 32px 16px 28px !important; } }
 @media print { .rapor-turu, .baslik-dugmeleri button:not(.pdf-dugme), .paylasim-kutu { display: none !important; } .paylasim-sayfa > .rapor-ust, .paylasim-sayfa > .rapor-alt { border: none; padding: 0; } }
 .neden-kart h2 { padding-right: 44px !important; }
+
+/* Portföy */
+.dugme-baglanti.kucuk { height: 30px; padding: 0 12px; font-size: 13px; }
+select.durum-sec { height: 30px; font-size: 12.5px; font-weight: 600; border: none; }
+textarea { font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--cizgi); background: var(--kart); color: var(--yazi); width: 100%; resize: vertical; }
+textarea:focus { outline: none; border-color: var(--vurgu); box-shadow: 0 0 0 3px color-mix(in srgb, var(--vurgu) 18%, transparent); }
+.portfoy-kutu { border: 1px solid var(--cizgi); border-radius: 10px; padding: 12px 14px; background: var(--yuzey); }
+
+/* Ekspertiz talebi */
+.ekspertiz-firma { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 14px; border: 1px solid var(--cizgi); border-radius: 10px; background: var(--yuzey); }
+.ekspertiz-dugmeler { display: flex; gap: 8px; flex-wrap: wrap; }
+.talep-metni { white-space: pre-wrap; font: 12.5px/1.55 "Inter", system-ui, sans-serif; background: var(--yuzey); border: 1px solid var(--cizgi); border-radius: 8px; padding: 10px 12px; margin: 8px 0 0; color: var(--yazi); }

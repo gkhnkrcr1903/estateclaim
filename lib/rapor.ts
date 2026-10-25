@@ -11,9 +11,13 @@ export interface RaporKimligi {
   web: string;
   yetki_belge_no: string;
   logo: string | null; // data URL
+  // Danışmanın çalıştığı ekspertiz (SPK lisanslı değerleme) firması — supabase/portfoy.sql ile eklenen sütunlar
+  ekspertiz_firma: string;
+  ekspertiz_eposta: string;
+  ekspertiz_telefon: string;
 }
 
-export const BOS_KIMLIK: RaporKimligi = { ofis_adi: "", danisman_adi: "", unvan: "", telefon: "", eposta: "", adres: "", web: "", yetki_belge_no: "", logo: null };
+export const BOS_KIMLIK: RaporKimligi = { ofis_adi: "", danisman_adi: "", unvan: "", telefon: "", eposta: "", adres: "", web: "", yetki_belge_no: "", logo: null, ekspertiz_firma: "", ekspertiz_eposta: "", ekspertiz_telefon: "" };
 
 const OLAY = "rapor-kimligi-guncellendi";
 let onbellek: Promise<RaporKimligi | null> | null = null;
@@ -40,7 +44,12 @@ export async function raporKimligiKaydet(k: RaporKimligi) {
   const { data: o } = await supabase.auth.getSession();
   const id = o.session?.user.id;
   if (!id) throw new Error("Oturum bulunamadı");
-  const temiz = Object.fromEntries(Object.entries(k).map(([a, d]) => [a, typeof d === "string" ? d.trim() || null : d]));
+  // Ekspertiz sütunları boşsa gönderilmez (portfoy.sql henüz çalıştırılmamış kurulumlarda da kayıt yapılabilsin).
+  const temiz = Object.fromEntries(
+    Object.entries(k)
+      .map(([a, d]) => [a, typeof d === "string" ? d.trim() || null : d] as const)
+      .filter(([a, d]) => !(a.startsWith("ekspertiz_") && d == null)),
+  );
   const { error } = await supabase.from("rapor_kimlikleri").upsert({ id, ...temiz, guncelleme: new Date().toISOString() });
   if (error) throw error;
   onbellek = Promise.resolve(k);

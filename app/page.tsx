@@ -1,13 +1,15 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { iller as ilListesi } from "../lib/iller-meta";
 import { ilceKonumu, mahalleKonumu, mahalleler, kamuMu, KAMU_EDINIM, IMAR_FONKSIYONLARI, PROJE_TURLERI, TAPU_DURUMLARI, type Arsa, type ImarFonksiyonu, type TapuDurumu } from "../lib/arsa";
 import { degerlendir, bolgeTavsiyeleri, arsaKarari, TAVSIYE_GRUPLARI } from "../lib/puan";
 import { kontrolListesi } from "../lib/dogrulama";
-import { useProfil } from "../lib/oturum";
+import { useProfil, hataMetni } from "../lib/oturum";
 import { useIlMahalleleri } from "../lib/mahalle";
+import { portfoyGetir, portfoyKaydet, portfoyGuncelle, portfoySil, portfoyHatasi } from "../lib/portfoy";
+import EkspertizTalebi from "../components/EkspertizTalebi";
 import SayiKutusu from "../components/SayiKutusu";
 import { konutPiyasasi } from "../lib/konut";
 import MahalleEvFiyatlari from "../components/MahalleEvFiyatlari";
@@ -43,19 +45,109 @@ function ArsaSayfasi() {
   const [seciliId, setSeciliId] = useState<string>();
   const profil = useProfil();
   const anahtar = `${SAKLAMA}:${profil?.id ?? "anonim"}`;
+  // Arsalar portföy tablosunda (Supabase) tutulur; tablo kurulmamışsa eski yöntemle bu tarayıcıda saklanır.
+  const [yerel, setYerel] = useState(false);
+  const [arsaHatasi, setArsaHatasi] = useState("");
+  const bekleyenYazma = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
 
-  useEffect(() => {
+  const yerelOku = (): Arsa[] => {
     try {
-      setManuel(JSON.parse(localStorage.getItem(anahtar) ?? "[]"));
-    } catch {}
-  }, [anahtar]);
-  const manuelKaydet = (liste: Arsa[]) => {
-    setManuel(liste);
+      return JSON.parse(localStorage.getItem(anahtar) ?? "[]");
+    } catch {
+      return [];
+    }
+  };
+  const yerelYaz = (liste: Arsa[]) => {
     try {
       localStorage.setItem(anahtar, JSON.stringify(liste));
     } catch {}
   };
-  const arsaGuncelle = (id: string, degisim: Partial<Arsa>) => manuelKaydet(manuel.map((a) => (a.id === id ? { ...a, ...degisim } : a)));
+  const portfoyBasligi = (a: Arsa) => `Ada ${a.ada}/Parsel ${a.parsel} — ${a.mahalle || a.ilce}`;
+  const portfoyOzeti = (a: Arsa) => {
+    const k = arsaKarari(a);
+    return { tahmini: k.tahmini, karar: `${k.fiyatKarari} · ${k.gelecek}` };
+  };
+  const portfoyeYaz = (a: Arsa) =>
+    portfoyKaydet({ tur: "arsa", baslik: portfoyBasligi(a), il: a.il, ilce: a.ilce, mahalle: a.mahalle ?? null, fiyat: a.alan * a.fiyatM2, veri: a, ozet: portfoyOzeti(a) });
+
+  useEffect(() => {
+    if (!profil) return;
+    let iptal = false;
+    (async () => {
+      try {
+        // Bu tarayıcıda kalmış eski arsalar bir kereye mahsus portföye aktarılır.
+        const eski = yerelOku();
+        for (const a of eski) await portfoyeYaz(a);
+        if (eski.length) localStorage.removeItem(anahtar);
+        const kayitlar = await portfoyGetir("arsa");
+        if (iptal) return;
+        setManuel(kayitlar.map((k) => ({ ...(k.veri as Arsa), id: k.id })));
+        setYerel(false);
+        // Portföy sayfasından ?arsa=… ile gelindiyse o arsayı aç.
+        const hedef = new URLSearchParams(window.location.search).get("arsa");
+        const a = hedef && kayitlar.find((k) => k.id === hedef);
+        if (a) {
+          setIlKod(a.il);
+          setIlce(a.ilce ?? "");
+          setMahalle(a.mahalle ?? "");
+          setSeciliId(a.id);
+          setTimeout(() => document.getElementById("detay")?.scrollIntoView({ behavior: "smooth", block: "start" }), 300);
+        }
+      } catch (e) {
+        if (iptal) return;
+        const h = portfoyHatasi(e);
+        setYerel(true);
+        setManuel(yerelOku());
+        setArsaHatasi(h ? `${h} Arsalar şimdilik yalnızca bu tarayıcıda saklanıyor.` : hataMetni(e));
+      }
+    })();
+    return () => {
+      iptal = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [anahtar]);
+
+  const arsaEkle = async (a: Arsa) => {
+    if (yerel) {
+      const liste = [...manuel, a];
+      setManuel(liste);
+      yerelYaz(liste);
+      return setSeciliId(a.id);
+    }
+    try {
+      const k = await portfoyeYaz(a);
+      setManuel((l) => [...l, { ...a, id: k.id }]);
+      setSeciliId(k.id);
+    } catch (e) {
+      setArsaHatasi(hataMetni(e));
+    }
+  };
+  // Ekranda hemen güncellenir; veritabanına kısa bir bekleme sonrası yazılır (yazarken her tuşta istek gitmesin).
+  const arsaGuncelle = (id: string, degisim: Partial<Arsa>) => {
+    setManuel((l) => {
+      const liste = l.map((a) => (a.id === id ? { ...a, ...degisim } : a));
+      if (yerel) yerelYaz(liste);
+      else {
+        const a = liste.find((x) => x.id === id)!;
+        clearTimeout(bekleyenYazma.current[id]);
+        bekleyenYazma.current[id] = setTimeout(() => portfoyGuncelle(id, { veri: a, ozet: portfoyOzeti(a) }).catch((e) => setArsaHatasi(hataMetni(e))), 800);
+      }
+      return liste;
+    });
+  };
+  const arsaSil = async (id: string) => {
+    if (!yerel) {
+      try {
+        await portfoySil(id);
+      } catch (e) {
+        return setArsaHatasi(hataMetni(e));
+      }
+    }
+    const liste = manuel.filter((a) => a.id !== id);
+    setManuel(liste);
+    if (yerel) yerelYaz(liste);
+    setSeciliId(undefined);
+  };
 
   const il = iller.find((i) => i.kod === ilKod)!;
   useIlMahalleleri(ilKod); // mahalle listesi ve koordinatları il dosyasından
@@ -162,6 +254,7 @@ function ArsaSayfasi() {
         <MahalleEvFiyatlari ilKod={ilKod} ilce={ilce} mahalle={mahalle} yer={yer} />
 
         <div id="arsalarim" className="capa" />
+        {arsaHatasi && <div className="uyari" style={{ borderLeftColor: "var(--kirmizi)" }}>{arsaHatasi}</div>}
         <div className="izgara">
           <section className="kart">
             <Harita arsalar={arsalar} puanlar={puanlar} seciliId={seciliId} sec={setSeciliId} merkez={harita} />
@@ -211,7 +304,7 @@ function ArsaSayfasi() {
                 <p style={{ fontSize: 14 }}><b>Öneri:</b> {seciliD.oneri}</p>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                   <button className="ikincil" onClick={() => setSeciliId(undefined)}>← Listeye dön</button>
-                  <button className="ikincil" onClick={() => { if (confirm("Bu arsa kaydı silinsin mi?")) { manuelKaydet(manuel.filter((a) => a.id !== secili.id)); setSeciliId(undefined); } }}>Kaydı sil</button>
+                  <button className="ikincil" onClick={() => { if (confirm("Bu arsa kaydı silinsin mi?")) arsaSil(secili.id); }}>Kaydı sil</button>
                 </div>
               </>
             ) : (
@@ -220,7 +313,7 @@ function ArsaSayfasi() {
                 {arsalar.length === 0 ? (
                   <div className="bos-durum">
                     <p><b>{yer} için kayıtlı arsanız yok.</b></p>
-                    <p className="soluk">Değerlendirmek istediğiniz arsanın ada/parsel, alan, imar ve fiyat bilgisini aşağıdaki formdan girin. Kayıtlar yalnızca bu tarayıcıda, sizin hesabınıza özel saklanır.</p>
+                    <p className="soluk">Değerlendirmek istediğiniz arsanın ada/parsel, alan, imar ve fiyat bilgisini aşağıdaki formdan girin. Kayıtlar portföyünüze kaydedilir; tüm cihazlarınızda görünür.</p>
                     <a className="dugme-baglanti" href="#arsa-ekle">Arsa ekle ↓</a>
                   </div>
                 ) : (
@@ -248,6 +341,16 @@ function ArsaSayfasi() {
           </section>
         </div>
 
+        {secili && (
+          <EkspertizTalebi
+            tur="Arsa"
+            konum={[secili.mahalle, secili.ilce, il.ad].filter(Boolean).join(", ")}
+            adaParsel={`${secili.ada} / ${secili.parsel}`}
+            ozellikler={[`Alan: ${secili.alan.toLocaleString("tr-TR")} m²`, `İmar: ${secili.imar}, emsal ${secili.emsal.toLocaleString("tr-TR")}`, `Tapu: ${secili.tapu ?? "Belirtilmedi"}${secili.hisseli ? ", hisseli" : ""}`, `İstenen fiyat: ${(secili.alan * secili.fiyatM2).toLocaleString("tr-TR")} ₺`]}
+            tahmini={arsaKarari(secili).tahmini}
+          />
+        )}
+
         <section className="kart" id="tavsiyeler">
           <h2>İlerisi için tavsiyeler — {yer}</h2>
           {TAVSIYE_GRUPLARI.map((grup) => {
@@ -262,7 +365,7 @@ function ArsaSayfasi() {
           })}
         </section>
 
-        <ArsaEkle ilKod={ilKod} ilceler={il.ilceler} varsayilanIlce={ilce} varsayilanMahalle={mahalle} ekle={(a) => { manuelKaydet([...manuel, a]); setSeciliId(a.id); }} />
+        <ArsaEkle ilKod={ilKod} ilceler={il.ilceler} varsayilanIlce={ilce} varsayilanMahalle={mahalle} ekle={arsaEkle} />
       </main>
     </>
   );
@@ -308,7 +411,7 @@ function ArsaEkle({ ilKod, ilceler, varsayilanIlce, varsayilanMahalle, ekle }: {
       <h2>Arsa ekle — bu arsa ne kadar eder?</h2>
       <p className="soluk" style={{ marginTop: 0 }}>
         Bilgileri ilan veya tapudan değil, resmi kaynaktan girin: ada/parsel ve alanı <a href="https://parselsorgu.tkgm.gov.tr/" target="_blank" rel="noreferrer">TKGM Parsel Sorgu</a>'dan,
-        imar ve emsali belediyenin imar durum belgesinden. Kayıtlar yalnızca bu tarayıcıda, hesabınıza özel saklanır.
+        imar ve emsali belediyenin imar durum belgesinden. Kayıt portföyünüze eklenir.
       </p>
       <form className="form" onSubmit={gonder}>
         <label>İlçe<select value={ilce} onChange={(e) => setF({ ...f, ilce: e.target.value, mahalle: "" })}>{ilceler.map((x) => <option key={x}>{x}</option>)}</select></label>

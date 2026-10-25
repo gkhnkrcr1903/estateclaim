@@ -7,6 +7,7 @@ import { kaynaklar, type KaynakTuru } from "../../components/VeriGuncelligi";
 // Onaylı her kullanıcı görebilir.
 const TURLER: { tur: KaynakTuru; baslik: string; aciklama: string }[] = [
   { tur: "Resmî", baslik: "Resmî kaynaklar", aciklama: "Kamu kurumlarının yayımladığı veriler." },
+  { tur: "Mevzuat", baslik: "Mevzuat ve resmî bağlantılar", aciklama: "Tavsiyelerde kullanılan yasal oranlar ve kurallar; doğrulama için yönlendirilen resmî sorgu ekranları." },
   { tur: "Açık veri", baslik: "Açık veri", aciklama: "Açık lisanslı topluluk verileri; eksik kayıt olabilir." },
   { tur: "Tahmin", baslik: "Tahminler ve varsayımlar", aciklama: "Resmî verilerden kural tabanlı türetilen değerler; kesin değildir." },
   { tur: "Kullanıcı", baslik: "Kullanıcı verisi", aciklama: "Kullanıcının girdiği bilgiler; resmî kaynaktan doğrulanmalıdır." },
@@ -77,6 +78,7 @@ export default function Sayfa() {
                         <td className="soluk">{k.nasil}</td>
                         <td>
                           {tur === "Tahmin" ? <span className="rozet r-Orta">Tahmin</span>
+                            : tur === "Mevzuat" ? <span className="rozet f-Düşük">Mevzuat</span>
                             : tur === "Kullanıcı" ? <span className="rozet f-Orta">Kullanıcı</span>
                             : k.eski ? <span className="rozet p-dusuk">Eski</span> : <span className="rozet p-yuksek">Güncel</span>}
                         </td>

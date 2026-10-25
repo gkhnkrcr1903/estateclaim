@@ -6,7 +6,7 @@ import { YAPI_MALIYET_YILI, DASK } from "../lib/ev";
 // Uygulamanın kullandığı tüm veri kaynakları, türleri, dönemleri ve güncellik durumu.
 // /kaynaklar sayfasında gösterilir; dönemler veri dosyasından ve koddaki sabitlerden okunur.
 
-export type KaynakTuru = "Resmî" | "Açık veri" | "Tahmin" | "Kullanıcı";
+export type KaynakTuru = "Resmî" | "Mevzuat" | "Açık veri" | "Tahmin" | "Kullanıcı";
 
 export interface Kaynak {
   ad: string;
@@ -125,6 +125,60 @@ export function kaynaklar(v: Veri, bugun = new Date()): Kaynak[] {
       eski: false,
       linkler: [{ ad: "OpenStreetMap (ODbL)", url: "https://www.openstreetmap.org/copyright" }],
     },
+    // Tavsiyelerde ve doğrulama listesinde kullanılan mevzuat kuralları ve resmî sorgu ekranları
+    {
+      ad: "Tapu harcı",
+      tur: "Mevzuat",
+      kullanim: "Alım masrafı tavsiyeleri: alıcı ve satıcı için ayrı ayrı %2 (492 sayılı Harçlar Kanunu)",
+      donem: "Yürürlükte",
+      nasil: "Oran değişirse kodda (lib/ev.ts, lib/puan.ts)",
+      eski: false,
+      linkler: [{ ad: "Mevzuat Bilgi Sistemi", url: "https://www.mevzuat.gov.tr/" }, { ad: "GİB", url: "https://www.gib.gov.tr/" }],
+    },
+    {
+      ad: "Emlak vergisi ve değer artış kazancı",
+      tur: "Mevzuat",
+      kullanim: "Konut binde 1 / büyükşehirde binde 2; arsa binde 3 / binde 6 (1319 s. Kanun); 5 yıl dolmadan satışta değer artış kazancı vergisi (GVK)",
+      donem: "Yürürlükte",
+      nasil: "Oran değişirse kodda",
+      eski: false,
+      linkler: [{ ad: "Mevzuat Bilgi Sistemi", url: "https://www.mevzuat.gov.tr/" }, { ad: "GİB", url: "https://www.gib.gov.tr/" }],
+    },
+    {
+      ad: "Tarım arazisi ve hisseli tapu kuralları",
+      tur: "Mevzuat",
+      kullanim: "5403 sayılı Toprak Koruma ve Arazi Kullanımı Kanunu (bölünme, hisseli satış); Türk Medeni Kanunu önalım (şufa) hakkı süreleri",
+      donem: "Yürürlükte",
+      nasil: "Kodda (lib/puan.ts, lib/dogrulama.ts)",
+      eski: false,
+      linkler: [{ ad: "Mevzuat Bilgi Sistemi", url: "https://www.mevzuat.gov.tr/" }],
+    },
+    {
+      ad: "Parsel, imar ve afet sorguları",
+      tur: "Mevzuat",
+      kullanim: "Arsa doğrulama listesi ve tavsiyelerdeki resmî sorgu ekranları (uygulama bu verileri çekmez, bağlantı verir)",
+      donem: "—",
+      nasil: "Kullanıcı resmî ekrandan sorgular",
+      eski: false,
+      linkler: [
+        { ad: "TKGM Parsel Sorgu", url: "https://parselsorgu.tkgm.gov.tr/" },
+        { ad: "AFAD Deprem Tehlike Haritası", url: "https://www.turkiye.gov.tr/afad-deprem-tehlike-haritasi" },
+        { ad: "MTA Yerbilimleri (diri fay)", url: "https://yerbilimleri.mta.gov.tr/" },
+      ],
+    },
+    {
+      ad: "Kamu arsası ihaleleri ve ekspertiz kuruluşları",
+      tur: "Mevzuat",
+      kullanim: "Milli Emlak satış ilanları; SPK lisanslı gayrimenkul değerleme kuruluşları (ekspertiz yönlendirmesi)",
+      donem: "—",
+      nasil: "Bağlantı; liste kurumun sitesinde güncellenir",
+      eski: false,
+      linkler: [
+        { ad: "Milli Emlak satış ilanları", url: "https://www.milliemlak.gov.tr/#/satis" },
+        { ad: "SPK değerleme kuruluşları", url: "https://spk.gov.tr/kurumlar/gayrimenkul-degerleme-kuruluslari" },
+        { ad: "DASK prim hesaplama", url: "https://www.dask.gov.tr/tr/police-prim-ve-bedeli-hesaplama" },
+      ],
+    },
     {
       ad: "İlçe fiyat kademeleri",
       tur: "Tahmin",
@@ -145,6 +199,14 @@ export function kaynaklar(v: Veri, bugun = new Date()): Kaynak[] {
       ad: "Arsa bilgileri (ada/parsel, imar, fiyat, ekspertiz)",
       tur: "Kullanıcı",
       kullanim: "Arsalarım; resmî doğrulama listesiyle kontrol edilmelidir",
+      donem: "—",
+      nasil: "Kullanıcı girer",
+      eski: false,
+    },
+    {
+      ad: "Ev özellikleri, portföy ve müşteri kayıtları",
+      tur: "Kullanıcı",
+      kullanim: "Ev Analiz formu, portföy kayıtları, müşteri bilgileri, rapor kimliği ve ekspertiz firması; yalnızca danışmanın kendi hesabında",
       donem: "—",
       nasil: "Kullanıcı girer",
       eski: false,

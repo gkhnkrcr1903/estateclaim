@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { iller as ilListesi } from "../../lib/iller-meta";
 import { mahalleler } from "../../lib/arsa";
@@ -9,6 +10,8 @@ import { paylasimOlustur } from "../../lib/paylasim";
 import { raporBasligiAyarla } from "../../lib/rapor";
 import { useProfil, hataMetni } from "../../lib/oturum";
 import { useIlMahalleleri } from "../../lib/mahalle";
+import { portfoyKaydiGetir, portfoyKaydet, musterileriGetir, portfoyHatasi, PORTFOY_DURUMLARI, type Musteri, type PortfoyDurumu } from "../../lib/portfoy";
+import EkspertizTalebi from "../../components/EkspertizTalebi";
 import { AliciSonuc, SaticiSonuc, Yontemler, AliciTavsiyeler, Etkenler } from "../../components/EvRaporBolumleri";
 import PdfKaydet from "../../components/PdfKaydet";
 import Yetki from "../../components/Yetki";
@@ -83,6 +86,22 @@ function EvSayfasi() {
     } catch {}
   };
 
+  // Portföy: ?kayit=… ile açılan kayıtlı ev forma yüklenir; "Portföye kaydet" yeni kayıt açar veya kaydı günceller.
+  const [kayit, setKayit] = useState<{ id: string; baslik: string; musteri_id: string | null; durum: PortfoyDurumu } | null>(null);
+  const [kayitPaneli, setKayitPaneli] = useState(false);
+  const [kayitMesaji, setKayitMesaji] = useState("");
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("kayit");
+    if (!id) return;
+    portfoyKaydiGetir(id)
+      .then((k) => {
+        if (!k || k.tur !== "ev") return setKayitMesaji("Portföy kaydı bulunamadı.");
+        setE(k.veri as EvBilgisi);
+        setKayit({ id: k.id, baslik: k.baslik, musteri_id: k.musteri_id, durum: k.durum });
+      })
+      .catch((h) => setKayitMesaji(portfoyHatasi(h) ?? hataMetni(h)));
+  }, []);
+
   const sayi = (k: keyof EvBilgisi, ad: string, ek: Record<string, number | string> = {}) => (
     <label>{ad}<SayiKutusu min={0} {...ek} deger={(e[k] as number) ?? 0} degistir={(n) => g(k, n as never)} /></label>
   );
@@ -107,11 +126,30 @@ function EvSayfasi() {
           </div>
         </div>
         <div className="baslik-dugmeleri">
+          {s && <button type="button" className="pdf-dugme yazdirma" onClick={() => setKayitPaneli(!kayitPaneli)}>{kayit ? "Kaydı güncelle" : "Portföye kaydet"}</button>}
           {s && <button type="button" className="pdf-dugme yazdirma" onClick={paylas} disabled={paylasim.bekle}>{paylasim.bekle ? "Hazırlanıyor…" : "Paylaşılabilir bağlantı"}</button>}
           <PdfKaydet dosyaAdi={`${satici ? "Satıcı Fiyatlandırma" : "Ev Değerleme"} - ${[e.mahalle, e.ilce, il.ad].filter(Boolean).join(", ")}`} />
         </div>
       </header>
       <main>
+        {kayit && !kayitPaneli && <div className="paylasim-kutu yazdirma">Portföy kaydı açık: <b>{kayit.baslik}</b> · {kayit.durum}. Değişikliklerden sonra "Kaydı güncelle" ile kaydedin. <Link href="/portfoy">Portföye dön</Link></div>}
+        {kayitMesaji && <div className="paylasim-kutu yazdirma">{kayitMesaji}</div>}
+        {kayitPaneli && s && (
+          <PortfoyeKaydet
+            kayit={kayit}
+            varsayilanBaslik={`${e.odaSayisi} · ${e.netM2} m² — ${[e.mahalle, e.ilce].filter(Boolean).join(", ")}`}
+            kaydet={async (baslik, musteri_id, durum) => {
+              const k = await portfoyKaydet({
+                id: kayit?.id, tur: "ev", baslik, il: e.il, ilce: e.ilce, mahalle: e.mahalle || null, fiyat: e.istenenFiyat,
+                veri: e, ozet: { tahmini: s.tahmini, karar: satici && f ? `Satıcı: ${f.konum}` : s.karar }, musteri_id, durum,
+              });
+              setKayit({ id: k.id, baslik: k.baslik, musteri_id: k.musteri_id, durum: k.durum });
+              setKayitPaneli(false);
+              setKayitMesaji(`"${k.baslik}" portföye kaydedildi.`);
+            }}
+            kapat={() => setKayitPaneli(false)}
+          />
+        )}
         {(paylasim.url || paylasim.hata) && (
           <div className="paylasim-kutu yazdirma">
             {paylasim.hata ? <span className="eksi">{paylasim.hata}</span> : (
@@ -205,9 +243,60 @@ function EvSayfasi() {
                 <YakinYerler il={e.il} ilce={e.ilce} mahalle={e.mahalle || undefined} />
               </Etkenler>
             </div>
+            <EkspertizTalebi
+              tur="Konut"
+              konum={[e.mahalle, e.ilce, il.ad].filter(Boolean).join(", ")}
+              ozellikler={[`${e.netM2} m² net, ${e.odaSayisi}`, `${e.kat}, ${e.toplamKat} katlı bina, ${e.binaYasi} yaşında`, `Tapu: ${e.tapu}${e.iskan === false ? ", iskânsız" : ""}`, `${satici ? "Satıcının beklediği" : "İstenen"} fiyat: ${e.istenenFiyat.toLocaleString("tr-TR")} ₺`]}
+              tahmini={s.tahmini}
+            />
           </>
         )}
       </main>
     </>
+  );
+}
+
+// Portföye kaydetme paneli: başlık, müşteri ve durum.
+function PortfoyeKaydet({ kayit, varsayilanBaslik, kaydet, kapat }: {
+  kayit: { baslik: string; musteri_id: string | null; durum: PortfoyDurumu } | null;
+  varsayilanBaslik: string;
+  kaydet: (baslik: string, musteri_id: string | null, durum: PortfoyDurumu) => Promise<void>;
+  kapat: () => void;
+}) {
+  const [baslik, setBaslik] = useState(kayit?.baslik ?? varsayilanBaslik);
+  const [musteri, setMusteri] = useState(kayit?.musteri_id ?? "");
+  const [durum, setDurum] = useState<PortfoyDurumu>(kayit?.durum ?? "Aktif");
+  const [musteriler, setMusteriler] = useState<Musteri[]>([]);
+  const [hata, setHata] = useState("");
+  const [bekle, setBekle] = useState(false);
+  useEffect(() => {
+    musterileriGetir().then(setMusteriler).catch((h) => setHata(portfoyHatasi(h) ?? hataMetni(h)));
+  }, []);
+  const gonder = async (ev: React.FormEvent) => {
+    ev.preventDefault();
+    setBekle(true);
+    setHata("");
+    try {
+      await kaydet(baslik.trim(), musteri || null, durum);
+    } catch (h) {
+      setHata(portfoyHatasi(h) ?? hataMetni(h));
+    }
+    setBekle(false);
+  };
+  return (
+    <form className="paylasim-kutu yazdirma" onSubmit={gonder}>
+      <b>{kayit ? "Portföy kaydını güncelle" : "Portföye kaydet"}</b>
+      <div className="form" style={{ marginTop: 8 }}>
+        <label style={{ gridColumn: "span 2" }}>Başlık<input required maxLength={160} value={baslik} onChange={(x) => setBaslik(x.target.value)} /></label>
+        <label>Müşteri<select value={musteri} onChange={(x) => setMusteri(x.target.value)}><option value="">— Bağlama —</option>{musteriler.map((m) => <option key={m.id} value={m.id}>{m.ad} ({m.tur})</option>)}</select></label>
+        <label>Durum<select value={durum} onChange={(x) => setDurum(x.target.value as PortfoyDurumu)}>{PORTFOY_DURUMLARI.map((d) => <option key={d}>{d}</option>)}</select></label>
+      </div>
+      {hata && <p className="eksi" style={{ margin: "8px 0 0" }}>{hata}</p>}
+      <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
+        <button type="submit" disabled={bekle}>{bekle ? "Kaydediliyor…" : kayit ? "Güncelle" : "Kaydet"}</button>
+        <button type="button" className="ikincil" onClick={kapat}>Vazgeç</button>
+        <Link href="/portfoy" className="kucuk-baglanti" style={{ alignSelf: "center" }}>Müşteri eklemek için Portföy sayfası</Link>
+      </div>
+    </form>
   );
 }

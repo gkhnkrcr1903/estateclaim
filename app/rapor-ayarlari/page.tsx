@@ -17,6 +17,12 @@ const ALANLAR: { a: Exclude<keyof RaporKimligi, "logo">; ad: string; ipucu?: str
   { a: "yetki_belge_no", ad: "Yetki belgesi no", ipucu: "Taşınmaz ticareti yetki belgesi" },
   { a: "adres", ad: "Adres" },
 ];
+// Çalışılan ekspertiz firması: Ev/Arsa sayfalarındaki ekspertiz talebi bu firmaya gönderilir.
+const EKSPERTIZ: typeof ALANLAR = [
+  { a: "ekspertiz_firma", ad: "Ekspertiz firması", ipucu: "SPK lisanslı değerleme kuruluşu" },
+  { a: "ekspertiz_eposta", ad: "Firma e-postası", tur: "email" },
+  { a: "ekspertiz_telefon", ad: "Firma telefonu (WhatsApp)", tur: "tel" },
+];
 
 export default function Sayfa() {
   const profil = useProfil();
@@ -94,6 +100,18 @@ export default function Sayfa() {
                       <input type={tur ?? "text"} value={k[a]} placeholder={ipucu} maxLength={a === "adres" ? 200 : 100} onChange={(e) => setK({ ...k, [a]: e.target.value })} />
                     </label>
                   ))}
+                </div>
+                <div>
+                  <h3 style={{ margin: "4px 0 8px" }}>Çalıştığınız ekspertiz firması</h3>
+                  <div className="form">
+                    {EKSPERTIZ.map(({ a, ad, ipucu, tur }) => (
+                      <label key={a}>
+                        {ad}
+                        <input type={tur ?? "text"} value={k[a]} placeholder={ipucu} maxLength={100} onChange={(e) => setK({ ...k, [a]: e.target.value })} />
+                      </label>
+                    ))}
+                  </div>
+                  <p className="soluk" style={{ fontSize: 12, margin: "6px 0 0" }}>Ev ve arsa analizlerindeki "SPK lisanslı ekspertiz" bölümünden bu firmaya hazır talep metni gönderebilirsiniz.</p>
                 </div>
                 <div><button type="submit" disabled={bekle}>{bekle ? "Kaydediliyor…" : "Kaydet"}</button></div>
               </form>

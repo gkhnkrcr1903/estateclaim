@@ -48,6 +48,7 @@ export default function Menu() {
       <div className="menu-baglanti">
         {p?.arsa && <Link href="/" className={aktif("/") ? "aktif" : ""}>Arsa Analizi</Link>}
         {p?.ev && <Link href="/ev" className={aktif("/ev") ? "aktif" : ""}>Ev Analiz</Link>}
+        {(p?.ev || p?.arsa) && <Link href="/portfoy" className={aktif("/portfoy") ? "aktif" : ""}>Portföy</Link>}
         {p?.aktif && <Link href="/kaynaklar" className={aktif("/kaynaklar") ? "aktif" : ""}>Kaynaklar</Link>}
         {p?.admin && <Link href="/admin" className={aktif("/admin") ? "aktif" : ""}>Yönetim</Link>}
       </div>
