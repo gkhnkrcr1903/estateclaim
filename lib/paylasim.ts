@@ -38,7 +38,10 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 export const paylasimAdresi = (id: string) => `${window.location.origin}${BASE}/paylasim/?id=${id}`;
 
 export async function paylasimOlustur(tur: PaylasimTuru, baslik: string, veri: Omit<PaylasimVerisi, "kimlik">): Promise<string> {
-  const kimlik = await raporKimligiGetir().catch(() => null);
+  // Logo kopyalanmaz (yer tasarrufu); bağlantı açılırken sunucu, danışmanın güncel logosunu ekler.
+  const k = await raporKimligiGetir().catch(() => null);
+  // Çalışılan ekspertiz firması danışmana özeldir; herkese açık paylaşıma konmaz.
+  const kimlik = k ? { ...k, logo: null, ekspertiz_firma: "", ekspertiz_eposta: "", ekspertiz_telefon: "" } : null;
   const { data, error } = await supabase.from("paylasimlar").insert({ tur, baslik, veri: { ...veri, kimlik } }).select("id").single();
   if (error) throw error;
   return paylasimAdresi(data.id);
