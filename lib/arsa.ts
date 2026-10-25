@@ -1,5 +1,6 @@
 import { ilMeta, ortalamaArsaM2 } from "./iller-meta";
 import { bolgeCarpani } from "./konut";
+import { mahalleListesi, mahalleKoordinati } from "./mahalle";
 
 export type ImarFonksiyonu = "Konut" | "Ticaret" | "Konut+Ticaret" | "Sanayi" | "Turizm" | "Tarla (imarsız)" | "Koruma alanı";
 
@@ -52,13 +53,14 @@ export function ilceKonumu(ilKod: string, ilce: string) {
 }
 
 export function mahalleKonumu(ilKod: string, ilce: string, mahalle: string) {
-  const k = ilMeta(ilKod).mahalleKonum?.[ilce]?.[mahalle];
+  // Mahalle koordinatları il dosyasından gelir (lib/mahalle.ts); dosya inmemişse ilçe noktası kullanılır.
+  const k = mahalleKoordinati(ilKod, ilce, mahalle);
   if (k) return { lat: k[0], lng: k[1], yaklasik: false };
   return { ...ilceKonumu(ilKod, ilce), yaklasik: true };
 }
 
 export function mahalleler(ilKod: string, ilce: string): string[] {
-  return ilMeta(ilKod).mahalleler[ilce] ?? [];
+  return mahalleListesi(ilKod, ilce);
 }
 
 // Konum ve imara göre tahmini piyasa m² değeri (rastgele sapma içermez).

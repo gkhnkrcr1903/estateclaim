@@ -121,3 +121,4 @@ Malik adı KVKK gereği hiçbir zaman gösterilmez. Türkiye'de "sahipsiz arsa" 
 - **Wikidata "Merkez" kayıtları** başka illere karışıyor; Merkez ilçe için il merkezi koordinatı kullanılır. Wikidata sorguları 429/502 verebilir, betik yeniden dener.
 - **Overpass sunucuları** sık sık 502/504/429 verir; `yakin-yerler-cek.mjs` sunucuları sırayla ve beklemeli dener. Sınıflama kuralları (ASM, poliklinik, kurs vb. eleme) betikte; OSM adlarındaki yazım hataları için kökler kısaltılmış.
 - Ayrıntılı işletim/yayın rehberi yerelde `UYGULAMA-REHBERI.md` (git dışı, herkese açık depoya konmaz).
+- **Giriş hızı (2026-10-25):** mahalle listeleri ve koordinatları şifreli pakette değil, `public/mahalle/{il}.json` (her yayında `veri-olustur.mjs` üretir, git dışı); `lib/mahalle.ts` seçili ili indirir. Şifreli paket 1,1 MB → 85 KB. `veri.enc.json` ETag ile önbelleğe alınır (`cache: no-cache`) ve sayfa açılırken paralel indirilir; oturum `getSession` ile tarayıcıdan okunur.

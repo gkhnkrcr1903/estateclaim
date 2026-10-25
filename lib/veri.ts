@@ -4,11 +4,10 @@ export interface IlVerisi {
   kod: string;
   ad: string;
   ilceler: string[];
-  mahalleler: Record<string, string[]>; // ilçe → mahalle listesi
+  mahalleSayisi: number; // mahalle listesi ayrı dosyadadır (lib/mahalle.ts)
   lat: number;
   lng: number;
   ilceKonum?: Record<string, [number, number]>; // Wikidata; eksik ilçe olabilir
-  mahalleKonum?: Record<string, Record<string, [number, number]>>; // ilçe → mahalle → konum; kapsam kısmi
   ilceNufusSeri?: Record<string, Partial<Record<2015 | 2020 | 2024 | 2025, number>>>; // TÜİK ADNKS
   nufus: number;
   buyume: number; // yıllık ortalama nüfus artışı, binde
@@ -84,11 +83,23 @@ interface Sifreli {
   data: string;
 }
 
-async function indir(): Promise<Sifreli> {
-  const r = await fetch(`${BASE}/veri.enc.json?t=${Date.now()}`, { cache: "no-store" });
-  if (!r.ok) throw new Error("Veri dosyası indirilemedi");
-  return r.json();
+// Veri dosyası tarayıcı önbelleğinde tutulur; her seferinde sunucuya "değişti mi?" diye sorulur (ETag), değişmediyse
+// yeniden indirilmez. İndirme, giriş ve profil istekleriyle aynı anda başlasın diye sayfa açılırken tetiklenir.
+let indirme: Promise<Sifreli> | null = null;
+export function veriOnYukle(zorla = false): Promise<Sifreli> {
+  if (!indirme || zorla)
+    indirme = fetch(`${BASE}/veri.enc.json`, { cache: "no-cache" })
+      .then((r) => {
+        if (!r.ok) throw new Error("Veri dosyası indirilemedi");
+        return r.json() as Promise<Sifreli>;
+      })
+      .catch((h) => {
+        indirme = null;
+        throw h;
+      });
+  return indirme;
 }
+const indir = () => veriOnYukle();
 
 async function anahtarTuret(sifre: string, s: Sifreli) {
   const temel = await crypto.subtle.importKey("raw", new TextEncoder().encode(sifre), "PBKDF2", false, ["deriveKey"]);

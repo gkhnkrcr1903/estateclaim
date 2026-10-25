@@ -67,7 +67,7 @@ export function ilOzeti(ilKod: string): IlOzeti {
     brutGetiri: Math.round(((il.kiraM2 * 12) / il.satisM2) * 1000) / 10,
     arsaM2: tahminiArsaM2(ilKod, "Konut", 5),
     ilceSayisi: il.ilceler.length,
-    mahalleSayisi: Object.values(il.mahalleler).reduce((t, m) => t + m.length, 0),
+    mahalleSayisi: il.mahalleSayisi,
     enPahaliIlce: ilceFiyatlari[0],
     enUygunIlce: ilceFiyatlari[ilceFiyatlari.length - 1],
   };

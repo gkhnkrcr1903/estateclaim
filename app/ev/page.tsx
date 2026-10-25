@@ -8,6 +8,7 @@ import { saticiFiyatlandirma } from "../../lib/satici";
 import { paylasimOlustur } from "../../lib/paylasim";
 import { raporBasligiAyarla } from "../../lib/rapor";
 import { useProfil, hataMetni } from "../../lib/oturum";
+import { useIlMahalleleri } from "../../lib/mahalle";
 import { AliciSonuc, SaticiSonuc, Yontemler, AliciTavsiyeler, Etkenler } from "../../components/EvRaporBolumleri";
 import PdfKaydet from "../../components/PdfKaydet";
 import Yetki from "../../components/Yetki";
@@ -48,6 +49,7 @@ function EvSayfasi() {
   });
   const g = <K extends keyof EvBilgisi>(k: K, v: EvBilgisi[K]) => setE({ ...e, [k]: v });
   const il = iller.find((i) => i.kod === e.il)!;
+  useIlMahalleleri(e.il); // mahalle listesi ve koordinatları il dosyasından
   const s = useMemo(() => (e.netM2 > 0 && e.istenenFiyat > 0 ? evDegerle(e) : null), [e]);
   // Rapor türü: alıcıya "alınır mı?" analizi veya satıcıya fiyatlandırma raporu.
   const [tur, setTur] = useState<"alici" | "satici">("alici");

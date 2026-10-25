@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { girisYap, yenidenYukle, cikisYap, SifreHatasi, type Veri } from "../lib/veri";
+import { girisYap, yenidenYukle, cikisYap, veriOnYukle, SifreHatasi, type Veri } from "../lib/veri";
 import { supabase, profilGetir, veriSifresiGetir, veriSifresiKaydet, girisKaydet, hataMetni, ProfilBaglami, type Profil } from "../lib/oturum";
 import { Logo } from "./Menu";
 import { RaporUst, RaporAlt } from "./RaporBasligi";
@@ -49,7 +49,8 @@ export default function Giris({ children }: { children: React.ReactNode }) {
   const hazirla = useCallback(async () => {
     setHataMsj("");
     try {
-      const p = await profilGetir();
+      // Profil ve veri şifresi aynı anda istenir (şifreyi yalnızca aktif kullanıcı okuyabilir; değilse boş gelir).
+      const [p, kayitliSifre] = await Promise.all([profilGetir(), veriSifresiGetir().catch(() => null)]);
       setProfil(p);
       if (!p) return setDurum("giris");
       if (!p.aktif) return setDurum("bekliyor");
@@ -59,7 +60,7 @@ export default function Giris({ children }: { children: React.ReactNode }) {
         setV(onceki);
         return setDurum("hazir");
       }
-      const sifre = await veriSifresiGetir();
+      const sifre = kayitliSifre;
       if (!sifre) return setDurum("sifre-yok");
       setV(await girisYap(sifre));
       setDurum("hazir");
@@ -70,6 +71,8 @@ export default function Giris({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
+    // Veri dosyasını hemen indirmeye başla; giriş ve profil istekleriyle paralel insin.
+    if (!window.location.pathname.includes("/paylasim")) veriOnYukle().catch(() => {});
     hazirla();
     const { data } = supabase.auth.onAuthStateChange((olay) => {
       if (olay === "SIGNED_OUT") {
@@ -96,6 +99,7 @@ export default function Giris({ children }: { children: React.ReactNode }) {
 
   const guncelle = async () => {
     setBekle(true);
+    await veriOnYukle(true).catch(() => {}); // sunucudaki en son dosyayı iste
     const once = v?.guncelleme;
     const yeni = await yenidenYukle();
     setBekle(false);

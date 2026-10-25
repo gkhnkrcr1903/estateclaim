@@ -1,5 +1,5 @@
 // Kaynak dosyalardan (TÜİK, TCMB, il/ilçe listesi) uygulamanın kullandığı data/veri.json'u üretir.
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 
 const oku = (p) => readFileSync(new URL(`../data/${p}`, import.meta.url), "utf8");
 const csv = (p) => oku(p).trim().split(/\r?\n/).slice(1).map((l) => l.split(","));
@@ -31,18 +31,26 @@ function profilAl(il) {
   return { ...ozet, egitimYili: egitim.iller[il.kod] ?? null, ilceNufus: ilceler };
 }
 
+const MAHALLE_KLASORU = new URL("../public/mahalle/", import.meta.url);
+mkdirSync(MAHALLE_KLASORU, { recursive: true });
+const mahalleDosyasi = (kod, icerik) => writeFileSync(new URL(`${kod}.json`, MAHALLE_KLASORU), JSON.stringify(icerik));
+
 const sonuc = iller.map((il) => {
   const yeni = n2025[il.ad.toLocaleLowerCase("tr")];
   const eski = n2021[il.kod];
   if (!yeni || !eski) throw new Error("Nüfus verisi eksik: " + il.ad);
   const resmi = tcmb.satisM2[il.kod];
   const satisM2 = resmi ?? Math.round((tcmb.satisM2.TR * carpan(il.kod)) / 100) * 100;
+  // Mahalle listesi ve koordinatları herkese açık veridir (PTT, Wikidata) ve paketin büyük kısmını oluşturur:
+  // şifreli pakete girmez, il başına ayrı dosyaya yazılır (public/mahalle/{il}.json) ve gerektiğinde indirilir.
+  const { mahalleler, ...ilBilgisi } = il;
+  mahalleDosyasi(il.kod, { m: mahalleler, k: mahKoord.mahalleler[il.kod] ?? {} });
   return {
-    ...il,
+    ...ilBilgisi,
+    mahalleSayisi: Object.values(mahalleler).reduce((t, x) => t + x.length, 0),
     lat: koordinat[il.kod][0],
     lng: koordinat[il.kod][1],
     ilceKonum: ilceKoord.ilceler[il.kod] ?? {},
-    mahalleKonum: mahKoord.mahalleler[il.kod] ?? {},
     ilceNufusSeri: ilceNufus.iller[il.kod] ?? {},
     nufus: yeni,
     buyume: Math.round((Math.pow(yeni / eski, 1 / 4) - 1) * 10000) / 10, // binde, yıllık ortalama

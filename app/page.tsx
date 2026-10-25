@@ -7,6 +7,7 @@ import { ilceKonumu, mahalleKonumu, mahalleler, kamuMu, KAMU_EDINIM, IMAR_FONKSI
 import { degerlendir, bolgeTavsiyeleri, arsaKarari, TAVSIYE_GRUPLARI } from "../lib/puan";
 import { kontrolListesi } from "../lib/dogrulama";
 import { useProfil } from "../lib/oturum";
+import { useIlMahalleleri } from "../lib/mahalle";
 import SayiKutusu from "../components/SayiKutusu";
 import { konutPiyasasi } from "../lib/konut";
 import MahalleEvFiyatlari from "../components/MahalleEvFiyatlari";
@@ -57,6 +58,8 @@ function ArsaSayfasi() {
   const arsaGuncelle = (id: string, degisim: Partial<Arsa>) => manuelKaydet(manuel.map((a) => (a.id === id ? { ...a, ...degisim } : a)));
 
   const il = iller.find((i) => i.kod === ilKod)!;
+  useIlMahalleleri(ilKod); // mahalle listesi ve koordinatları il dosyasından
+
 
   // Yalnızca kullanıcının kendi girdiği arsalar listelenir (örnek/uydurma ilan gösterilmez).
   const arsalar = useMemo(

@@ -24,12 +24,14 @@ export interface Profil {
 }
 
 export async function profilGetir(): Promise<Profil | null> {
-  const { data: o } = await supabase.auth.getUser();
-  if (!o.user) return null;
-  const { data, error } = await supabase.from("profiller").select("*").eq("id", o.user.id).maybeSingle();
+  // Oturum tarayıcıda saklıdır; sunucuya ayrıca sorulmaz (yetkiyi veritabanı RLS ile her istekte denetler).
+  const { data: o } = await supabase.auth.getSession();
+  const user = o.session?.user;
+  if (!user) return null;
+  const { data, error } = await supabase.from("profiller").select("*").eq("id", user.id).maybeSingle();
   if (error) throw error;
   // Profil satırı yoksa (ör. admin sildiyse) kullanıcı onaysız sayılır.
-  return data ?? { id: o.user.id, eposta: o.user.email ?? "", ad: null, aktif: false, admin: false, arsa: false, ev: false, pdf: false, olusturma: "", son_giris: null };
+  return data ?? { id: user.id, eposta: user.email ?? "", ad: null, aktif: false, admin: false, arsa: false, ev: false, pdf: false, olusturma: "", son_giris: null };
 }
 
 // Şifreli veri dosyasını açan site şifresi; yalnızca aktif kullanıcılar okuyabilir.

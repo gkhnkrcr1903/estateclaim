@@ -20,9 +20,10 @@ let onbellek: Promise<RaporKimligi | null> | null = null;
 
 export function raporKimligiGetir(): Promise<RaporKimligi | null> {
   onbellek ??= (async () => {
-    const { data: o } = await supabase.auth.getUser();
-    if (!o.user) return null;
-    const { data, error } = await supabase.from("rapor_kimlikleri").select("*").eq("id", o.user.id).maybeSingle();
+    const { data: o } = await supabase.auth.getSession();
+    const id = o.session?.user.id;
+    if (!id) return null;
+    const { data, error } = await supabase.from("rapor_kimlikleri").select("*").eq("id", id).maybeSingle();
     if (error) throw error;
     if (!data) return null;
     const k = { ...BOS_KIMLIK };
@@ -36,10 +37,11 @@ export function raporKimligiGetir(): Promise<RaporKimligi | null> {
 }
 
 export async function raporKimligiKaydet(k: RaporKimligi) {
-  const { data: o } = await supabase.auth.getUser();
-  if (!o.user) throw new Error("Oturum bulunamadı");
+  const { data: o } = await supabase.auth.getSession();
+  const id = o.session?.user.id;
+  if (!id) throw new Error("Oturum bulunamadı");
   const temiz = Object.fromEntries(Object.entries(k).map(([a, d]) => [a, typeof d === "string" ? d.trim() || null : d]));
-  const { error } = await supabase.from("rapor_kimlikleri").upsert({ id: o.user.id, ...temiz, guncelleme: new Date().toISOString() });
+  const { error } = await supabase.from("rapor_kimlikleri").upsert({ id, ...temiz, guncelleme: new Date().toISOString() });
   if (error) throw error;
   onbellek = Promise.resolve(k);
   window.dispatchEvent(new Event(OLAY));
