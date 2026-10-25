@@ -1,6 +1,6 @@
 # Ev/Arsa Analiz (estateclaim) — Proje Notları
 
-Yayın: https://evarsaanaliz.pages.dev (Cloudflare Pages) · Depo: https://github.com/gkhnkrcr1903/estateclaim
+Yayın: **https://evarsaanaliz.com** (Cloudflare Pages; www ve evarsaanaliz.pages.dev de açılır) · Depo: https://github.com/gkhnkrcr1903/estateclaim
 Eski adres https://gkhnkrcr1903.github.io/estateclaim/ yalnızca yeni adrese yönlendirir (`yonlendirme/`).
 
 ## Amaç
@@ -91,7 +91,8 @@ Malik adı KVKK gereği hiçbir zaman gösterilmez. Türkiye'de "sahipsiz arsa" 
 
 - GitHub secrets: `SITE_PASSWORD` (giriş şifresi), `EVDS_API_KEY` (TCMB EVDS anahtarı, gerçek anahtar girildi ve çalışıyor).
 - GitHub Pages kaynağı: **GitHub Actions** (yalnızca yönlendirme sayfası). Uygulama Cloudflare'de.
-- Supabase Site URL: https://evarsaanaliz.pages.dev/ (Redirect URLs'te ayrıca localhost:3000).
+- Alan adı: evarsaanaliz.com — Turkticaret.net'ten alındı (2026-10-25, bitiş 2029-10-25); DNS Cloudflare'de (amanda/khalid.ns.cloudflare.com). Kök ve www CNAME → evarsaanaliz.pages.dev (proxied). Turkticaret e-posta kayıtları (MX, SPF, mail/autoconfig/autodiscover) DNS only.
+- Supabase Site URL: https://evarsaanaliz.com/ (Redirect URLs: evarsaanaliz.com, www, pages.dev, localhost:3000).
 - Yerel çalıştırma: `npm run dev` (önce veriyi oluşturup şifreler). Yerel şifre `.env.local` içinde.
 - Zamanlanmış görev (Claude masaüstü uygulaması): **"GitHub Pages depolarına boş commit"**, her ayın 1'i 10:00.
   Betik: `C:\Claude_projects\github-keepalive\bos-commit.sh` — Pages'i açık tüm depolara boş commit atar,
